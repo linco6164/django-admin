@@ -658,11 +658,11 @@
         <div>
 
             <h1 class="nx-title">
-                Users
+                {% trans "Users" %}
             </h1>
 
             <div class="nx-subtitle">
-                Gestionează utilizatorii marketplace-ului NEXORA
+                {% trans "Manage users of the NEXORA marketplace" %}
             </div>
 
         </div>
@@ -699,7 +699,7 @@
         <div class="nx-card">
 
             <div class="nx-card-label">
-                Total users
+                {% trans "Total users" %}
             </div>
 
             <div class="nx-card-value">
@@ -712,7 +712,7 @@
         <div class="nx-card">
 
             <div class="nx-card-label">
-                Current page
+                {% trans "Current page" %}
             </div>
 
             <div class="nx-card-value">
@@ -725,7 +725,7 @@
         <div class="nx-card">
 
             <div class="nx-card-label">
-                Total pages
+                {% trans "Total pages" %}
             </div>
 
             <div class="nx-card-value">
@@ -767,7 +767,7 @@
             type="submit"
             class="nx-button"
         >
-            Search
+            {% trans "Search" %}
         </button>
 
 
@@ -777,7 +777,7 @@
                 href="{% url 'marketplace_users' %}"
                 class="nx-clear"
             >
-                Clear
+                {% trans "Clear" %}
             </a>
 
         {% endif %}
@@ -798,12 +798,12 @@
                 <thead>
 
                     <tr>
-                        <th>User</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Department</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <th>{% trans "User" %}</th>
+                        <th>{% trans "Email" %}</th>
+                        <th>{% trans "Role" %}</th>
+                        <th>{% trans "Department" %}</th>
+                        <th>{% trans "Status" %}</th>
+                        <th>{% trans "Actions" %}</th>
                     </tr>
 
                 </thead>
@@ -872,7 +872,7 @@
                                     <span
                                         class="nx-badge nx-role-admin"
                                     >
-                                        Administrator
+                                        {% trans "Administrator" %}
                                     </span>
 
                                 {% elif user.role == "user" %}
@@ -880,7 +880,7 @@
                                     <span
                                         class="nx-badge nx-role-user"
                                     >
-                                        User
+                                        {% trans "User" %}
                                     </span>
 
                                 {% else %}
@@ -912,7 +912,7 @@
                                     <span
                                         class="nx-badge nx-banned"
                                     >
-                                        ● Banned
+                                        ● {% trans "Banned" %}
                                     </span>
 
 
@@ -932,7 +932,7 @@
                                     <span
                                         class="nx-badge nx-active"
                                     >
-                                        ● Active
+                                        ● {% trans "Active" %}
                                     </span>
 
                                 {% endif %}
@@ -978,7 +978,7 @@
                                                     lock_open
                                                 </span>
 
-                                                Unblock
+                                                {% trans "Unblock" %}
 
                                             </button>
 
@@ -1001,7 +1001,7 @@
                                                 block
                                             </span>
 
-                                            Block
+                                            {% trans "Block" %}
 
                                         </button>
 
@@ -1026,7 +1026,7 @@
                                     color: #94a3b8;
                                 "
                             >
-                                No users found.
+                                {% trans "No users found." %}
                             </td>
 
                         </tr>
@@ -1047,7 +1047,7 @@
         <div class="nx-footer">
 
             <div class="nx-footer-count">
-                {{ total }} users
+                {{ total }} {% trans "users" %}
             </div>
 
 
@@ -1058,14 +1058,14 @@
                     <a
                         href="?page={{ page|add:'-1' }}&search={{ search|urlencode }}"
                     >
-                        ← Previous
+                        ← {% trans "Previous" %}
                     </a>
 
                 {% endif %}
 
 
                 <span class="nx-pagination-status">
-                    Page {{ page }} / {{ pages }}
+                    {% trans "Page" %} {{ page }} / {{ pages }}
                 </span>
 
 
@@ -1074,7 +1074,7 @@
                     <a
                         href="?page={{ page|add:'1' }}&search={{ search|urlencode }}"
                     >
-                        Next →
+                        {% trans "Next" %} →
                     </a>
 
                 {% endif %}
@@ -1126,7 +1126,7 @@
             <div>
 
                 <h2 class="nx-dialog-title">
-                    Block user
+                    {% trans "Block user" %}
                 </h2>
 
                 <div
@@ -1142,10 +1142,9 @@
 
         <p class="nx-dialog-description">
 
-            Utilizatorul nu va mai putea accesa contul
-            până când acesta este deblocat.
+            {% trans "The user will not be able to access the account until it is unblocked." %}
 
-            Selectează motivul pentru blocarea contului.
+            {% trans "Select the reason for blocking the account." %}
 
         </p>
 
@@ -1156,7 +1155,7 @@
                 for="nx-ban-reason"
                 class="nx-form-label"
             >
-                Reason
+                {% trans "Reason" %}
             </label>
 
 
@@ -1169,51 +1168,51 @@
             >
 
                 <option value="">
-                    Selectează motivul...
+                    {% trans "Select the reason..." %}
                 </option>
 
                 <option
                     value="Încălcarea regulilor platformei"
                 >
-                    Încălcarea regulilor platformei
+                    {% trans "Încălcarea regulilor platformei" %}
                 </option>
 
                 <option
                     value="Activitate suspectă"
                 >
-                    Activitate suspectă
+                    {% trans "Activitate suspectă" %}
                 </option>
 
                 <option
                     value="Fraudă / tentativă de fraudă"
                 >
-                    Fraudă / tentativă de fraudă
+                    {% trans "Fraudă / tentativă de fraudă" %}
                 </option>
 
                 <option
                     value="Anunțuri sau produse interzise"
                 >
-                    Anunțuri sau produse interzise
+                    {% trans "Anunțuri sau produse interzise" %}
                 </option>
 
                 <option
                     value="Hărțuire / comportament abuziv"
                 >
-                    Hărțuire / comportament abuziv
+                    {% trans "Hărțuire / comportament abuziv" %}
                 </option>
 
                 <option value="Spam">
-                    Spam
+                    {% trans "Spam" %}
                 </option>
 
                 <option
                     value="Cont fals / identitate falsă"
                 >
-                    Cont fals / identitate falsă
+                    {% trans "Cont fals / identitate falsă" %}
                 </option>
 
                 <option value="Alt motiv">
-                    Alt motiv
+                    {% trans "Alt motiv" %}
                 </option>
 
             </select>
@@ -1223,14 +1222,14 @@
                 id="nx-custom-reason"
                 name="custom_reason"
                 class="nx-custom-reason"
-                placeholder="Descrie motivul blocării..."
+                placeholder="{% trans "Descrie motivul blocării..." %}"
                 maxlength="500"
                 style="display: none;"
             ></textarea>
 
 
             <div class="nx-reason-help">
-                Motivul va fi salvat în contul utilizatorului.
+                {% trans "Motivul va fi salvat în contul utilizatorului." %}
             </div>
 
         </div>
@@ -1243,7 +1242,7 @@
                 class="nx-dialog-cancel"
                 onclick="closeBanDialog()"
             >
-                Cancel
+                {% trans "Cancel" %}
             </button>
 
 
@@ -1256,7 +1255,7 @@
                     block
                 </span>
 
-                Block user
+                {% trans "Block user" %}
 
             </button>
 

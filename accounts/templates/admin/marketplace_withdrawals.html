@@ -596,10 +596,10 @@
 
   <div class="nx-header">
     <div>
-      <h1 class="nx-title">Withdrawals</h1>
+      <h1 class="nx-title">{% trans "Withdrawals" %}</h1>
 
       <div class="nx-subtitle">
-        Gestionează cererile de retragere ale utilizatorilor NEXORA
+        {% trans "Gestionează cererile de retragere ale utilizatorilor NEXORA" %}
       </div>
     </div>
   </div>
@@ -617,11 +617,11 @@
   <div class="nx-stats">
     <div class="nx-stat">
       <div class="nx-stat-icon pending">
-        <span class="material-symbols-outlined"> schedule </span>
+        <span class="material-symbols-outlined"> {% trans "schedule" %} </span>
       </div>
 
       <div>
-        <div class="nx-stat-label">Pending</div>
+        <div class="nx-stat-label">{% trans "Pending" %}</div>
 
         <div class="nx-stat-value">
           {{ withdrawal_counts.pending|default:"0" }}
@@ -635,7 +635,7 @@
       </div>
 
       <div>
-        <div class="nx-stat-label">Completed</div>
+        <div class="nx-stat-label">{% trans "Completed" %}</div>
 
         <div class="nx-stat-value">
           {{ withdrawal_counts.completed|default:"0" }}
@@ -649,7 +649,7 @@
       </div>
 
       <div>
-        <div class="nx-stat-label">Rejected</div>
+        <div class="nx-stat-label">{% trans "Rejected" %}</div>
 
         <div class="nx-stat-value">
           {{ withdrawal_counts.rejected|default:"0" }}
@@ -663,7 +663,7 @@
       </div>
 
       <div>
-        <div class="nx-stat-label">Failed</div>
+        <div class="nx-stat-label">{% trans "Failed" %}</div>
 
         <div class="nx-stat-value">
           {{ withdrawal_counts.failed|default:"0" }}
@@ -681,7 +681,7 @@
       href="?status=pending"
       class="nx-filter {% if status == 'pending' %} nx-filter-active {% endif %}"
     >
-      Pending
+      {% trans "Pending" %}
 
       <span class="nx-filter-count">
         {{ withdrawal_counts.pending|default:"0" }}
@@ -692,7 +692,7 @@
       href="?status=completed"
       class="nx-filter {% if status == 'completed' %} nx-filter-active {% endif %}"
     >
-      Completed
+      {% trans "Completed" %}
 
       <span class="nx-filter-count">
         {{ withdrawal_counts.completed|default:"0" }}
@@ -703,7 +703,7 @@
       href="?status=rejected"
       class="nx-filter {% if status == 'rejected' %} nx-filter-active {% endif %}"
     >
-      Rejected
+      {% trans "Rejected" %}
 
       <span class="nx-filter-count">
         {{ withdrawal_counts.rejected|default:"0" }}
@@ -714,7 +714,7 @@
       href="?status=failed"
       class="nx-filter {% if status == 'failed' %} nx-filter-active {% endif %}"
     >
-      Failed
+      {% trans "Failed" %}
 
       <span class="nx-filter-count">
         {{ withdrawal_counts.failed|default:"0" }}
@@ -731,14 +731,14 @@
       <table class="nx-table">
         <thead>
           <tr>
-            <th>Customer</th>
-            <th>Amount</th>
-            <th>Bank account</th>
-            <th>Status</th>
-            <th>Requested</th>
+            <th>{% trans "Customer" %}</th>
+            <th>{% trans "Amount" %}</th>
+            <th>{% trans "Bank account" %}</th>
+            <th>{% trans "Status" %}</th>
+            <th>{% trans "Requested" %}</th>
 
             {% if status == "pending" %}
-            <th>Actions</th>
+            <th>{% trans "Actions" %}</th>
             {% endif %}
           </tr>
         </thead>
@@ -833,7 +833,7 @@
                   <button type="submit" class="nx-action nx-approve">
                     <span class="material-symbols-outlined"> check </span>
 
-                    Approve
+                    {% trans "Approve" %}
                   </button>
                 </form>
 
@@ -850,7 +850,7 @@
                   <button type="submit" class="nx-action nx-reject">
                     <span class="material-symbols-outlined"> close </span>
 
-                    Reject
+                    {% trans "Reject" %}
                   </button>
                 </form>
               </div>
@@ -873,10 +873,10 @@
                 </span>
               </div>
 
-              <div class="nx-empty-title">Nu există retrageri</div>
+              <div class="nx-empty-title">{% trans "Nu există retrageri" %}</div>
 
               <div class="nx-empty-description">
-                Nu există cereri cu statusul "{{ status }}".
+                {% trans "Nu există cereri cu statusul" %} "{{ status }}".
               </div>
             </td>
           </tr>
@@ -899,19 +899,19 @@
         {% if page > 1 %}
 
         <a href="?status={{ status|urlencode }}&page={{ page|add:'-1' }}">
-          ← Previous
+          ← {% trans "Previous" %}
         </a>
 
         {% endif %}
 
         <span class="nx-pagination-status">
-          Page {{ page }} / {{ pages }}
+          {% trans "Page" %} {{ page }} / {{ pages }}
         </span>
 
         {% if page < pages %}
 
         <a href="?status={{ status|urlencode }}&page={{ page|add:'1' }}">
-          Next →
+          {% trans "Next" %} →
         </a>
 
         {% endif %}

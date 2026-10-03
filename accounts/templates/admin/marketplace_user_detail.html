@@ -707,7 +707,7 @@
             arrow_back
         </span>
 
-        Înapoi la utilizatori
+        {% trans "Back to users" %}
     </a>
 
 
@@ -757,7 +757,7 @@
                 <div>
 
                     <h1 class="nx-profile-title">
-                        {{ marketplace_user.username|default:"Unknown" }}
+                        {{ marketplace_user.username|default:"{% trans "Unknown" %}" }}
                     </h1>
 
                     <div class="nx-profile-email">
@@ -770,25 +770,25 @@
                         {% if marketplace_user.banned %}
 
                             <span class="nx-badge nx-banned">
-                                ● Banned
+                                ● {% trans "Banned" %}
                             </span>
 
                         {% else %}
 
                             <span class="nx-badge nx-active">
-                                ● Active
+                                ● {% trans "Active" %}
                             </span>
 
                         {% endif %}
 
 
                         <span class="nx-badge nx-role">
-                            {{ marketplace_user.role|default:"user" }}
+                            {{ marketplace_user.role|default:"{% trans "user" %}" }}
                         </span>
 
 
                         <span class="nx-badge nx-provider">
-                            {{ marketplace_user.provider|default:"credentials" }}
+                            {{ marketplace_user.provider|default:"{% trans "credentials" %}" }}
                         </span>
 
                     </div>
@@ -807,27 +807,27 @@
         <div class="nx-tabs">
 
             <a
-                href="?tab=overview"
+                href="?{% trans "tab" %}={% trans "overview" %}"
                 class="
                     nx-tab
-                    {% if current_tab == 'overview' %}
+                    {% if current_tab == '{% trans "overview" %}' %}
                         nx-tab-active
                     {% endif %}
                 "
             >
                 <span class="material-symbols-outlined">
-                    dashboard
+                    {% trans "dashboard" %}
                 </span>
 
-                Overview
+                {% trans "Overview" %}
             </a>
 
 
             <a
-                href="?tab=profile"
+                href="?{% trans "tab" %}={% trans "profile" %}"
                 class="
                     nx-tab
-                    {% if current_tab == 'profile' %}
+                    {% if current_tab == '{% trans "profile" %}' %}
                         nx-tab-active
                     {% endif %}
                 "
@@ -836,12 +836,12 @@
                     person
                 </span>
 
-                Profile
+                {% trans "Profile" %}
             </a>
 
 
             <a
-                href="?tab=listings"
+                href="?{% trans "tab" %}={% trans "listings" %}"
                 class="
                     nx-tab
                     {% if current_tab == 'listings' %}
@@ -850,15 +850,15 @@
                 "
             >
                 <span class="material-symbols-outlined">
-                    sell
+                    {% trans "sell" %}
                 </span>
 
-                Listings
+                {% trans "Listings" %}
             </a>
 
 
             <a
-                href="?tab=security"
+                href="?{% trans "tab" %}={% trans "security" %}"
                 class="
                     nx-tab
                     {% if current_tab == 'security' %}
@@ -867,10 +867,10 @@
                 "
             >
                 <span class="material-symbols-outlined">
-                    security
+                    {% trans "security" %}
                 </span>
 
-                Security
+                {% trans "Security" %}
             </a>
 
         </div>
@@ -887,7 +887,7 @@
                 <div class="nx-card nx-stat">
 
                     <div class="nx-stat-label">
-                        Balance
+                        {% trans "Balance" %}
                     </div>
 
                     <div class="nx-stat-value">
@@ -900,7 +900,7 @@
                 <div class="nx-card nx-stat">
 
                     <div class="nx-stat-label">
-                        Role
+                        {% trans "Role" %}
                     </div>
 
                     <div class="nx-stat-value">
@@ -913,7 +913,7 @@
                 <div class="nx-card nx-stat">
 
                     <div class="nx-stat-label">
-                        Provider
+                        {% trans "Provider" %}
                     </div>
 
                     <div class="nx-stat-value">
@@ -926,15 +926,15 @@
                 <div class="nx-card nx-stat">
 
                     <div class="nx-stat-label">
-                        2FA
+                        {% trans "2FA" %}
                     </div>
 
                     <div class="nx-stat-value">
 
                         {% if marketplace_user.twoFactorEnabled %}
-                            ON
+                            {% trans "ON" %}
                         {% else %}
-                            OFF
+                            {% trans "OFF" %}
                         {% endif %}
 
                     </div>
@@ -955,11 +955,11 @@
                             <div>
 
                                 <h2 class="nx-card-title">
-                                    Customer information
+                                    {% trans "Customer information" %}
                                 </h2>
 
                                 <div class="nx-card-subtitle">
-                                    Date generale despre client
+                                    {% trans "General information about the customer" %}
                                 </div>
 
                             </div>
@@ -973,7 +973,7 @@
 
                                 <div class="nx-info-row">
                                     <span class="nx-info-label">
-                                        Username
+                                        {% trans "Username" %}
                                     </span>
 
                                     <span class="nx-info-value">
@@ -984,7 +984,7 @@
 
                                 <div class="nx-info-row">
                                     <span class="nx-info-label">
-                                        Full name
+                                        {% trans "Full name" %}
                                     </span>
 
                                     <span class="nx-info-value">
@@ -995,7 +995,7 @@
 
                                 <div class="nx-info-row">
                                     <span class="nx-info-label">
-                                        Email
+                                        {% trans "Email" %}
                                     </span>
 
                                     <span class="nx-info-value">
@@ -1006,7 +1006,7 @@
 
                                 <div class="nx-info-row">
                                     <span class="nx-info-label">
-                                        Phone
+                                        {% trans "Phone" %}
                                     </span>
 
                                     <span class="nx-info-value">
@@ -1017,7 +1017,7 @@
 
                                 <div class="nx-info-row">
                                     <span class="nx-info-label">
-                                        Location
+                                        {% trans "Location" %}
                                     </span>
 
                                     <span class="nx-info-value">
@@ -1050,7 +1050,7 @@
 
                             <div class="nx-card-header">
                                 <h2 class="nx-card-title">
-                                    Bio
+                                    {% trans "Bio" %}
                                 </h2>
                             </div>
 
@@ -1074,11 +1074,11 @@
                             <div>
 
                                 <h2 class="nx-card-title">
-                                    Account
+                                    {% trans "Account" %}
                                 </h2>
 
                                 <div class="nx-card-subtitle">
-                                    Informații tehnice
+                                    {% trans "Technical information" %}
                                 </div>
 
                             </div>
@@ -1093,7 +1093,7 @@
                                 <div class="nx-info-row">
 
                                     <span class="nx-info-label">
-                                        ID
+                                        {% trans "ID" %}
                                     </span>
 
                                     <span class="nx-info-value">
@@ -1106,7 +1106,7 @@
                                 <div class="nx-info-row">
 
                                     <span class="nx-info-label">
-                                        Department
+                                        {% trans "Department" %}
                                     </span>
 
                                     <span class="nx-info-value">
@@ -1119,7 +1119,7 @@
                                 <div class="nx-info-row">
 
                                     <span class="nx-info-label">
-                                        Created
+                                        {% trans "Created" %}
                                     </span>
 
                                     <span class="nx-info-value">
@@ -1132,7 +1132,7 @@
                                 <div class="nx-info-row">
 
                                     <span class="nx-info-label">
-                                        Updated
+                                        {% trans "Updated" %}
                                     </span>
 
                                     <span class="nx-info-value">
@@ -1152,7 +1152,7 @@
 
                         <div class="nx-card-header">
                             <h2 class="nx-card-title">
-                                Account status
+                                {% trans "Account status" %}
                             </h2>
                         </div>
 
@@ -1164,7 +1164,7 @@
                                 <div class="nx-ban-box">
 
                                     <strong>
-                                        Cont blocat
+                                        {% trans "Account blocked" %}
                                     </strong>
 
                                     {% if marketplace_user.banReason %}
@@ -1180,7 +1180,7 @@
                             {% else %}
 
                                 <span class="nx-badge nx-active">
-                                    ● Account active
+                                    {% trans "● Account active" %}
                                 </span>
 
                             {% endif %}
@@ -1211,11 +1211,11 @@
                             <div>
 
                                 <h2 class="nx-card-title">
-                                    Profile information
+                                    {% trans "Profile information" %}
                                 </h2>
 
                                 <div class="nx-card-subtitle">
-                                    Modifică informațiile clientului
+                                    {% trans "Modify client information" %}
                                 </div>
 
                             </div>
@@ -1244,7 +1244,7 @@
                                     <div class="nx-field">
 
                                         <label>
-                                            Username
+                                            {% trans "Username" %}
                                         </label>
 
                                         <input
@@ -1261,7 +1261,7 @@
                                     <div class="nx-field">
 
                                         <label>
-                                            Full name
+                                            {% trans "Full name" %}
                                         </label>
 
                                         <input
@@ -1277,7 +1277,7 @@
                                     <div class="nx-field">
 
                                         <label>
-                                            Phone
+                                            {% trans "Phone" %}
                                         </label>
 
                                         <input
@@ -1293,7 +1293,7 @@
                                     <div class="nx-field">
 
                                         <label>
-                                            Country
+                                            {% trans "Country" %}
                                         </label>
 
                                         <input
@@ -1309,7 +1309,7 @@
                                     <div class="nx-field">
 
                                         <label>
-                                            County
+                                            {% trans "County" %}
                                         </label>
 
                                         <input
@@ -1325,7 +1325,7 @@
                                     <div class="nx-field">
 
                                         <label>
-                                            City
+                                            {% trans "City" %}
                                         </label>
 
                                         <input
@@ -1341,7 +1341,7 @@
                                     <div class="nx-field">
 
                                         <label>
-                                            Postal code
+                                            {% trans "Postal code" %}
                                         </label>
 
                                         <input
@@ -1357,7 +1357,7 @@
                                     <div class="nx-field">
 
                                         <label>
-                                            Website
+                                            {% trans "Website" %}
                                         </label>
 
                                         <input
@@ -1405,7 +1405,7 @@
                                     <div class="nx-field nx-full">
 
                                         <label>
-                                            Bio
+                                            {% trans "Bio" %}
                                         </label>
 
                                         <textarea
@@ -1426,10 +1426,10 @@
                                     >
 
                                         <span class="material-symbols-outlined">
-                                            save
+                                            {% trans "save" %}
                                         </span>
 
-                                        Save profile
+                                        {% trans "Save profile" %}
 
                                     </button>
 
@@ -1453,11 +1453,11 @@
                             <div>
 
                                 <h2 class="nx-card-title">
-                                    Email address
+                                    {% trans "Email address" %}
                                 </h2>
 
                                 <div class="nx-card-subtitle">
-                                    Adresa principală de autentificare
+                                    {% trans "Primary authentication address" %}
                                 </div>
 
                             </div>
@@ -1484,7 +1484,7 @@
                                 <div class="nx-field">
 
                                     <label>
-                                        Email
+                                        {% trans "Email" %}
                                     </label>
 
                                     <input
@@ -1509,7 +1509,7 @@
                                             alternate_email
                                         </span>
 
-                                        Update email
+                                        {% trans "Update email" %}
 
                                     </button>
 
@@ -1526,7 +1526,7 @@
 
                         <div class="nx-card-header">
                             <h2 class="nx-card-title">
-                                Current account
+                                {% trans "Current account" %}
                             </h2>
                         </div>
 
@@ -1538,7 +1538,7 @@
                                 <div class="nx-info-row">
 
                                     <span class="nx-info-label">
-                                        Role
+                                        {% trans "Role" %}
                                     </span>
 
                                     <span class="nx-info-value">
@@ -1551,7 +1551,7 @@
                                 <div class="nx-info-row">
 
                                     <span class="nx-info-label">
-                                        Department
+                                        {% trans "Department" %}
                                     </span>
 
                                     <span class="nx-info-value">
@@ -1564,7 +1564,7 @@
                                 <div class="nx-info-row">
 
                                     <span class="nx-info-label">
-                                        Provider
+                                        {% trans "Provider" %}
                                     </span>
 
                                     <span class="nx-info-value">
@@ -1595,7 +1595,7 @@
                 <div class="nx-card nx-stat-mini">
 
                     <span>
-                        Total listings
+                        {% trans "Total listings" %}
                     </span>
 
                     <strong>
@@ -1608,7 +1608,7 @@
                 <div class="nx-card nx-stat-mini">
 
                     <span>
-                        Active
+                        {% trans "Active" %}
                     </span>
 
                     <strong>
@@ -1621,7 +1621,7 @@
                 <div class="nx-card nx-stat-mini">
 
                     <span>
-                        Sold
+                        {% trans "Sold" %}
                     </span>
 
                     <strong>
@@ -1644,7 +1644,7 @@
                         {% endif %}
                     "
                 >
-                    All
+                    {% trans "All" %}
                 </a>
 
 
@@ -1657,7 +1657,7 @@
                         {% endif %}
                     "
                 >
-                    Active
+                    {% trans "Active" %}
                 </a>
 
 
@@ -1670,7 +1670,7 @@
                         {% endif %}
                     "
                 >
-                    Sold
+                    {% trans "Sold" %}
                 </a>
 
             </div>
@@ -1685,11 +1685,11 @@
                         <thead>
 
                             <tr>
-                                <th>Listing</th>
-                                <th>Price</th>
-                                <th>Status</th>
-                                <th>Views</th>
-                                <th>Created</th>
+                                <th>{% trans "Listing" %}</th>
+                                <th>{% trans "Price" %}</th>
+                                <th>{% trans "Status" %}</th>
+                                <th>{% trans "Views" %}</th>
+                                <th>{% trans "Created" %}</th>
                             </tr>
 
                         </thead>
@@ -1724,13 +1724,13 @@
                                         {% if listing.status == "active" %}
 
                                             <span class="nx-badge nx-active">
-                                                ● Active
+                                                ● {% trans "Active" %}
                                             </span>
 
                                         {% elif listing.status == "sold" %}
 
                                             <span class="nx-badge nx-sold">
-                                                ● Sold
+                                                ● {% trans "Sold" %}
                                             </span>
 
                                         {% else %}
@@ -1764,7 +1764,7 @@
                                         colspan="5"
                                         class="nx-empty"
                                     >
-                                        Acest utilizator nu are anunțuri.
+                                        {% trans "This user has no listings." %}
                                     </td>
 
                                 </tr>
@@ -1787,14 +1787,14 @@
                             <a
                                 href="?tab=listings&page={{ listings_page|add:'-1' }}&status={{ listing_status|urlencode }}"
                             >
-                                ← Previous
+                                ← {% trans "Previous" %}
                             </a>
 
                         {% endif %}
 
 
                         <span>
-                            Page
+                            {% trans "Page" %}
                             {{ listings_page }}
                             /
                             {{ listings_pages }}
@@ -1806,7 +1806,7 @@
                             <a
                                 href="?tab=listings&page={{ listings_page|add:'1' }}&status={{ listing_status|urlencode }}"
                             >
-                                Next →
+                                {% trans "Next" %} →
                             </a>
 
                         {% endif %}
@@ -1839,7 +1839,7 @@
                                 </h2>
 
                                 <div class="nx-card-subtitle">
-                                    Gestionează accesul clientului
+                                    {% trans "Manage client access" %}
                                 </div>
 
                             </div>
@@ -1854,11 +1854,11 @@
                                 <div>
 
                                     <div class="nx-security-title">
-                                        Password
+                                        {% trans "Password" %}
                                     </div>
 
                                     <div class="nx-security-description">
-                                        Setează manual o parolă nouă
+                                        {% trans "Set a new password manually" %}
                                     </div>
 
                                 </div>
@@ -1879,7 +1879,7 @@
                                         password
                                     </span>
 
-                                    Change
+                                    {% trans "Change" %}
                                 </button>
 
                             </div>
@@ -1890,11 +1890,11 @@
                                 <div>
 
                                     <div class="nx-security-title">
-                                        Temporary password
+                                        {% trans "Temporary password" %}
                                     </div>
 
                                     <div class="nx-security-description">
-                                        Generează automat o parolă nouă
+                                        {% trans "Generate a new password automatically" %}
                                     </div>
 
                                 </div>
@@ -1923,7 +1923,7 @@
                                             );
                                         "
                                     >
-                                        Generate
+                                        {% trans "Generate" %}
                                     </button>
 
                                 </form>
@@ -1936,15 +1936,15 @@
                                 <div>
 
                                     <div class="nx-security-title">
-                                        Two-factor authentication
+                                        {% trans "Two-factor authentication" %}
                                     </div>
 
                                     <div class="nx-security-description">
 
                                         {% if marketplace_user.twoFactorEnabled %}
-                                            Activată
+                                            {% trans "Active" %}
                                         {% else %}
-                                            Dezactivată
+                                            {% trans "Inactive" %}
                                         {% endif %}
 
                                     </div>
@@ -1980,7 +1980,7 @@
                                                 );
                                             "
                                         >
-                                            Disable
+                                            {% trans "Disable" %}
                                         </button>
 
                                     </form>
@@ -1988,7 +1988,7 @@
                                 {% else %}
 
                                     <span class="nx-badge nx-neutral">
-                                        Disabled
+                                        {% trans "Disabled" %}
                                     </span>
 
                                 {% endif %}
@@ -2001,11 +2001,11 @@
                                 <div>
 
                                     <div class="nx-security-title">
-                                        Login provider
+                                        {% trans "Login provider" %}
                                     </div>
 
                                     <div class="nx-security-description">
-                                        Metoda principală de autentificare
+                                        {% trans "The primary method of authentication" %}
                                     </div>
 
                                 </div>
@@ -2032,11 +2032,11 @@
                             <div>
 
                                 <h2 class="nx-card-title">
-                                    Account status
+                                    {% trans "Account status" %}
                                 </h2>
 
                                 <div class="nx-card-subtitle">
-                                    Restricționarea accesului
+                                    {% trans "Restriction of access" %}
                                 </div>
 
                             </div>
@@ -2051,14 +2051,14 @@
                                 <div class="nx-ban-box">
 
                                     <strong>
-                                        Cont blocat
+                                        {% trans "Account blocked" %}
                                     </strong>
 
 
                                     {% if marketplace_user.banReason %}
 
                                         <div class="nx-ban-reason">
-                                            Reason:
+                                            {% trans "Reason" %}:
                                             {{ marketplace_user.banReason }}
                                         </div>
 
@@ -2098,7 +2098,7 @@
                                             lock_open
                                         </span>
 
-                                        Unblock account
+                                        {% trans "Unblock account" %}
                                     </button>
 
                                 </form>
@@ -2107,7 +2107,7 @@
                             {% else %}
 
                                 <span class="nx-badge nx-active">
-                                    ● Account active
+                                    ● {% trans "Account active" %}
                                 </span>
 
 
@@ -2131,7 +2131,7 @@
                                             block
                                         </span>
 
-                                        Block account
+                                        {% trans "Block account" %}
                                     </button>
 
                                 </div>
@@ -2147,7 +2147,7 @@
 
                         <div class="nx-card-header">
                             <h2 class="nx-card-title">
-                                Account identity
+                                {% trans "Account identity" %}
                             </h2>
                         </div>
 
@@ -2159,7 +2159,7 @@
                                 <div class="nx-info-row">
 
                                     <span class="nx-info-label">
-                                        User ID
+                                        {% trans "User ID" %}
                                     </span>
 
                                     <span class="nx-info-value">
@@ -2172,7 +2172,7 @@
                                 <div class="nx-info-row">
 
                                     <span class="nx-info-label">
-                                        Role
+                                        {% trans "Role" %}
                                     </span>
 
                                     <span class="nx-info-value">
@@ -2185,7 +2185,7 @@
                                 <div class="nx-info-row">
 
                                     <span class="nx-info-label">
-                                        Department
+                                        {% trans "Department" %}
                                     </span>
 
                                     <span class="nx-info-value">
@@ -2219,12 +2219,11 @@
             <div class="nx-dialog-content">
 
                 <h2 class="nx-dialog-title">
-                    Change password
+                    {% trans "Change password" %}
                 </h2>
 
                 <div class="nx-dialog-description">
-                    Setează o parolă nouă pentru
-                    {{ marketplace_user.username }}.
+                    {% trans "Set a new password for" %} {{ marketplace_user.username }}.
                 </div>
 
 
@@ -2248,7 +2247,7 @@
                     >
 
                         <label>
-                            New password
+                            {% trans "New password" %}
                         </label>
 
                         <input
@@ -2265,7 +2264,7 @@
                     <div class="nx-field">
 
                         <label>
-                            Confirm password
+                            {% trans "Confirm password" %}
                         </label>
 
                         <input
@@ -2292,7 +2291,7 @@
                                     .close()
                             "
                         >
-                            Cancel
+                            {% trans "Cancel" %}
                         </button>
 
 
@@ -2300,7 +2299,7 @@
                             type="submit"
                             class="nx-save"
                         >
-                            Change password
+                            {% trans "Change password" %}
                         </button>
 
                     </div>
@@ -2324,12 +2323,11 @@
             <div class="nx-dialog-content">
 
                 <h2 class="nx-dialog-title">
-                    Block account
+                    {% trans "Block account" %}
                 </h2>
 
                 <div class="nx-dialog-description">
-                    Selectează motivul pentru blocarea contului
-                    {{ marketplace_user.username }}.
+                    {% trans "Select the reason for blocking the account" %} {{ marketplace_user.username }}.
                 </div>
 
 
@@ -2353,7 +2351,7 @@
                     >
 
                         <label>
-                            Reason
+                            {% trans "Reason" %}
                         </label>
 
                         <select
@@ -2365,39 +2363,39 @@
                         >
 
                             <option value="">
-                                Selectează motivul...
+                                {% trans "Select the reason..." %}
                             </option>
 
                             <option value="Încălcarea regulilor platformei">
-                                Încălcarea regulilor platformei
+                                {% trans "Violation of platform rules" %}
                             </option>
 
                             <option value="Activitate suspectă">
-                                Activitate suspectă
+                                {% trans "Suspicious activity" %}
                             </option>
 
                             <option value="Fraudă / tentativă de fraudă">
-                                Fraudă / tentativă de fraudă
+                                {% trans "Fraud / attempted fraud" %}
                             </option>
 
                             <option value="Anunțuri sau produse interzise">
-                                Anunțuri sau produse interzise
+                                {% trans "Banned announcements or products" %}
                             </option>
 
                             <option value="Hărțuire / comportament abuziv">
-                                Hărțuire / comportament abuziv
+                                {% trans "Harassment / abusive behavior" %}
                             </option>
 
                             <option value="Spam">
-                                Spam
+                                {% trans "Spam" %}
                             </option>
 
                             <option value="Cont fals / identitate falsă">
-                                Cont fals / identitate falsă
+                                {% trans "Fake account / false identity" %}
                             </option>
 
                             <option value="Alt motiv">
-                                Alt motiv
+                                {% trans "Other reason" %}
                             </option>
 
                         </select>
@@ -2412,7 +2410,7 @@
                     >
 
                         <label>
-                            Custom reason
+                            {% trans "Custom reason" %}
                         </label>
 
                         <textarea
@@ -2420,7 +2418,7 @@
                             class="nx-textarea"
                             name="custom_reason"
                             maxlength="500"
-                            placeholder="Descrie motivul blocării..."
+                            placeholder="{% trans "Describe the reason for the ban..." %}"
                         ></textarea>
 
                     </div>
@@ -2439,7 +2437,7 @@
                                     .close()
                             "
                         >
-                            Cancel
+                            {% trans "Cancel" %}
                         </button>
 
 
@@ -2450,7 +2448,7 @@
                                 nx-danger-button
                             "
                         >
-                            Block account
+                            {% trans "Block account" %}
                         </button>
 
                     </div>
@@ -2467,7 +2465,7 @@
         <div class="nx-card">
 
             <div class="nx-card-body">
-                Utilizatorul nu a fost găsit.
+                {% trans "User not found." %}
             </div>
 
         </div>

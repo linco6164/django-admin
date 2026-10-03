@@ -562,11 +562,11 @@
         <div>
 
             <h1 class="nx-title">
-                Support
+                {% trans "Support" %}
             </h1>
 
             <div class="nx-subtitle">
-                Gestionează conversațiile și solicitările clienților
+                {% trans "Gestionează conversațiile și solicitările clienților" %}
             </div>
 
         </div>
@@ -590,7 +590,7 @@
         <div class="nx-stat">
 
             <div class="nx-stat-label">
-                Total tickets
+                {% trans "Total tickets" %}
             </div>
 
             <div class="nx-stat-value">
@@ -603,7 +603,7 @@
         <div class="nx-stat">
 
             <div class="nx-stat-label">
-                Open
+                {% trans "Open" %}
             </div>
 
             <div class="nx-stat-value">
@@ -616,7 +616,7 @@
         <div class="nx-stat">
 
             <div class="nx-stat-label">
-                My tickets
+                {% trans "My tickets" %}
             </div>
 
             <div class="nx-stat-value">
@@ -629,7 +629,7 @@
         <div class="nx-stat">
 
             <div class="nx-stat-label">
-                Urgent
+                {% trans "Urgent" %}
             </div>
 
             <div class="nx-stat-value nx-stat-urgent">
@@ -650,16 +650,16 @@
             <div>
 
                 <div class="nx-sidebar-title">
-                    Tickets
+                    {% trans "Tickets" %}
                 </div>
 
                 <div class="nx-nav">
 
                     <a
-                        href="?filter=all"
+                        href="?{% trans "filter" %}={% trans "All" %}"
                         class="
                             nx-nav-item
-                            {% if active_filter == 'all' %}
+                            {% if active_filter == '{% trans "All" %}' %}
                                 nx-nav-item-active
                             {% endif %}
                         "
@@ -667,10 +667,10 @@
                         <span class="nx-nav-left">
 
                             <span class="material-symbols-outlined">
-                                inbox
+                                {% trans "inbox" %}
                             </span>
 
-                            All
+                            {% trans "All" %}
 
                         </span>
 
@@ -681,10 +681,10 @@
 
 
                     <a
-                        href="?filter=my"
+                        href="?{% trans "filter" %}={% trans "My tickets" %}"
                         class="
                             nx-nav-item
-                            {% if active_filter == 'my' %}
+                            {% if active_filter == '{% trans "My tickets" %}' %}
                                 nx-nav-item-active
                             {% endif %}
                         "
@@ -692,10 +692,10 @@
                         <span class="nx-nav-left">
 
                             <span class="material-symbols-outlined">
-                                person
+                                {% trans "person" %}
                             </span>
 
-                            My tickets
+                            {% trans "My tickets" %}
 
                         </span>
 
@@ -706,10 +706,10 @@
 
 
                     <a
-                        href="?filter=unassigned"
+                        href="?{% trans "filter" %}={% trans "Unassigned" %}"
                         class="
                             nx-nav-item
-                            {% if active_filter == 'unassigned' %}
+                            {% if active_filter == '{% trans "Unassigned" %}' %}
                                 nx-nav-item-active
                             {% endif %}
                         "
@@ -717,10 +717,10 @@
                         <span class="nx-nav-left">
 
                             <span class="material-symbols-outlined">
-                                person_off
+                                {% trans "person_off" %}
                             </span>
 
-                            Unassigned
+                            {% trans "Unassigned" %}
 
                         </span>
 
@@ -731,10 +731,10 @@
 
 
                     <a
-                        href="?filter=open"
+                        href="?{% trans "filter" %}={% trans "Open" %}"
                         class="
                             nx-nav-item
-                            {% if active_filter == 'open' %}
+                            {% if active_filter == '{% trans "Open" %}' %}
                                 nx-nav-item-active
                             {% endif %}
                         "
@@ -745,7 +745,7 @@
                                 mark_email_unread
                             </span>
 
-                            Open
+                            {% trans "Open" %}
 
                         </span>
 
@@ -756,10 +756,10 @@
 
 
                     <a
-                        href="?filter=pending"
+                        href="?{% trans "filter" %}={% trans "On hold" %}"
                         class="
                             nx-nav-item
-                            {% if active_filter == 'pending' %}
+                            {% if active_filter == '{% trans "On hold" %}' %}
                                 nx-nav-item-active
                             {% endif %}
                         "
@@ -767,10 +767,10 @@
                         <span class="nx-nav-left">
 
                             <span class="material-symbols-outlined">
-                                schedule
+                                {% trans "schedule" %}
                             </span>
 
-                            On hold
+                            {% trans "On hold" %}
 
                         </span>
 
@@ -781,10 +781,10 @@
 
 
                     <a
-                        href="?filter=closed"
+                        href="?{% trans "filter" %}={% trans "Resolved" %}"
                         class="
                             nx-nav-item
-                            {% if active_filter == 'closed' %}
+                            {% if active_filter == '{% trans "Resolved" %}' %}
                                 nx-nav-item-active
                             {% endif %}
                         "
@@ -795,7 +795,7 @@
                                 task_alt
                             </span>
 
-                            Resolved
+                            {% trans "Resolved" %}
 
                         </span>
 
@@ -806,10 +806,10 @@
 
 
                     <a
-                        href="?filter=urgent"
+                        href="?{% trans "filter" %}={% trans "Urgent" %}"
                         class="
                             nx-nav-item
-                            {% if active_filter == 'urgent' %}
+                            {% if active_filter == '{% trans "Urgent" %}' %}
                                 nx-nav-item-active
                             {% endif %}
                         "
@@ -820,7 +820,7 @@
                                 priority_high
                             </span>
 
-                            Urgent
+                            {% trans "Urgent" %}
 
                         </span>
 
@@ -845,11 +845,11 @@
                 <div>
 
                     <div class="nx-toolbar-title">
-                        Tickets
+                        {% trans "Tickets" %}
                     </div>
 
                     <div class="nx-toolbar-count">
-                        {{ total }} rezultate
+                        {{ total }} {% trans "results" %}
                     </div>
 
                 </div>
@@ -873,7 +873,7 @@
                     >
 
                         <option value="">
-                            All departments
+                            {% trans "All departments" %}
                         </option>
 
                         {% for department in staff.departments %}
@@ -898,7 +898,7 @@
                     >
 
                         <option value="">
-                            All priorities
+                            {% trans "All priorities" %}
                         </option>
 
                         <option
@@ -907,7 +907,7 @@
                                 selected
                             {% endif %}
                         >
-                            Low
+                            {% trans "Low" %}
                         </option>
 
                         <option
@@ -916,7 +916,7 @@
                                 selected
                             {% endif %}
                         >
-                            Normal
+                            {% trans "Normal" %}
                         </option>
 
                         <option
@@ -925,7 +925,7 @@
                                 selected
                             {% endif %}
                         >
-                            High
+                            {% trans "High" %}
                         </option>
 
                         <option
@@ -934,7 +934,7 @@
                                 selected
                             {% endif %}
                         >
-                            Urgent
+                            {% trans "Urgent" %}
                         </option>
 
                     </select>
@@ -944,7 +944,7 @@
                         type="submit"
                         class="nx-filter-button"
                     >
-                        Filter
+                        {% trans "Filter" %}
                     </button>
 
                 </form>
@@ -966,20 +966,20 @@
                         <div class="nx-ticket-top">
 
                             <div class="nx-ticket-subject">
-                                {{ ticket.subject|default:"Support ticket" }}
+                                {{ ticket.subject|default:"{% trans "Support ticket" %}" }}
                             </div>
 
 
                             {% if ticket.priority == "urgent" %}
 
                                 <span class="nx-badge nx-urgent">
-                                    Urgent
+                                    {% trans "Urgent" %}
                                 </span>
 
                             {% elif ticket.priority == "high" %}
 
                                 <span class="nx-badge nx-high">
-                                    High
+                                    {% trans "High" %}
                                 </span>
 
                             {% endif %}
@@ -995,7 +995,7 @@
 
                             {% else %}
 
-                                {{ ticket.user.username|default:"Unknown user" }}
+                                {{ ticket.user.username|default:"{% trans "Unknown user" %}" }}
 
                             {% endif %}
 
@@ -1007,7 +1007,7 @@
 
 
                         <div class="nx-ticket-preview">
-                            {{ ticket.preview|default:"No messages" }}
+                            {{ ticket.preview|default:"{% trans "No messages" %}" }}
                         </div>
 
                     </div>
@@ -1018,11 +1018,11 @@
                     <div class="nx-ticket-department">
 
                         <div class="nx-meta-label">
-                            Department
+                            {% trans "Department" %}
                         </div>
 
                         <div class="nx-meta-value">
-                            {{ ticket.department|default:"-" }}
+                            {{ ticket.department|default:"{% trans "All departments" %}" }}
                         </div>
 
                     </div>
@@ -1035,19 +1035,19 @@
                         {% if ticket.status == "open" %}
 
                             <span class="nx-badge nx-open">
-                                Open
+                                {% trans "Open" %}
                             </span>
 
                         {% elif ticket.status == "pending" %}
 
                             <span class="nx-badge nx-pending">
-                                On hold
+                                {% trans "On hold" %}
                             </span>
 
                         {% elif ticket.status == "closed" %}
 
                             <span class="nx-badge nx-closed">
-                                Resolved
+                                {% trans "Resolved" %}
                             </span>
 
                         {% else %}
@@ -1066,7 +1066,7 @@
                     <div class="nx-ticket-assignee">
 
                         <div class="nx-meta-label">
-                            Assigned to
+                            {% trans "Assigned to" %}
                         </div>
 
                         <div class="nx-meta-value">
@@ -1078,7 +1078,7 @@
                             {% else %}
 
                                 <span class="nx-unassigned">
-                                    Unassigned
+                                    {% trans "Unassigned" %}
                                 </span>
 
                             {% endif %}
@@ -1110,7 +1110,7 @@
                     </span>
 
                     <div>
-                        Nu există tichete pentru filtrul selectat.
+                        {% trans "There are no tickets for the selected filter." %}
                     </div>
 
                 </div>

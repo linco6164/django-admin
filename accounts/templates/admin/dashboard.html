@@ -115,11 +115,11 @@
     <div class="nx-dashboard-header">
 
         <h1 class="nx-dashboard-title">
-            Dashboard
+            {% trans "Dashboard" %}
         </h1>
 
         <div class="nx-dashboard-subtitle">
-            Overview of the NEXORA marketplace
+            {% trans "Overview of the NEXORA marketplace" %}
         </div>
 
     </div>
@@ -136,7 +136,7 @@
                 margin-bottom:20px;
             "
         >
-            {{ api_error }}
+            {% trans "An error occurred while fetching API data." %}
         </div>
 
     {% endif %}
@@ -157,7 +157,7 @@
             </div>
 
             <div class="nx-stat-label">
-                Total users
+                {% trans "Total users" %}
             </div>
 
             <div class="nx-stat-value">
@@ -176,7 +176,7 @@
             </div>
 
             <div class="nx-stat-label">
-                Total listings
+                {% trans "Total listings" %}
             </div>
 
             <div class="nx-stat-value">
@@ -195,7 +195,7 @@
             </div>
 
             <div class="nx-stat-label">
-                Active listings
+                {% trans "Active listings" %}
             </div>
 
             <div class="nx-stat-value">
@@ -214,7 +214,7 @@
             </div>
 
             <div class="nx-stat-label">
-                Conversations
+                {% trans "Conversations" %}
             </div>
 
             <div class="nx-stat-value">
@@ -228,11 +228,10 @@
 
     <div class="nx-section">
 
-        <h2>NEXORA Marketplace</h2>
+        <h2>{% trans "NEXORA Marketplace" %}</h2>
 
         <p style="color:#94a3b8;">
-            Users, listings, payments, support and marketplace
-            operations will be available from this dashboard.
+            {% trans "Users, listings, payments, support and marketplace operations will be available from this dashboard." %}
         </p>
 
     </div>

@@ -1,5 +1,7 @@
 {% extends "admin/base_site.html" %} {% block content %}
 
+{% load i18n %}
+
 <style>
   .nx-notifications-page {
     max-width: 1500px;
@@ -749,17 +751,17 @@
 
   <div class="nx-page-header">
     <div>
-      <h1 class="nx-page-title">Notifications</h1>
+      <h1 class="nx-page-title">{% trans "Notifications" %}</h1>
 
       <div class="nx-page-subtitle">
-        Create, schedule and monitor notifications sent to NEXORA users.
+        {% trans "Create, schedule and monitor notifications sent to NEXORA users." %}
       </div>
     </div>
 
     <button type="button" class="nx-primary-button" id="openNotificationModal">
       <span class="material-symbols-outlined"> add </span>
 
-      Create notification
+      {% trans "Create notification" %}
     </button>
   </div>
 
@@ -776,7 +778,7 @@
       href="?status=all"
       class="nx-stat-card {% if active_status == 'all' %}active{% endif %}"
     >
-      <div class="nx-stat-label">All</div>
+      <div class="nx-stat-label">{% trans "All" %}</div>
 
       <div class="nx-stat-value">{{ stats.all|default:"0" }}</div>
     </a>
@@ -785,7 +787,7 @@
       href="?status=draft"
       class="nx-stat-card {% if active_status == 'draft' %}active{% endif %}"
     >
-      <div class="nx-stat-label">Drafts</div>
+      <div class="nx-stat-label">{% trans "Drafts" %}</div>
 
       <div class="nx-stat-value">{{ stats.draft|default:"0" }}</div>
     </a>
@@ -794,7 +796,7 @@
       href="?status=scheduled"
       class="nx-stat-card {% if active_status == 'scheduled' %}active{% endif %}"
     >
-      <div class="nx-stat-label">Scheduled</div>
+      <div class="nx-stat-label">{% trans "Scheduled" %}</div>
 
       <div class="nx-stat-value">{{ stats.scheduled|default:"0" }}</div>
     </a>
@@ -803,7 +805,7 @@
       href="?status=sent"
       class="nx-stat-card {% if active_status == 'sent' %}active{% endif %}"
     >
-      <div class="nx-stat-label">Sent</div>
+      <div class="nx-stat-label">{% trans "Sent" %}</div>
 
       <div class="nx-stat-value">{{ stats.sent|default:"0" }}</div>
     </a>
@@ -812,7 +814,7 @@
       href="?status=failed"
       class="nx-stat-card {% if active_status == 'failed' %}active{% endif %}"
     >
-      <div class="nx-stat-label">Failed</div>
+      <div class="nx-stat-label">{% trans "Failed" %}</div>
 
       <div class="nx-stat-value">{{ stats.failed|default:"0" }}</div>
     </a>
@@ -821,7 +823,7 @@
       href="?status=cancelled"
       class="nx-stat-card {% if active_status == 'cancelled' %}active{% endif %}"
     >
-      <div class="nx-stat-label">Cancelled</div>
+      <div class="nx-stat-label">{% trans "Cancelled" %}</div>
 
       <div class="nx-stat-value">{{ stats.cancelled|default:"0" }}</div>
     </a>
@@ -842,12 +844,12 @@
         name="search"
         value="{{ search }}"
         class="nx-search-input"
-        placeholder="Search notifications..."
+        placeholder="{% trans "Search notifications..." %}"
       />
     </form>
 
     <div class="nx-results-count">
-      {{ pagination.total|default:"0" }} notification{{ pagination.total|pluralize }}
+      {{ pagination.total|default:"0" }} {% trans "notification" %}{{ pagination.total|pluralize }}
     </div>
   </div>
 
@@ -858,17 +860,17 @@
       <table class="nx-table">
         <thead>
           <tr>
-            <th>Notification</th>
+            <th>{% trans "Notification" %}</th>
 
-            <th>Audience</th>
+            <th>{% trans "Audience" %}</th>
 
-            <th>Priority</th>
+            <th>{% trans "Priority" %}</th>
 
-            <th>Status</th>
+            <th>{% trans "Status" %}</th>
 
-            <th>Schedule / Sent</th>
+            <th>{% trans "Schedule / Sent" %}</th>
 
-            <th>Actions</th>
+            <th>{% trans "Actions" %}</th>
           </tr>
         </thead>
 
@@ -903,11 +905,11 @@
             <td>
               {% if notification.priority == "high" %}
 
-              <span class="nx-priority-high"> High </span>
+              <span class="nx-priority-high"> {% trans "High" %} </span>
 
               {% else %}
 
-              <span class="nx-muted"> Normal </span>
+              <span class="nx-muted"> {% trans "Normal" %} </span>
 
               {% endif %}
             </td>
@@ -915,7 +917,7 @@
             <td>
               {% if notification.status == "draft" %}
 
-              <span class="nx-badge nx-badge-draft"> Draft </span>
+              <span class="nx-badge nx-badge-draft"> {% trans "Draft" %} </span>
 
               {% elif notification.status == "scheduled" %}
 
@@ -924,24 +926,24 @@
                   schedule
                 </span>
 
-                Scheduled
+                {% trans "Scheduled" %}
               </span>
 
               {% elif notification.status == "processing" %}
 
-              <span class="nx-badge nx-badge-processing"> Processing </span>
+              <span class="nx-badge nx-badge-processing"> {% trans "Processing" %} </span>
 
               {% elif notification.status == "sent" %}
 
-              <span class="nx-badge nx-badge-sent"> Sent </span>
+              <span class="nx-badge nx-badge-sent"> {% trans "Sent" %} </span>
 
               {% elif notification.status == "failed" %}
 
-              <span class="nx-badge nx-badge-failed"> Failed </span>
+              <span class="nx-badge nx-badge-failed"> {% trans "Failed" %} </span>
 
               {% elif notification.status == "cancelled" %}
 
-              <span class="nx-badge nx-badge-cancelled"> Cancelled </span>
+              <span class="nx-badge nx-badge-cancelled"> {% trans "Cancelled" %} </span>
 
               {% else %}
 
@@ -997,7 +999,7 @@
                   edit
                 </span>
 
-                View / Edit
+                {% trans "View / Edit" %}
               </a>
             </td>
           </tr>
@@ -1012,7 +1014,7 @@
                 </span>
               </div>
 
-              <div>No notifications found.</div>
+              <div>{% trans "No notifications found." %}</div>
             </td>
           </tr>
 
@@ -1029,7 +1031,7 @@
       <a
         href="?status={{ active_status }}&search={{ search|urlencode }}&page={{ pagination.page|add:'-1' }}"
       >
-        Previous
+        {% trans "Previous" %}
       </a>
 
       {% endif %}
@@ -1043,7 +1045,7 @@
       <a
         href="?status={{ active_status }}&search={{ search|urlencode }}&page={{ pagination.page|add:'1' }}"
       >
-        Next
+        {% trans "Next" %}
       </a>
 
       {% endif %}
@@ -1061,9 +1063,9 @@
   <div class="nx-modal">
     <div class="nx-modal-header">
       <div>
-        <h2 class="nx-modal-title">Create notification</h2>
+        <h2 class="nx-modal-title">{% trans "Create notification" %}</h2>
 
-        <div class="nx-muted">Send now, save a draft or schedule delivery.</div>
+        <div class="nx-muted">{% trans "Send now, save a draft or schedule delivery." %}</div>
       </div>
 
       <button type="button" class="nx-modal-close" id="closeNotificationModal">
@@ -1082,7 +1084,7 @@
 
           <div class="nx-field">
             <label for="notificationTitle">
-              Title
+              {% trans "Title" %}
 
               <span class="nx-character-counter">
                 <span id="titleCount"> 0 </span>
@@ -1102,7 +1104,7 @@
 
           <div class="nx-field">
             <label for="notificationBody">
-              Message
+              {% trans "Message" %}
 
               <span class="nx-character-counter">
                 <span id="bodyCount"> 0 </span>
@@ -1120,7 +1122,7 @@
           </div>
 
           <div class="nx-field">
-            <label for="notificationImage"> Image URL </label>
+            <label for="notificationImage"> {% trans "Image URL" %} </label>
 
             <input
               id="notificationImage"
@@ -1130,7 +1132,7 @@
             />
 
             <div class="nx-help">
-              Optional image displayed in supported push notifications.
+              {% trans "Optional image displayed in supported push notifications." %}
             </div>
           </div>
 
@@ -1138,28 +1140,28 @@
 
           <div class="nx-form-grid">
             <div class="nx-field">
-              <label> Audience </label>
+              <label> {% trans "Audience" %} </label>
 
               <select name="audience">
-                <option value="all">All users</option>
+                <option value="all">{% trans "All users" %}</option>
 
-                <option value="buyers">Buyers</option>
+                <option value="buyers">{% trans "Buyers" %}</option>
 
-                <option value="sellers">Sellers</option>
+                <option value="sellers">{% trans "Sellers" %}</option>
 
-                <option value="verified">Verified users</option>
+                <option value="verified">{% trans "Verified users" %}</option>
 
-                <option value="custom">Custom</option>
+                <option value="custom">{% trans "Custom" %}</option>
               </select>
             </div>
 
             <div class="nx-field">
-              <label> Priority </label>
+              <label> {% trans "Priority" %} </label>
 
               <select name="priority">
-                <option value="normal">Normal</option>
+                <option value="normal">{% trans "Normal" %}</option>
 
-                <option value="high">High</option>
+                <option value="high">{% trans "High" %}</option>
               </select>
             </div>
           </div>
@@ -1168,13 +1170,13 @@
 
           <div class="nx-form-grid">
             <div class="nx-field">
-              <label> App route </label>
+              <label> {% trans "App route" %} </label>
 
               <input type="text" name="route" placeholder="/listing" />
             </div>
 
             <div class="nx-field">
-              <label> Target ID </label>
+              <label> {% trans "Target ID" %} </label>
 
               <input
                 type="text"
@@ -1184,7 +1186,7 @@
             </div>
 
             <div class="nx-field nx-field-full">
-              <label> External URL </label>
+              <label> {% trans "External URL" %} </label>
 
               <input
                 type="url"
@@ -1202,7 +1204,7 @@
             </h3>
 
             <div class="nx-field" style="margin-bottom: 0">
-              <label> Date & time </label>
+              <label> {% trans "Date & time" %} </label>
 
               <input
                 type="datetime-local"
@@ -1210,7 +1212,7 @@
                 id="scheduledAt"
               />
 
-              <div class="nx-help">Timezone: Europe/Bucharest</div>
+              <div class="nx-help">{% trans "Timezone: Europe/Bucharest" %}</div>
             </div>
           </div>
 
@@ -1223,7 +1225,7 @@
               value="draft"
               class="nx-button nx-button-secondary"
             >
-              Save draft
+              {% trans "Save draft" %}
             </button>
 
             <button
@@ -1233,7 +1235,7 @@
               class="nx-button nx-button-schedule"
               id="scheduleButton"
             >
-              Schedule
+              {% trans "Schedule" %}
             </button>
 
             <button
@@ -1242,7 +1244,7 @@
               value="send_now"
               class="nx-button nx-button-send"
             >
-              Send now
+              {% trans "Send now" %}
             </button>
           </div>
         </form>
@@ -1251,7 +1253,7 @@
       <!-- PREVIEW -->
 
       <div class="nx-preview-side">
-        <div class="nx-preview-label">Push preview</div>
+        <div class="nx-preview-label">{% trans "Push preview" %}</div>
 
         <div class="nx-phone">
           <div class="nx-phone-screen">
@@ -1267,11 +1269,11 @@
               </div>
 
               <div class="nx-push-title" id="previewTitle">
-                Notification title
+                {% trans "Notification title" %}
               </div>
 
               <div class="nx-push-body" id="previewBody">
-                Your notification message will appear here.
+                {% trans "Your notification message will appear here." %}
               </div>
 
               <img id="previewImage" class="nx-push-image" alt="" />

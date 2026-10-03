@@ -672,7 +672,7 @@
             arrow_back
         </span>
 
-        Înapoi la Support
+        {% trans "Back to Support" %}
     </a>
 
 
@@ -696,11 +696,11 @@
             <div>
 
                 <h1 class="nx-ticket-title">
-                    {{ ticket.subject|default:"Support ticket" }}
+                    {{ ticket.subject|default:"{% trans "Support ticket" %}" }}
                 </h1>
 
                 <div class="nx-ticket-id">
-                    Ticket ID: {{ ticket.id }}
+                    {% trans "Ticket ID" %}: {{ ticket.id }}
                 </div>
 
             </div>
@@ -711,19 +711,19 @@
                 {% if ticket.status == "open" %}
 
                     <span class="nx-badge nx-open">
-                        Open
+                        {% trans "Open" %}
                     </span>
 
                 {% elif ticket.status == "pending" %}
 
                     <span class="nx-badge nx-pending">
-                        On hold
+                        {% trans "On hold" %}
                     </span>
 
                 {% elif ticket.status == "closed" %}
 
                     <span class="nx-badge nx-closed">
-                        Resolved
+                        {% trans "Resolved" %}
                     </span>
 
                 {% endif %}
@@ -732,7 +732,7 @@
                 <span
                     class="nx-badge nx-{{ ticket.priority|default:'normal' }}"
                 >
-                    {{ ticket.priority|default:"normal"|title }}
+                    {{ ticket.priority|default:"{% trans "normal" %}"|title }}
                 </span>
 
             </div>
@@ -751,11 +751,11 @@
                 <div class="nx-card-header">
 
                     <h2 class="nx-card-title">
-                        Conversation
+                        {% trans "Conversation" %}
                     </h2>
 
                     <div class="nx-card-subtitle">
-                        {{ ticket.messages|length }} messages
+                        {{ ticket.messages|length }} {% trans "messages" %}
                     </div>
 
                 </div>
@@ -804,7 +804,7 @@
 
                                         {% else %}
 
-                                            {{ ticket.user.username|default:"Customer" }}
+                                            {{ ticket.user.username|default:"{% trans "Customer" %}" }}
 
                                         {% endif %}
 
@@ -875,10 +875,10 @@
                                     class="nx-send"
                                 >
                                     <span class="material-symbols-outlined">
-                                        send
+                                        {% trans "send" %}
                                     </span>
 
-                                    Send reply
+                                    {% trans "Send reply" %}
                                 </button>
 
                             </div>
@@ -918,7 +918,7 @@
                     <div class="nx-card-header">
 
                         <h2 class="nx-card-title">
-                            Customer
+                            {% trans "Customer" %}
                         </h2>
 
                     </div>
@@ -945,7 +945,7 @@
 
                                     {% else %}
 
-                                        {{ ticket.user.username|default:"Unknown" }}
+                                        {{ ticket.user.username|default:"{% trans "Unknown" %}" }}
 
                                     {% endif %}
 
@@ -964,7 +964,7 @@
                         <div class="nx-info-row">
 
                             <span class="nx-info-label">
-                                Username
+                                {% trans "Username" %}
                             </span>
 
                             <span class="nx-info-value">
@@ -977,7 +977,7 @@
                         <div class="nx-info-row">
 
                             <span class="nx-info-label">
-                                Phone
+                                {% trans "Phone" %}
                             </span>
 
                             <span class="nx-info-value">
@@ -992,7 +992,7 @@
                             <div class="nx-info-row">
 
                                 <span class="nx-info-label">
-                                    Account
+                                    {% trans "Account" %}
                                 </span>
 
                                 <span class="nx-info-value">
@@ -1001,7 +1001,7 @@
                                         href="{% url 'marketplace_user_detail' ticket.user_id %}"
                                         class="nx-user-link"
                                     >
-                                        View user
+                                        {% trans "View user" %}
                                     </a>
 
                                 </span>
@@ -1022,7 +1022,7 @@
                     <div class="nx-card-header">
 
                         <h2 class="nx-card-title">
-                            Ticket information
+                            {% trans "Ticket information" %}
                         </h2>
 
                     </div>
@@ -1033,7 +1033,7 @@
                         <div class="nx-info-row">
 
                             <span class="nx-info-label">
-                                Category
+                                {% trans "Category" %}
                             </span>
 
                             <span class="nx-info-value">
@@ -1046,7 +1046,7 @@
                         <div class="nx-info-row">
 
                             <span class="nx-info-label">
-                                Department
+                                {% trans "Department" %}
                             </span>
 
                             <span class="nx-info-value">
@@ -1059,7 +1059,7 @@
                         <div class="nx-info-row">
 
                             <span class="nx-info-label">
-                                Created
+                                {% trans "Created" %}
                             </span>
 
                             <span class="nx-info-value">
@@ -1072,7 +1072,7 @@
                         <div class="nx-info-row">
 
                             <span class="nx-info-label">
-                                Updated
+                                {% trans "Updated" %}
                             </span>
 
                             <span class="nx-info-value">
@@ -1087,7 +1087,7 @@
                             <div class="nx-info-row">
 
                                 <span class="nx-info-label">
-                                    Ban reason
+                                    {% trans "Ban reason" %}
                                 </span>
 
                                 <span class="nx-info-value">
@@ -1110,7 +1110,7 @@
                     <div class="nx-card-header">
 
                         <h2 class="nx-card-title">
-                            Assignment
+                            {% trans "Assignment" %}
                         </h2>
 
                     </div>
@@ -1148,7 +1148,7 @@
                                 class="nx-assigned"
                                 style="color:#64748b;"
                             >
-                                Unassigned
+                                {% trans "Unassigned" %}
                             </div>
 
                         {% endif %}
@@ -1177,7 +1177,7 @@
                                         type="submit"
                                         class="nx-button nx-button-primary"
                                     >
-                                        Assign to me
+                                        {% trans "Assign to me" %}
                                     </button>
 
                                 </form>
@@ -1201,7 +1201,7 @@
                                         type="submit"
                                         class="nx-button"
                                     >
-                                        Unassign
+                                        {% trans "Unassign" %}
                                     </button>
 
                                 </form>
@@ -1226,7 +1226,7 @@
                                         type="submit"
                                         class="nx-button nx-button-primary"
                                     >
-                                        Take over
+                                        {% trans "Take over" %}
                                     </button>
 
                                 </form>
@@ -1247,7 +1247,7 @@
                     <div class="nx-card-header">
 
                         <h2 class="nx-card-title">
-                            Ticket controls
+                            {% trans "Ticket controls" %}
                         </h2>
 
                     </div>
@@ -1260,7 +1260,7 @@
                         <div class="nx-control">
 
                             <label class="nx-control-label">
-                                Status
+                                {% trans "Status" %}
                             </label>
 
 
@@ -1289,7 +1289,7 @@
                                             selected
                                         {% endif %}
                                     >
-                                        Open
+                                        {% trans "Open" %}
                                     </option>
 
                                     <option
@@ -1298,7 +1298,7 @@
                                             selected
                                         {% endif %}
                                     >
-                                        On hold
+                                        {% trans "On hold" %}
                                     </option>
 
                                     <option
@@ -1307,7 +1307,7 @@
                                             selected
                                         {% endif %}
                                     >
-                                        Resolved
+                                        {% trans "Resolved" %}
                                     </option>
 
                                 </select>
@@ -1319,7 +1319,7 @@
                                         type="submit"
                                         class="nx-button"
                                     >
-                                        Update status
+                                        {% trans "Update status" %}
                                     </button>
 
                                 </div>
@@ -1334,7 +1334,7 @@
                         <div class="nx-control">
 
                             <label class="nx-control-label">
-                                Priority
+                                {% trans "Priority" %}
                             </label>
 
 
@@ -1363,7 +1363,7 @@
                                             selected
                                         {% endif %}
                                     >
-                                        Low
+                                        {% trans "Low" %}
                                     </option>
 
                                     <option
@@ -1372,7 +1372,7 @@
                                             selected
                                         {% endif %}
                                     >
-                                        Normal
+                                        {% trans "Normal" %}
                                     </option>
 
                                     <option
@@ -1381,7 +1381,7 @@
                                             selected
                                         {% endif %}
                                     >
-                                        High
+                                        {% trans "High" %}
                                     </option>
 
                                     <option
@@ -1390,7 +1390,7 @@
                                             selected
                                         {% endif %}
                                     >
-                                        Urgent
+                                        {% trans "Urgent" %}
                                     </option>
 
                                 </select>
@@ -1402,7 +1402,7 @@
                                         type="submit"
                                         class="nx-button"
                                     >
-                                        Update priority
+                                        {% trans "Update priority" %}
                                     </button>
 
                                 </div>

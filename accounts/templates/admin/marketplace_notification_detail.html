@@ -300,14 +300,14 @@
       arrow_back
     </span>
 
-    Back to notifications
+    {% trans "Back to notifications" %}
   </a>
 
 
   {% if api_error %}
 
     <div class="nx-error">
-      {{ api_error }}
+      {% trans "An error occurred while fetching API data." %}
     </div>
 
   {% elif notification %}
@@ -329,7 +329,7 @@
 
         {% if notification.status == "draft" %}
           <span class="nx-badge nx-draft">
-            Draft
+            {% trans "Draft" %}
           </span>
 
         {% elif notification.status == "scheduled" %}
@@ -337,27 +337,27 @@
             <span class="material-symbols-outlined" style="font-size:14px;">
               schedule
             </span>
-            Scheduled
+            {% trans "Scheduled" %}
           </span>
 
         {% elif notification.status == "processing" %}
           <span class="nx-badge nx-processing">
-            Processing
+            {% trans "Processing" %}
           </span>
 
         {% elif notification.status == "sent" %}
           <span class="nx-badge nx-sent">
-            Sent
+            {% trans "Sent" %}
           </span>
 
         {% elif notification.status == "failed" %}
           <span class="nx-badge nx-failed">
-            Failed
+            {% trans "Failed" %}
           </span>
 
         {% elif notification.status == "cancelled" %}
           <span class="nx-badge nx-cancelled">
-            Cancelled
+            {% trans "Cancelled" %}
           </span>
         {% endif %}
 
@@ -374,11 +374,11 @@
 
         <div class="nx-card-header">
           <h2 class="nx-card-title">
-            Notification content
+            {% trans "Notification content" %}
           </h2>
 
           <div class="nx-card-subtitle">
-            Edit content, targeting and delivery.
+            {% trans "Edit content, targeting and delivery." %}
           </div>
         </div>
 
@@ -414,7 +414,7 @@
 
             <div class="nx-field">
               <label>
-                Message
+                {% trans "Message" %}
               </label>
 
               <textarea
@@ -430,7 +430,7 @@
 
             <div class="nx-field">
               <label>
-                Image URL
+                {% trans "Image URL" %}
               </label>
 
               <input
@@ -457,7 +457,7 @@
 
               <div class="nx-field">
                 <label>
-                  Audience
+                  {% trans "Audience" %}
                 </label>
 
                 <select
@@ -471,35 +471,35 @@
                     value="all"
                     {% if notification.audience == "all" %}selected{% endif %}
                   >
-                    All users
+                    {% trans "All users" %}
                   </option>
 
                   <option
                     value="buyers"
                     {% if notification.audience == "buyers" %}selected{% endif %}
                   >
-                    Buyers
+                    {% trans "Buyers" %}
                   </option>
 
                   <option
                     value="sellers"
                     {% if notification.audience == "sellers" %}selected{% endif %}
                   >
-                    Sellers
+                    {% trans "Sellers" %}
                   </option>
 
                   <option
                     value="verified"
                     {% if notification.audience == "verified" %}selected{% endif %}
                   >
-                    Verified users
+                    {% trans "Verified users" %}
                   </option>
 
                   <option
                     value="custom"
                     {% if notification.audience == "custom" %}selected{% endif %}
                   >
-                    Custom
+                    {% trans "Custom" %}
                   </option>
 
                 </select>
@@ -508,7 +508,7 @@
 
               <div class="nx-field">
                 <label>
-                  Priority
+                  {% trans "Priority" %}
                 </label>
 
                 <select
@@ -542,7 +542,7 @@
 
               <div class="nx-field">
                 <label>
-                  App route
+                  {% trans "App route" %}
                 </label>
 
                 <input
@@ -559,7 +559,7 @@
 
               <div class="nx-field">
                 <label>
-                  Target ID
+                  {% trans "Target ID" %}
                 </label>
 
                 <input
@@ -577,7 +577,7 @@
 
             <div class="nx-field">
               <label>
-                External URL
+                {% trans "External URL" %}
               </label>
 
               <input
@@ -596,7 +596,7 @@
 
               <div class="nx-field">
                 <label>
-                  Schedule
+                  {% trans "Schedule" %}
                 </label>
 
                 <input
@@ -607,7 +607,7 @@
                 >
 
                 <div class="nx-help">
-                  Europe/Bucharest
+                  {% trans "Europe/Bucharest" %}
                 </div>
               </div>
 
@@ -620,7 +620,7 @@
                   value="update"
                   class="nx-button nx-save"
                 >
-                  Save changes
+                  {% trans "Save changes" %}
                 </button>
 
 
@@ -630,7 +630,7 @@
                   value="draft"
                   class="nx-button nx-draft-button"
                 >
-                  Save as draft
+                  {% trans "Save as draft" %}
                 </button>
 
 
@@ -641,9 +641,9 @@
                   class="nx-button nx-schedule-button"
                 >
                   {% if notification.status == "scheduled" %}
-                    Reschedule
+                    {% trans "Reschedule" %}
                   {% else %}
-                    Schedule
+                    {% trans "Schedule" %}
                   {% endif %}
                 </button>
 
@@ -666,7 +666,7 @@
 
           <div class="nx-card-header">
             <h2 class="nx-card-title">
-              Delivery
+              {% trans "Delivery" %}
             </h2>
           </div>
 
@@ -675,7 +675,7 @@
 
             <div class="nx-info-row">
               <span class="nx-info-label">
-                Status
+                {% trans "Status" %}
               </span>
 
               <span class="nx-info-value">
@@ -686,7 +686,7 @@
 
             <div class="nx-info-row">
               <span class="nx-info-label">
-                Audience
+                {% trans "Audience" %}
               </span>
 
               <span class="nx-info-value">
@@ -697,7 +697,7 @@
 
             <div class="nx-info-row">
               <span class="nx-info-label">
-                Priority
+                {% trans "Priority" %}
               </span>
 
               <span class="nx-info-value">
@@ -708,7 +708,7 @@
 
             <div class="nx-info-row">
               <span class="nx-info-label">
-                Scheduled
+                {% trans "Scheduled" %}
               </span>
 
               <span
@@ -722,7 +722,7 @@
 
             <div class="nx-info-row">
               <span class="nx-info-label">
-                Sent
+                {% trans "Sent" %}
               </span>
 
               <span
@@ -736,7 +736,7 @@
 
             <div class="nx-info-row">
               <span class="nx-info-label">
-                Created
+                {% trans "Created" %}
               </span>
 
               <span
@@ -759,11 +759,11 @@
 
           <div class="nx-card-header">
             <h2 class="nx-card-title">
-              Actions
+              {% trans "Actions" %}
             </h2>
 
             <div class="nx-card-subtitle">
-              Delivery and lifecycle actions.
+              {% trans "Delivery and lifecycle actions." %}
             </div>
           </div>
 
@@ -791,7 +791,7 @@
                   style="width:100%;"
                   onclick="return confirm('Trimitem notificarea acum?');"
                 >
-                  Send now
+                  {% trans "Send now" %}
                 </button>
               </form>
 
@@ -819,7 +819,7 @@
                   style="width:100%;"
                   onclick="return confirm('Anulăm această programare?');"
                 >
-                  Cancel schedule
+                  {% trans "Cancel schedule" %}
                 </button>
               </form>
 
@@ -846,7 +846,7 @@
                   style="width:100%;"
                   onclick="return confirm('Ștergi definitiv notificarea?');"
                 >
-                  Delete notification
+                  {% trans "Delete notification" %}
                 </button>
               </form>
 
