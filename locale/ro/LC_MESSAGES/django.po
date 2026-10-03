@@ -1,0 +1,916 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: NEXORA Admin\n"
+"Language: ro\n"
+"Language-Team: Romanian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2);\n"
+
+
+# =========================================================
+# GENERAL
+# =========================================================
+
+msgid "Dashboard"
+msgstr "Panou de control"
+
+msgid "Administration"
+msgstr "Administrare"
+
+msgid "Marketplace Administration"
+msgstr "Administrare marketplace"
+
+msgid "Marketplace"
+msgstr "Marketplace"
+
+msgid "Overview"
+msgstr "Prezentare generală"
+
+msgid "Search"
+msgstr "Caută"
+
+msgid "Search..."
+msgstr "Caută..."
+
+msgid "Filter"
+msgstr "Filtru"
+
+msgid "Filters"
+msgstr "Filtre"
+
+msgid "All"
+msgstr "Toate"
+
+msgid "Actions"
+msgstr "Acțiuni"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Created"
+msgstr "Creat"
+
+msgid "Updated"
+msgstr "Actualizat"
+
+msgid "Date"
+msgstr "Dată"
+
+msgid "Time"
+msgstr "Oră"
+
+msgid "Previous"
+msgstr "Anterior"
+
+msgid "Next"
+msgstr "Următor"
+
+msgid "Page"
+msgstr "Pagina"
+
+msgid "of"
+msgstr "din"
+
+msgid "Save"
+msgstr "Salvează"
+
+msgid "Update"
+msgstr "Actualizează"
+
+msgid "Edit"
+msgstr "Editează"
+
+msgid "View"
+msgstr "Vezi"
+
+msgid "View / Edit"
+msgstr "Vezi / Editează"
+
+msgid "Delete"
+msgstr "Șterge"
+
+msgid "Cancel"
+msgstr "Anulează"
+
+msgid "Close"
+msgstr "Închide"
+
+msgid "Back"
+msgstr "Înapoi"
+
+msgid "Confirm"
+msgstr "Confirmă"
+
+msgid "Submit"
+msgstr "Trimite"
+
+msgid "Send"
+msgstr "Trimite"
+
+msgid "Loading..."
+msgstr "Se încarcă..."
+
+msgid "No results found."
+msgstr "Nu au fost găsite rezultate."
+
+msgid "Yes"
+msgstr "Da"
+
+msgid "No"
+msgstr "Nu"
+
+msgid "Details"
+msgstr "Detalii"
+
+msgid "Information"
+msgstr "Informații"
+
+msgid "Settings"
+msgstr "Setări"
+
+msgid "Name"
+msgstr "Nume"
+
+msgid "Type"
+msgstr "Tip"
+
+msgid "ID"
+msgstr "ID"
+
+
+# =========================================================
+# STATUSES
+# =========================================================
+
+msgid "Active"
+msgstr "Activ"
+
+msgid "Inactive"
+msgstr "Inactiv"
+
+msgid "Banned"
+msgstr "Blocat"
+
+msgid "Blocked"
+msgstr "Blocat"
+
+msgid "Verified"
+msgstr "Verificat"
+
+msgid "Unverified"
+msgstr "Neverificat"
+
+msgid "Pending"
+msgstr "În așteptare"
+
+msgid "Completed"
+msgstr "Finalizat"
+
+msgid "Rejected"
+msgstr "Respins"
+
+msgid "Failed"
+msgstr "Eșuat"
+
+msgid "Processing"
+msgstr "În procesare"
+
+msgid "Cancelled"
+msgstr "Anulat"
+
+msgid "Sent"
+msgstr "Trimis"
+
+msgid "Scheduled"
+msgstr "Programat"
+
+msgid "Draft"
+msgstr "Ciornă"
+
+msgid "Drafts"
+msgstr "Ciorne"
+
+msgid "Open"
+msgstr "Deschis"
+
+msgid "Closed"
+msgstr "Închis"
+
+msgid "Resolved"
+msgstr "Rezolvat"
+
+msgid "In progress"
+msgstr "În lucru"
+
+msgid "Enabled"
+msgstr "Activat"
+
+msgid "Disabled"
+msgstr "Dezactivat"
+
+msgid "Sold"
+msgstr "Vândut"
+
+
+# =========================================================
+# DASHBOARD
+# =========================================================
+
+msgid "Overview of the NEXORA marketplace"
+msgstr "Prezentare generală a marketplace-ului NEXORA"
+
+msgid "Overview of the NEXORA marketplace."
+msgstr "Prezentare generală a marketplace-ului NEXORA."
+
+msgid "Total users"
+msgstr "Total utilizatori"
+
+msgid "Total listings"
+msgstr "Total anunțuri"
+
+msgid "Active listings"
+msgstr "Anunțuri active"
+
+msgid "Total conversations"
+msgstr "Total conversații"
+
+msgid "Total orders"
+msgstr "Total comenzi"
+
+msgid "Recent activity"
+msgstr "Activitate recentă"
+
+msgid "Recent users"
+msgstr "Utilizatori recenți"
+
+msgid "Recent listings"
+msgstr "Anunțuri recente"
+
+msgid "Quick actions"
+msgstr "Acțiuni rapide"
+
+msgid "View all"
+msgstr "Vezi toate"
+
+msgid "Statistics"
+msgstr "Statistici"
+
+
+# =========================================================
+# USERS
+# =========================================================
+
+msgid "Users"
+msgstr "Utilizatori"
+
+msgid "User"
+msgstr "Utilizator"
+
+msgid "Marketplace users"
+msgstr "Utilizatori marketplace"
+
+msgid "Manage marketplace users"
+msgstr "Gestionează utilizatorii marketplace-ului"
+
+msgid "Manage NEXORA users."
+msgstr "Gestionează utilizatorii NEXORA."
+
+msgid "Search users..."
+msgstr "Caută utilizatori..."
+
+msgid "Search by username or email..."
+msgstr "Caută după username sau email..."
+
+msgid "Username"
+msgstr "Nume de utilizator"
+
+msgid "Full name"
+msgstr "Nume complet"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Email address"
+msgstr "Adresă de email"
+
+msgid "Phone"
+msgstr "Telefon"
+
+msgid "Country"
+msgstr "Țară"
+
+msgid "County"
+msgstr "Județ"
+
+msgid "City"
+msgstr "Oraș"
+
+msgid "Postal code"
+msgstr "Cod poștal"
+
+msgid "Website"
+msgstr "Website"
+
+msgid "Authentication"
+msgstr "Autentificare"
+
+msgid "Role"
+msgstr "Rol"
+
+msgid "Department"
+msgstr "Departament"
+
+msgid "Provider"
+msgstr "Furnizor"
+
+msgid "Balance"
+msgstr "Sold"
+
+msgid "Profile"
+msgstr "Profil"
+
+msgid "Profile information"
+msgstr "Informații profil"
+
+msgid "Public and contact information"
+msgstr "Informații publice și date de contact"
+
+msgid "Public and contact information of the user"
+msgstr "Datele publice și datele de contact ale utilizatorului"
+
+msgid "Update profile"
+msgstr "Actualizează profilul"
+
+msgid "Update email"
+msgstr "Actualizează emailul"
+
+msgid "Account"
+msgstr "Cont"
+
+msgid "Account information"
+msgstr "Informații cont"
+
+msgid "Technical account information"
+msgstr "Informații tehnice ale contului"
+
+msgid "Account status"
+msgstr "Status cont"
+
+msgid "Account active"
+msgstr "Cont activ"
+
+msgid "Account banned"
+msgstr "Cont blocat"
+
+msgid "Back to users"
+msgstr "Înapoi la utilizatori"
+
+msgid "User not found."
+msgstr "Utilizatorul nu a fost găsit."
+
+msgid "No users found."
+msgstr "Nu au fost găsiți utilizatori."
+
+msgid "No users found for this search."
+msgstr "Nu există utilizatori pentru această căutare."
+
+msgid "Ban user"
+msgstr "Blochează utilizator"
+
+msgid "Unban user"
+msgstr "Deblochează utilizator"
+
+msgid "Ban"
+msgstr "Blochează"
+
+msgid "Unban"
+msgstr "Deblochează"
+
+msgid "Ban reason"
+msgstr "Motivul blocării"
+
+msgid "Reason"
+msgstr "Motiv"
+
+msgid "Delete user"
+msgstr "Șterge utilizator"
+
+msgid "Are you sure you want to delete this user?"
+msgstr "Sigur vrei să ștergi acest utilizator?"
+
+msgid "Are you sure you want to unban this account?"
+msgstr "Sigur vrei să deblochezi acest cont?"
+
+
+# =========================================================
+# SECURITY / USER ACCOUNT
+# =========================================================
+
+msgid "Security"
+msgstr "Securitate"
+
+msgid "Password"
+msgstr "Parolă"
+
+msgid "Password and authentication"
+msgstr "Parolă și autentificare"
+
+msgid "Change"
+msgstr "Schimbă"
+
+msgid "Change password"
+msgstr "Schimbă parola"
+
+msgid "New password"
+msgstr "Parolă nouă"
+
+msgid "Confirm password"
+msgstr "Confirmă parola"
+
+msgid "Temporary password"
+msgstr "Parolă temporară"
+
+msgid "Generate"
+msgstr "Generează"
+
+msgid "Generate password"
+msgstr "Generează parola"
+
+msgid "Generate a new password automatically"
+msgstr "Generează automat o parolă nouă"
+
+msgid "Change or reset the account password"
+msgstr "Schimbă sau resetează parola contului"
+
+msgid "Two-factor authentication"
+msgstr "Autentificare în doi pași"
+
+msgid "Two-factor authentication (2FA)"
+msgstr "Autentificare în doi pași (2FA)"
+
+msgid "Disable"
+msgstr "Dezactivează"
+
+msgid "Disable 2FA"
+msgstr "Dezactivează 2FA"
+
+msgid "Reset password"
+msgstr "Resetează parola"
+
+msgid "Set a new password"
+msgstr "Setează o parolă nouă"
+
+
+# =========================================================
+# LISTINGS
+# =========================================================
+
+msgid "Listings"
+msgstr "Anunțuri"
+
+msgid "Listing"
+msgstr "Anunț"
+
+msgid "Price"
+msgstr "Preț"
+
+msgid "Views"
+msgstr "Vizualizări"
+
+msgid "Untitled listing"
+msgstr "Anunț fără titlu"
+
+msgid "This user has no listings."
+msgstr "Acest utilizator nu are anunțuri."
+
+msgid "All listings"
+msgstr "Toate anunțurile"
+
+msgid "Listing details"
+msgstr "Detalii anunț"
+
+msgid "Seller"
+msgstr "Vânzător"
+
+msgid "Buyer"
+msgstr "Cumpărător"
+
+msgid "Category"
+msgstr "Categorie"
+
+msgid "Condition"
+msgstr "Stare"
+
+msgid "Description"
+msgstr "Descriere"
+
+msgid "Delete listing"
+msgstr "Șterge anunțul"
+
+msgid "No listings found."
+msgstr "Nu au fost găsite anunțuri."
+
+
+# =========================================================
+# ORDERS
+# =========================================================
+
+msgid "Orders"
+msgstr "Comenzi"
+
+msgid "Order"
+msgstr "Comandă"
+
+msgid "Order ID"
+msgstr "ID comandă"
+
+msgid "Order status"
+msgstr "Status comandă"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "No orders found."
+msgstr "Nu au fost găsite comenzi."
+
+
+# =========================================================
+# NOTIFICATIONS
+# =========================================================
+
+msgid "Notifications"
+msgstr "Notificări"
+
+msgid "Notification"
+msgstr "Notificare"
+
+msgid "Create notification"
+msgstr "Creează notificare"
+
+msgid "Create, schedule and monitor notifications sent to NEXORA users."
+msgstr "Creează, programează și monitorizează notificările trimise utilizatorilor NEXORA."
+
+msgid "Search notifications..."
+msgstr "Caută notificări..."
+
+msgid "No notifications found."
+msgstr "Nu au fost găsite notificări."
+
+msgid "Audience"
+msgstr "Audiență"
+
+msgid "Priority"
+msgstr "Prioritate"
+
+msgid "High"
+msgstr "Ridicată"
+
+msgid "Normal"
+msgstr "Normală"
+
+msgid "Schedule / Sent"
+msgstr "Programare / Trimitere"
+
+msgid "Send now"
+msgstr "Trimite acum"
+
+msgid "Save draft"
+msgstr "Salvează ciorna"
+
+msgid "Schedule"
+msgstr "Programează"
+
+msgid "Send now, save a draft or schedule delivery."
+msgstr "Trimite acum, salvează ca ciornă sau programează trimiterea."
+
+msgid "Content"
+msgstr "Conținut"
+
+msgid "Title"
+msgstr "Titlu"
+
+msgid "Message"
+msgstr "Mesaj"
+
+msgid "Example: Weekend deals 🎉"
+msgstr "Exemplu: Oferte de weekend 🎉"
+
+msgid "Write your notification..."
+msgstr "Scrie notificarea..."
+
+msgid "Image URL"
+msgstr "URL imagine"
+
+msgid "Optional image displayed in supported push notifications."
+msgstr "Imagine opțională afișată în notificările push compatibile."
+
+msgid "Targeting"
+msgstr "Direcționare"
+
+msgid "All users"
+msgstr "Toți utilizatorii"
+
+msgid "Buyers"
+msgstr "Cumpărători"
+
+msgid "Sellers"
+msgstr "Vânzători"
+
+msgid "Verified users"
+msgstr "Utilizatori verificați"
+
+msgid "Custom"
+msgstr "Personalizat"
+
+msgid "Destination"
+msgstr "Destinație"
+
+msgid "App route"
+msgstr "Rută aplicație"
+
+msgid "Target ID"
+msgstr "ID destinație"
+
+msgid "Listing / user ID"
+msgstr "ID anunț / utilizator"
+
+msgid "External URL"
+msgstr "URL extern"
+
+msgid "Date & time"
+msgstr "Data și ora"
+
+msgid "Timezone"
+msgstr "Fus orar"
+
+msgid "Push preview"
+msgstr "Previzualizare push"
+
+msgid "Notification title"
+msgstr "Titlul notificării"
+
+msgid "Your notification message will appear here."
+msgstr "Mesajul notificării va apărea aici."
+
+msgid "now"
+msgstr "acum"
+
+msgid "Edit notification"
+msgstr "Editează notificarea"
+
+msgid "Notification details"
+msgstr "Detalii notificare"
+
+msgid "Delivery"
+msgstr "Livrare"
+
+msgid "Scheduled for"
+msgstr "Programată pentru"
+
+msgid "Sent at"
+msgstr "Trimisă la"
+
+msgid "Expires at"
+msgstr "Expiră la"
+
+msgid "Cancel notification"
+msgstr "Anulează notificarea"
+
+msgid "Delete notification"
+msgstr "Șterge notificarea"
+
+msgid "Send notification"
+msgstr "Trimite notificarea"
+
+msgid "Send test"
+msgstr "Trimite test"
+
+msgid "Send test notification"
+msgstr "Trimite notificare de test"
+
+
+# =========================================================
+# NOTIFICATION STATISTICS
+# =========================================================
+
+msgid "Targeted"
+msgstr "Vizați"
+
+msgid "Delivered"
+msgstr "Livrate"
+
+msgid "Opened"
+msgstr "Deschise"
+
+msgid "Clicked"
+msgstr "Accesate"
+
+
+# =========================================================
+# WITHDRAWALS
+# =========================================================
+
+msgid "Withdrawals"
+msgstr "Retrageri"
+
+msgid "Withdrawal"
+msgstr "Retragere"
+
+msgid "Manage withdrawal requests"
+msgstr "Gestionează cererile de retragere"
+
+msgid "Withdrawal requests"
+msgstr "Cereri de retragere"
+
+msgid "Amount"
+msgstr "Sumă"
+
+msgid "Requested"
+msgstr "Solicitat"
+
+msgid "Requested at"
+msgstr "Solicitat la"
+
+msgid "Processed"
+msgstr "Procesat"
+
+msgid "Processed at"
+msgstr "Procesat la"
+
+msgid "Approve"
+msgstr "Aprobă"
+
+msgid "Reject"
+msgstr "Respinge"
+
+msgid "Approve withdrawal"
+msgstr "Aprobă retragerea"
+
+msgid "Reject withdrawal"
+msgstr "Respinge retragerea"
+
+msgid "Withdrawal details"
+msgstr "Detalii retragere"
+
+msgid "No withdrawals found."
+msgstr "Nu au fost găsite retrageri."
+
+msgid "Are you sure you want to approve this withdrawal?"
+msgstr "Sigur vrei să aprobi această retragere?"
+
+msgid "Are you sure you want to reject this withdrawal?"
+msgstr "Sigur vrei să respingi această retragere?"
+
+
+# =========================================================
+# SUPPORT
+# =========================================================
+
+msgid "Support"
+msgstr "Suport"
+
+msgid "Support tickets"
+msgstr "Tichete de suport"
+
+msgid "Support ticket"
+msgstr "Tichet de suport"
+
+msgid "Manage support requests"
+msgstr "Gestionează solicitările de suport"
+
+msgid "Ticket"
+msgstr "Tichet"
+
+msgid "Ticket ID"
+msgstr "ID tichet"
+
+msgid "Subject"
+msgstr "Subiect"
+
+msgid "Last message"
+msgstr "Ultimul mesaj"
+
+msgid "Conversation"
+msgstr "Conversație"
+
+msgid "Conversations"
+msgstr "Conversații"
+
+msgid "View conversation"
+msgstr "Vezi conversația"
+
+msgid "Reply"
+msgstr "Răspunde"
+
+msgid "Send reply"
+msgstr "Trimite răspuns"
+
+msgid "Type your reply..."
+msgstr "Scrie răspunsul..."
+
+msgid "Close ticket"
+msgstr "Închide tichetul"
+
+msgid "Reopen ticket"
+msgstr "Redeschide tichetul"
+
+msgid "Resolve ticket"
+msgstr "Rezolvă tichetul"
+
+msgid "No support tickets found."
+msgstr "Nu au fost găsite tichete de suport."
+
+
+# =========================================================
+# PAGINATION / COUNTS
+# =========================================================
+
+msgid "results"
+msgstr "rezultate"
+
+msgid "users"
+msgstr "utilizatori"
+
+msgid "listings"
+msgstr "anunțuri"
+
+msgid "notifications"
+msgstr "notificări"
+
+msgid "withdrawals"
+msgstr "retrageri"
+
+msgid "tickets"
+msgstr "tichete"
+
+
+# =========================================================
+# MESSAGES / CONFIRMATIONS
+# =========================================================
+
+msgid "Changes saved successfully."
+msgstr "Modificările au fost salvate cu succes."
+
+msgid "Profile updated successfully."
+msgstr "Profilul a fost actualizat cu succes."
+
+msgid "Email updated successfully."
+msgstr "Emailul a fost actualizat cu succes."
+
+msgid "Password changed successfully."
+msgstr "Parola a fost schimbată cu succes."
+
+msgid "Notification sent successfully."
+msgstr "Notificarea a fost trimisă cu succes."
+
+msgid "Notification scheduled successfully."
+msgstr "Notificarea a fost programată cu succes."
+
+msgid "Notification saved as draft."
+msgstr "Notificarea a fost salvată ca ciornă."
+
+msgid "Notification deleted successfully."
+msgstr "Notificarea a fost ștearsă cu succes."
+
+msgid "Something went wrong."
+msgstr "A apărut o eroare."
+
+msgid "Please try again."
+msgstr "Te rugăm să încerci din nou."
+
+msgid "Are you sure?"
+msgstr "Ești sigur?"
+
+msgid "This action cannot be undone."
+msgstr "Această acțiune nu poate fi anulată."
+
+
+# =========================================================
+# LOGIN / ACCOUNT
+# =========================================================
+
+msgid "Log in"
+msgstr "Autentificare"
+
+msgid "Login"
+msgstr "Autentificare"
+
+msgid "Log out"
+msgstr "Deconectare"
+
+msgid "Sign in"
+msgstr "Autentificare"
+
+msgid "Sign out"
+msgstr "Deconectare"
+
+msgid "Forgot password?"
+msgstr "Ai uitat parola?"
+
+msgid "Remember me"
+msgstr "Ține-mă minte"
+
+msgid "Welcome back"
+msgstr "Bine ai revenit"
