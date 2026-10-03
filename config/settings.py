@@ -14,9 +14,6 @@ from pathlib import Path
 
 import dj_database_url
 
-
-from django.urls import reverse_lazy
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -88,35 +85,27 @@ UNFOLD = {
                     {
                         "title": "Dashboard",
                         "icon": "dashboard",
-                        "link": reverse_lazy("nexora_dashboard"),
+                        "link": "/admin/dashboard/",
                     },
                     {
                         "title": "Users",
                         "icon": "group",
-                        "link": reverse_lazy(
-                            "marketplace_users"
-                        ),
+                        "link": "/admin/users/",
                     },
                     {
                         "title": "Notifications",
                         "icon": "notifications",
-                        "link": reverse_lazy(
-                            "marketplace_notifications"
-                        ),
+                        "link": "/admin/notifications/",
                     },
                     {
                         "title": "Withdrawals",
                         "icon": "payments",
-                        "link": reverse_lazy(
-                            "marketplace_withdrawals"
-                        ),
+                        "link": "/admin/withdrawals/",
                     },
                     {
                         "title": "Support",
                         "icon": "support_agent",
-                        "link": reverse_lazy(
-                            "marketplace_support"
-                        ),
+                        "link": "/admin/support/",
                     },
                 ],
             },
