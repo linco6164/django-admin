@@ -92,7 +92,7 @@ UNFOLD = {
                     {
                         "title": "Users",
                         "icon": "group",
-                        "link": "/admin/users/",
+                        "link": "/admin/marketplace-users/",
                     },
                     {
                         "title": "Notifications",
