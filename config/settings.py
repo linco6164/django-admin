@@ -220,3 +220,7 @@ EMAIL_BACKEND = (
 AUTHENTICATION_BACKENDS = [
     "accounts.backends.NodeAuthBackend",
 ]
+
+LOGIN_URL = "/admin/login/"
+LOGIN_REDIRECT_URL = "/admin/dashboard/"
+LOGOUT_REDIRECT_URL = "/admin/login/"
