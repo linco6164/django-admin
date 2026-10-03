@@ -1,0 +1,1056 @@
+{% extends "admin/base_site.html" %}
+{% load unfold %}
+
+{% block content %}
+
+<style>
+    .nx-page {
+        max-width: 1450px;
+    }
+
+    /* =====================================================
+       HEADER
+       ===================================================== */
+
+    .nx-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+
+        margin-bottom: 26px;
+    }
+
+    .nx-title {
+        margin: 0;
+
+        font-size: 27px;
+        font-weight: 700;
+    }
+
+    .nx-subtitle {
+        margin-top: 6px;
+
+        color: #94a3b8;
+
+        font-size: 14px;
+    }
+
+    /* =====================================================
+       GRID
+       ===================================================== */
+
+    .nx-grid {
+        display: grid;
+
+        grid-template-columns:
+            minmax(0, 1.6fr)
+            minmax(320px, .8fr);
+
+        gap: 20px;
+
+        align-items: start;
+    }
+
+    /* =====================================================
+       CARD
+       ===================================================== */
+
+    .nx-card {
+        border: 1px solid #273449;
+        border-radius: 16px;
+
+        background:
+            rgba(255, 255, 255, .025);
+
+        overflow: hidden;
+    }
+
+    .nx-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 16px;
+
+        padding: 18px 20px;
+
+        border-bottom:
+            1px solid rgba(148, 163, 184, .12);
+    }
+
+    .nx-card-title {
+        margin: 0;
+
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .nx-card-subtitle {
+        margin-top: 4px;
+
+        color: #94a3b8;
+
+        font-size: 12px;
+    }
+
+    .nx-card-body {
+        padding: 20px;
+    }
+
+    /* =====================================================
+       FORM
+       ===================================================== */
+
+    .nx-field {
+        margin-bottom: 18px;
+    }
+
+    .nx-field:last-child {
+        margin-bottom: 0;
+    }
+
+    .nx-label-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 15px;
+
+        margin-bottom: 8px;
+    }
+
+    .nx-label {
+        color: #cbd5e1;
+
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .nx-counter {
+        color: #64748b;
+
+        font-size: 11px;
+    }
+
+    .nx-input,
+    .nx-textarea {
+        width: 100%;
+
+        box-sizing: border-box;
+
+        border: 1px solid #334155;
+        border-radius: 11px;
+
+        background:
+            rgba(15, 23, 42, .65);
+
+        color: inherit;
+
+        outline: none;
+
+        padding: 12px 13px;
+
+        font-size: 14px;
+
+        transition:
+            border-color .15s ease,
+            box-shadow .15s ease;
+    }
+
+    .nx-input {
+        height: 44px;
+    }
+
+    .nx-textarea {
+        min-height: 160px;
+
+        resize: vertical;
+
+        line-height: 1.55;
+    }
+
+    .nx-input:focus,
+    .nx-textarea:focus {
+        border-color: #7c3aed;
+
+        box-shadow:
+            0 0 0 3px
+            rgba(124, 58, 237, .12);
+    }
+
+    .nx-input::placeholder,
+    .nx-textarea::placeholder {
+        color: #64748b;
+    }
+
+    /* =====================================================
+       AUDIENCE
+       ===================================================== */
+
+    .nx-audience {
+        display: flex;
+        align-items: center;
+
+        gap: 13px;
+
+        padding: 14px;
+
+        border:
+            1px solid rgba(124, 58, 237, .28);
+
+        border-radius: 12px;
+
+        background:
+            rgba(124, 58, 237, .07);
+
+        margin-bottom: 22px;
+    }
+
+    .nx-audience-icon {
+        width: 42px;
+        height: 42px;
+
+        flex-shrink: 0;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        border-radius: 11px;
+
+        color: #c084fc;
+
+        background:
+            rgba(124, 58, 237, .15);
+    }
+
+    .nx-audience-title {
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .nx-audience-description {
+        margin-top: 2px;
+
+        color: #94a3b8;
+
+        font-size: 11px;
+    }
+
+    /* =====================================================
+       SEND
+       ===================================================== */
+
+    .nx-actions {
+        display: flex;
+        justify-content: flex-end;
+
+        margin-top: 22px;
+    }
+
+    .nx-send {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        gap: 8px;
+
+        min-width: 150px;
+
+        border: 0;
+        border-radius: 10px;
+
+        padding: 11px 17px;
+
+        background: #7c3aed;
+        color: white;
+
+        cursor: pointer;
+
+        font-weight: 600;
+
+        transition:
+            background .15s ease,
+            transform .15s ease;
+    }
+
+    .nx-send:hover {
+        background: #6d28d9;
+    }
+
+    .nx-send:active {
+        transform: scale(.98);
+    }
+
+    .nx-send:disabled {
+        opacity: .55;
+        cursor: not-allowed;
+    }
+
+    .nx-send .material-symbols-outlined {
+        font-size: 19px;
+    }
+
+    /* =====================================================
+       WARNING
+       ===================================================== */
+
+    .nx-warning {
+        display: flex;
+        gap: 10px;
+
+        margin-top: 18px;
+
+        padding: 13px;
+
+        border:
+            1px solid rgba(245, 158, 11, .25);
+
+        border-radius: 10px;
+
+        background:
+            rgba(245, 158, 11, .07);
+
+        color: #fbbf24;
+
+        font-size: 12px;
+
+        line-height: 1.5;
+    }
+
+    .nx-warning .material-symbols-outlined {
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+
+    /* =====================================================
+       PHONE PREVIEW
+       ===================================================== */
+
+    .nx-preview-wrapper {
+        display: flex;
+        justify-content: center;
+
+        padding: 26px 15px;
+    }
+
+    .nx-phone {
+        width: 310px;
+
+        border: 1px solid #334155;
+        border-radius: 30px;
+
+        background: #080d18;
+
+        padding: 12px;
+
+        box-shadow:
+            0 25px 60px
+            rgba(0, 0, 0, .28);
+    }
+
+    .nx-phone-screen {
+        min-height: 520px;
+
+        border-radius: 22px;
+
+        background:
+            linear-gradient(
+                180deg,
+                #111827,
+                #0f172a
+            );
+
+        padding: 18px 12px;
+    }
+
+    .nx-phone-top {
+        display: flex;
+        justify-content: space-between;
+
+        color: #94a3b8;
+
+        font-size: 10px;
+
+        padding: 2px 6px 28px;
+    }
+
+    .nx-phone-label {
+        color: #64748b;
+
+        font-size: 10px;
+
+        margin-bottom: 7px;
+        margin-left: 5px;
+    }
+
+    .nx-notification-preview {
+        display: flex;
+
+        gap: 11px;
+
+        border:
+            1px solid rgba(148, 163, 184, .16);
+
+        border-radius: 16px;
+
+        background:
+            rgba(255, 255, 255, .07);
+
+        padding: 13px;
+    }
+
+    .nx-app-icon {
+        width: 42px;
+        height: 42px;
+
+        flex-shrink: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 11px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #7c3aed,
+                #a855f7
+            );
+
+        color: white;
+
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .nx-notification-content {
+        min-width: 0;
+        flex: 1;
+    }
+
+    .nx-notification-app {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 10px;
+
+        color: #94a3b8;
+
+        font-size: 9px;
+
+        margin-bottom: 4px;
+    }
+
+    .nx-preview-title {
+        font-size: 13px;
+        font-weight: 700;
+
+        overflow-wrap: anywhere;
+    }
+
+    .nx-preview-body {
+        margin-top: 4px;
+
+        color: #cbd5e1;
+
+        font-size: 11px;
+
+        line-height: 1.4;
+
+        overflow-wrap: anywhere;
+    }
+
+    /* =====================================================
+       INFO
+       ===================================================== */
+
+    .nx-info-row {
+        display: flex;
+        justify-content: space-between;
+
+        gap: 20px;
+
+        padding: 12px 0;
+
+        border-bottom:
+            1px solid rgba(148, 163, 184, .1);
+    }
+
+    .nx-info-row:last-child {
+        border-bottom: 0;
+    }
+
+    .nx-info-label {
+        color: #94a3b8;
+        font-size: 12px;
+    }
+
+    .nx-info-value {
+        text-align: right;
+
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .nx-badge {
+        display: inline-flex;
+
+        border-radius: 999px;
+
+        padding: 5px 9px;
+
+        color: #4ade80;
+
+        background:
+            rgba(34, 197, 94, .12);
+
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    /* =====================================================
+       RESPONSIVE
+       ===================================================== */
+
+    @media (max-width: 950px) {
+        .nx-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .nx-header {
+            flex-direction: column;
+        }
+
+        .nx-actions {
+            justify-content: stretch;
+        }
+
+        .nx-send {
+            width: 100%;
+        }
+    }
+</style>
+
+
+<div class="nx-page">
+
+    <!-- =================================================
+         HEADER
+         ================================================= -->
+
+    <div class="nx-header">
+
+        <div>
+
+            <h1 class="nx-title">
+                Notifications
+            </h1>
+
+            <div class="nx-subtitle">
+                Trimite notificări push utilizatorilor NEXORA
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="nx-grid">
+
+        <!-- =================================================
+             COMPOSER
+             ================================================= -->
+
+        <div class="nx-card">
+
+            <div class="nx-card-header">
+
+                <div>
+
+                    <h2 class="nx-card-title">
+                        Send notification
+                    </h2>
+
+                    <div class="nx-card-subtitle">
+                        Creează o notificare broadcast
+                    </div>
+
+                </div>
+
+                <span class="nx-badge">
+                    Broadcast
+                </span>
+
+            </div>
+
+
+            <div class="nx-card-body">
+
+                <div class="nx-audience">
+
+                    <div class="nx-audience-icon">
+
+                        <span class="material-symbols-outlined">
+                            groups
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="nx-audience-title">
+                            All users
+                        </div>
+
+                        <div class="nx-audience-description">
+                            Notificarea va fi transmisă prin sistemul
+                            broadcast al platformei.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <form
+                    method="post"
+                    id="notification-form"
+                >
+
+                    {% csrf_token %}
+
+
+                    <!-- TITLE -->
+
+                    <div class="nx-field">
+
+                        <div class="nx-label-row">
+
+                            <label
+                                for="notification-title"
+                                class="nx-label"
+                            >
+                                Title
+                            </label>
+
+                            <span
+                                id="title-counter"
+                                class="nx-counter"
+                            >
+                                0 / 80
+                            </span>
+
+                        </div>
+
+
+                        <input
+                            id="notification-title"
+                            class="nx-input"
+                            type="text"
+                            name="title"
+                            maxlength="80"
+                            placeholder="Ex: O ofertă nouă te așteaptă"
+                            required
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <!-- BODY -->
+
+                    <div class="nx-field">
+
+                        <div class="nx-label-row">
+
+                            <label
+                                for="notification-body"
+                                class="nx-label"
+                            >
+                                Message
+                            </label>
+
+                            <span
+                                id="body-counter"
+                                class="nx-counter"
+                            >
+                                0 / 300
+                            </span>
+
+                        </div>
+
+
+                        <textarea
+                            id="notification-body"
+                            class="nx-textarea"
+                            name="body"
+                            maxlength="300"
+                            placeholder="Scrie mesajul notificării..."
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+                    <div class="nx-warning">
+
+                        <span class="material-symbols-outlined">
+                            warning
+                        </span>
+
+                        <div>
+                            Aceasta este o notificare broadcast.
+                            După confirmare, mesajul este trimis
+                            prin backend și acțiunea nu poate fi
+                            retrasă din această interfață.
+                        </div>
+
+                    </div>
+
+
+                    <div class="nx-actions">
+
+                        <button
+                            id="send-button"
+                            type="submit"
+                            class="nx-send"
+                        >
+
+                            <span class="material-symbols-outlined">
+                                send
+                            </span>
+
+                            Send notification
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             RIGHT COLUMN
+             ================================================= -->
+
+        <div>
+
+            <!-- PREVIEW -->
+
+            <div
+                class="nx-card"
+                style="margin-bottom: 20px;"
+            >
+
+                <div class="nx-card-header">
+
+                    <div>
+
+                        <h2 class="nx-card-title">
+                            Preview
+                        </h2>
+
+                        <div class="nx-card-subtitle">
+                            Cum poate apărea notificarea
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="nx-preview-wrapper">
+
+                    <div class="nx-phone">
+
+                        <div class="nx-phone-screen">
+
+                            <div class="nx-phone-top">
+
+                                <span>
+                                    21:21
+                                </span>
+
+                                <span>
+                                    ● ● ●
+                                </span>
+
+                            </div>
+
+
+                            <div class="nx-phone-label">
+                                NOTIFICATIONS
+                            </div>
+
+
+                            <div class="nx-notification-preview">
+
+                                <div class="nx-app-icon">
+                                    N
+                                </div>
+
+
+                                <div class="nx-notification-content">
+
+                                    <div class="nx-notification-app">
+
+                                        <span>
+                                            NEXORA
+                                        </span>
+
+                                        <span>
+                                            now
+                                        </span>
+
+                                    </div>
+
+
+                                    <div
+                                        id="preview-title"
+                                        class="nx-preview-title"
+                                    >
+                                        Titlul notificării
+                                    </div>
+
+
+                                    <div
+                                        id="preview-body"
+                                        class="nx-preview-body"
+                                    >
+                                        Mesajul notificării va apărea aici.
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- DELIVERY INFO -->
+
+            <div class="nx-card">
+
+                <div class="nx-card-header">
+
+                    <div>
+
+                        <h2 class="nx-card-title">
+                            Delivery
+                        </h2>
+
+                        <div class="nx-card-subtitle">
+                            Configurația curentă
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="nx-card-body">
+
+                    <div class="nx-info-row">
+
+                        <span class="nx-info-label">
+                            Audience
+                        </span>
+
+                        <span class="nx-info-value">
+                            All users
+                        </span>
+
+                    </div>
+
+
+                    <div class="nx-info-row">
+
+                        <span class="nx-info-label">
+                            Type
+                        </span>
+
+                        <span class="nx-info-value">
+                            Promotion
+                        </span>
+
+                    </div>
+
+
+                    <div class="nx-info-row">
+
+                        <span class="nx-info-label">
+                            Delivery
+                        </span>
+
+                        <span class="nx-info-value">
+                            Immediate
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+    const titleInput =
+        document.getElementById(
+            "notification-title"
+        );
+
+    const bodyInput =
+        document.getElementById(
+            "notification-body"
+        );
+
+    const previewTitle =
+        document.getElementById(
+            "preview-title"
+        );
+
+    const previewBody =
+        document.getElementById(
+            "preview-body"
+        );
+
+    const titleCounter =
+        document.getElementById(
+            "title-counter"
+        );
+
+    const bodyCounter =
+        document.getElementById(
+            "body-counter"
+        );
+
+    const notificationForm =
+        document.getElementById(
+            "notification-form"
+        );
+
+    const sendButton =
+        document.getElementById(
+            "send-button"
+        );
+
+
+    function updatePreview() {
+
+        const title =
+            titleInput.value.trim();
+
+        const body =
+            bodyInput.value.trim();
+
+
+        previewTitle.textContent =
+            title ||
+            "Titlul notificării";
+
+
+        previewBody.textContent =
+            body ||
+            "Mesajul notificării va apărea aici.";
+
+
+        titleCounter.textContent =
+            `${titleInput.value.length} / 80`;
+
+
+        bodyCounter.textContent =
+            `${bodyInput.value.length} / 300`;
+    }
+
+
+    titleInput.addEventListener(
+        "input",
+        updatePreview
+    );
+
+
+    bodyInput.addEventListener(
+        "input",
+        updatePreview
+    );
+
+
+    notificationForm.addEventListener(
+        "submit",
+        function(event) {
+
+            const title =
+                titleInput.value.trim();
+
+            const body =
+                bodyInput.value.trim();
+
+
+            if (!title || !body) {
+
+                event.preventDefault();
+
+                alert(
+                    "Titlul și mesajul sunt obligatorii."
+                );
+
+                return;
+            }
+
+
+            const confirmed =
+                confirm(
+                    "Sigur vrei să trimiți această notificare broadcast?"
+                );
+
+
+            if (!confirmed) {
+
+                event.preventDefault();
+
+                return;
+            }
+
+
+            sendButton.disabled = true;
+
+            sendButton.innerHTML = `
+                <span
+                    class="material-symbols-outlined"
+                >
+                    progress_activity
+                </span>
+
+                Sending...
+            `;
+        }
+    );
+
+
+    updatePreview();
+</script>
+
+{% endblock %}

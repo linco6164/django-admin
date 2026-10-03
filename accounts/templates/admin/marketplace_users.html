@@ -1,0 +1,1436 @@
+{% extends "admin/base_site.html" %}
+{% load unfold %}
+
+{% block content %}
+
+<style>
+    .nx-page {
+        max-width: 1500px;
+    }
+
+    /* =========================================================
+       HEADER
+       ========================================================= */
+
+    .nx-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 24px;
+    }
+
+    .nx-title {
+        font-size: 26px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .nx-subtitle {
+        margin-top: 6px;
+        color: #94a3b8;
+    }
+
+    /* =========================================================
+       STATS
+       ========================================================= */
+
+    .nx-stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(180px, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .nx-card {
+        border: 1px solid #273449;
+        background: rgba(255, 255, 255, 0.025);
+        border-radius: 14px;
+        padding: 18px 20px;
+    }
+
+    .nx-card-label {
+        font-size: 13px;
+        color: #94a3b8;
+        margin-bottom: 8px;
+    }
+
+    .nx-card-value {
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    /* =========================================================
+       TOOLBAR / SEARCH
+       ========================================================= */
+
+    .nx-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+
+    .nx-search {
+        flex: 1;
+        max-width: 480px;
+
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        border: 1px solid #334155;
+        background: rgba(255, 255, 255, 0.025);
+
+        border-radius: 10px;
+
+        padding: 0 14px;
+    }
+
+    .nx-search .material-symbols-outlined {
+        color: #64748b;
+        font-size: 20px;
+    }
+
+    .nx-search input {
+        width: 100%;
+        height: 42px;
+
+        border: 0;
+        outline: none;
+
+        background: transparent;
+
+        color: inherit;
+
+        font-size: 14px;
+    }
+
+    .nx-search input::placeholder {
+        color: #64748b;
+    }
+
+    .nx-button {
+        border: 0;
+        border-radius: 10px;
+
+        padding: 11px 18px;
+
+        cursor: pointer;
+
+        background: #7c3aed;
+        color: white;
+
+        font-weight: 600;
+
+        transition:
+            background 0.15s ease,
+            transform 0.15s ease;
+    }
+
+    .nx-button:hover {
+        background: #6d28d9;
+    }
+
+    .nx-button:active {
+        transform: scale(0.98);
+    }
+
+    .nx-clear {
+        text-decoration: none;
+        color: #94a3b8;
+        padding: 10px;
+    }
+
+    .nx-clear:hover {
+        color: inherit;
+    }
+
+    /* =========================================================
+       TABLE
+       ========================================================= */
+
+    .nx-table-card {
+        overflow: hidden;
+
+        border: 1px solid #273449;
+        border-radius: 14px;
+
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+    .nx-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .nx-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .nx-table th {
+        padding: 14px 18px;
+
+        text-align: left;
+
+        font-size: 12px;
+        font-weight: 600;
+
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+
+        color: #94a3b8;
+
+        background: rgba(255, 255, 255, 0.025);
+
+        border-bottom: 1px solid #273449;
+
+        white-space: nowrap;
+    }
+
+    .nx-table td {
+        padding: 15px 18px;
+
+        border-bottom:
+            1px solid rgba(148, 163, 184, 0.12);
+
+        vertical-align: middle;
+    }
+
+    .nx-table tbody tr {
+        transition: background 0.15s ease;
+    }
+
+    .nx-table tbody tr:hover {
+        background: rgba(124, 58, 237, 0.07);
+    }
+
+    .nx-table tbody tr:last-child td {
+        border-bottom: 0;
+    }
+
+    /* =========================================================
+       USER
+       ========================================================= */
+
+    .nx-user {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .nx-avatar {
+        width: 38px;
+        height: 38px;
+
+        border-radius: 50%;
+
+        background:
+            linear-gradient(
+                135deg,
+                #7c3aed,
+                #a855f7
+            );
+
+        color: white;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-weight: 700;
+
+        flex-shrink: 0;
+    }
+
+    .nx-user-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .nx-username {
+        font-weight: 600;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .nx-username:hover {
+        color: #a855f7;
+    }
+
+    .nx-user-id {
+        font-size: 11px;
+        color: #64748b;
+    }
+
+    .nx-email {
+        color: #94a3b8;
+    }
+
+    /* =========================================================
+       BADGES
+       ========================================================= */
+
+    .nx-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+
+        border-radius: 999px;
+
+        padding: 5px 10px;
+
+        font-size: 12px;
+        font-weight: 600;
+
+        white-space: nowrap;
+    }
+
+    .nx-role-admin {
+        background: rgba(124, 58, 237, 0.16);
+        color: #c084fc;
+    }
+
+    .nx-role-user {
+        background: rgba(59, 130, 246, 0.14);
+        color: #60a5fa;
+    }
+
+    .nx-role-staff {
+        background: rgba(245, 158, 11, 0.14);
+        color: #fbbf24;
+    }
+
+    .nx-active {
+        background: rgba(34, 197, 94, 0.14);
+        color: #4ade80;
+    }
+
+    .nx-banned {
+        background: rgba(239, 68, 68, 0.14);
+        color: #f87171;
+    }
+
+    .nx-ban-reason {
+        display: block;
+
+        max-width: 260px;
+
+        margin-top: 7px;
+
+        color: #94a3b8;
+
+        font-size: 11px;
+
+        line-height: 1.4;
+    }
+
+    /* =========================================================
+       ACTION BUTTONS
+       ========================================================= */
+
+    .nx-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .nx-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+
+        border: 0;
+        border-radius: 9px;
+
+        padding: 8px 12px;
+
+        cursor: pointer;
+
+        font-size: 13px;
+        font-weight: 600;
+
+        white-space: nowrap;
+
+        transition:
+            background 0.15s ease,
+            transform 0.15s ease;
+    }
+
+    .nx-action:active {
+        transform: scale(0.97);
+    }
+
+    .nx-action .material-symbols-outlined {
+        font-size: 18px;
+    }
+
+    .nx-ban {
+        background: rgba(239, 68, 68, 0.14);
+        color: #f87171;
+    }
+
+    .nx-ban:hover {
+        background: rgba(239, 68, 68, 0.24);
+    }
+
+    .nx-unban {
+        background: rgba(34, 197, 94, 0.14);
+        color: #4ade80;
+    }
+
+    .nx-unban:hover {
+        background: rgba(34, 197, 94, 0.24);
+    }
+
+    /* =========================================================
+       FOOTER / PAGINATION
+       ========================================================= */
+
+    .nx-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 20px;
+
+        padding: 16px 18px;
+
+        border-top: 1px solid rgba(148, 163, 184, 0.12);
+    }
+
+    .nx-footer-count {
+        color: #94a3b8;
+        font-size: 13px;
+    }
+
+    .nx-pagination {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .nx-pagination a {
+        text-decoration: none;
+
+        border: 1px solid #334155;
+        border-radius: 8px;
+
+        padding: 7px 12px;
+
+        color: inherit;
+
+        transition: background 0.15s ease;
+    }
+
+    .nx-pagination a:hover {
+        background: rgba(124, 58, 237, 0.1);
+    }
+
+    .nx-pagination-status {
+        color: #94a3b8;
+        font-size: 13px;
+    }
+
+    /* =========================================================
+       BAN DIALOG
+       ========================================================= */
+
+    .nx-ban-dialog {
+        width: min(520px, calc(100% - 32px));
+
+        border: 1px solid #334155;
+        border-radius: 18px;
+
+        padding: 0;
+
+        background: #111827;
+        color: #f8fafc;
+
+        box-shadow:
+            0 25px 70px rgba(0, 0, 0, 0.55);
+    }
+
+    .nx-ban-dialog::backdrop {
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(4px);
+    }
+
+    .nx-ban-form {
+        padding: 26px;
+    }
+
+    .nx-dialog-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+
+        margin-bottom: 20px;
+    }
+
+    .nx-dialog-icon {
+        width: 46px;
+        height: 46px;
+
+        flex-shrink: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 12px;
+
+        color: #f87171;
+
+        background:
+            rgba(239, 68, 68, 0.14);
+    }
+
+    .nx-dialog-icon .material-symbols-outlined {
+        font-size: 24px;
+    }
+
+    .nx-dialog-title {
+        margin: 0;
+
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .nx-dialog-user {
+        margin-top: 4px;
+
+        color: #94a3b8;
+
+        font-size: 13px;
+    }
+
+    .nx-dialog-description {
+        color: #94a3b8;
+
+        line-height: 1.6;
+
+        margin-bottom: 22px;
+    }
+
+    .nx-form-group {
+        margin-bottom: 16px;
+    }
+
+    .nx-form-label {
+        display: block;
+
+        margin-bottom: 8px;
+
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .nx-select,
+    .nx-custom-reason {
+        width: 100%;
+
+        box-sizing: border-box;
+
+        border: 1px solid #334155;
+        border-radius: 10px;
+
+        background: #0f172a;
+        color: #f8fafc;
+
+        padding: 11px 12px;
+
+        outline: none;
+    }
+
+    .nx-select:focus,
+    .nx-custom-reason:focus {
+        border-color: #7c3aed;
+
+        box-shadow:
+            0 0 0 3px
+            rgba(124, 58, 237, 0.12);
+    }
+
+    .nx-custom-reason {
+        min-height: 110px;
+
+        resize: vertical;
+
+        margin-top: 12px;
+    }
+
+    .nx-reason-help {
+        margin-top: 7px;
+
+        color: #64748b;
+
+        font-size: 11px;
+    }
+
+    .nx-dialog-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+
+        margin-top: 24px;
+    }
+
+    .nx-dialog-cancel,
+    .nx-dialog-confirm {
+        border: 0;
+        border-radius: 9px;
+
+        padding: 10px 16px;
+
+        cursor: pointer;
+
+        font-weight: 600;
+    }
+
+    .nx-dialog-cancel {
+        background: #334155;
+        color: white;
+    }
+
+    .nx-dialog-cancel:hover {
+        background: #475569;
+    }
+
+    .nx-dialog-confirm {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+
+        background: #dc2626;
+        color: white;
+    }
+
+    .nx-dialog-confirm:hover {
+        background: #b91c1c;
+    }
+
+    .nx-dialog-confirm .material-symbols-outlined {
+        font-size: 18px;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media (max-width: 900px) {
+        .nx-stats {
+            grid-template-columns: 1fr;
+        }
+
+        .nx-toolbar {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .nx-search {
+            max-width: none;
+        }
+
+        .nx-table {
+            min-width: 1000px;
+        }
+
+        .nx-footer {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+    }
+</style>
+
+
+<div class="nx-page">
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <div class="nx-header">
+
+        <div>
+
+            <h1 class="nx-title">
+                Users
+            </h1>
+
+            <div class="nx-subtitle">
+                Gestionează utilizatorii marketplace-ului NEXORA
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         API ERROR
+         ===================================================== -->
+
+    {% if api_error %}
+
+        <div
+            class="nx-card"
+            style="
+                border-color: rgba(239, 68, 68, 0.4);
+                margin-bottom: 20px;
+                color: #f87171;
+            "
+        >
+            {{ api_error }}
+        </div>
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         STATS
+         ===================================================== -->
+
+    <div class="nx-stats">
+
+        <div class="nx-card">
+
+            <div class="nx-card-label">
+                Total users
+            </div>
+
+            <div class="nx-card-value">
+                {{ total }}
+            </div>
+
+        </div>
+
+
+        <div class="nx-card">
+
+            <div class="nx-card-label">
+                Current page
+            </div>
+
+            <div class="nx-card-value">
+                {{ page }}
+            </div>
+
+        </div>
+
+
+        <div class="nx-card">
+
+            <div class="nx-card-label">
+                Total pages
+            </div>
+
+            <div class="nx-card-value">
+                {{ pages }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SEARCH
+         ===================================================== -->
+
+    <form
+        method="get"
+        class="nx-toolbar"
+    >
+
+        <div class="nx-search">
+
+            <span class="material-symbols-outlined">
+                search
+            </span>
+
+            <input
+                type="text"
+                name="search"
+                value="{{ search }}"
+                placeholder="Search username or email..."
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="nx-button"
+        >
+            Search
+        </button>
+
+
+        {% if search %}
+
+            <a
+                href="{% url 'marketplace_users' %}"
+                class="nx-clear"
+            >
+                Clear
+            </a>
+
+        {% endif %}
+
+    </form>
+
+
+    <!-- =====================================================
+         USERS TABLE
+         ===================================================== -->
+
+    <div class="nx-table-card">
+
+        <div class="nx-table-wrapper">
+
+            <table class="nx-table">
+
+                <thead>
+
+                    <tr>
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Department</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for user in users %}
+
+                        <tr>
+
+                            <!-- USER -->
+
+                            <td>
+
+                                <div class="nx-user">
+
+                                    <div class="nx-avatar">
+
+                                        {% if user.username %}
+
+                                            {{ user.username|slice:":1"|upper }}
+
+                                        {% else %}
+
+                                            U
+
+                                        {% endif %}
+
+                                    </div>
+
+
+                                    <div class="nx-user-info">
+
+                                        <a
+                                            href="{% url 'marketplace_user_detail' user.id %}"
+                                            class="nx-username"
+                                        >
+                                            {{ user.username|default:"Unknown" }}
+                                        </a>
+
+                                        <span class="nx-user-id">
+                                            {{ user.id }}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- EMAIL -->
+
+                            <td class="nx-email">
+                                {{ user.email|default:"-" }}
+                            </td>
+
+
+                            <!-- ROLE -->
+
+                            <td>
+
+                                {% if user.role == "admin" %}
+
+                                    <span
+                                        class="nx-badge nx-role-admin"
+                                    >
+                                        Administrator
+                                    </span>
+
+                                {% elif user.role == "user" %}
+
+                                    <span
+                                        class="nx-badge nx-role-user"
+                                    >
+                                        User
+                                    </span>
+
+                                {% else %}
+
+                                    <span
+                                        class="nx-badge nx-role-staff"
+                                    >
+                                        {{ user.role }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- DEPARTMENT -->
+
+                            <td>
+                                {{ user.department|default:"-" }}
+                            </td>
+
+
+                            <!-- STATUS -->
+
+                            <td>
+
+                                {% if user.banned %}
+
+                                    <span
+                                        class="nx-badge nx-banned"
+                                    >
+                                        ● Banned
+                                    </span>
+
+
+                                    {% if user.banReason %}
+
+                                        <span
+                                            class="nx-ban-reason"
+                                            title="{{ user.banReason }}"
+                                        >
+                                            {{ user.banReason }}
+                                        </span>
+
+                                    {% endif %}
+
+                                {% else %}
+
+                                    <span
+                                        class="nx-badge nx-active"
+                                    >
+                                        ● Active
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- ACTIONS -->
+
+                            <td>
+
+                                <div class="nx-actions">
+
+                                    {% if user.banned %}
+
+                                        <form
+                                            method="post"
+                                            action="{% url 'marketplace_toggle_ban' user.id %}"
+                                            class="nx-unban-form"
+                                        >
+
+                                            {% csrf_token %}
+
+                                            <input
+                                                type="hidden"
+                                                name="action"
+                                                value="unban"
+                                            >
+
+                                            <button
+                                                type="submit"
+                                                class="nx-action nx-unban"
+                                                onclick="
+                                                    return confirm(
+                                                        'Sigur vrei să deblochezi contul {{ user.username|escapejs }}?'
+                                                    );
+                                                "
+                                            >
+
+                                                <span
+                                                    class="material-symbols-outlined"
+                                                >
+                                                    lock_open
+                                                </span>
+
+                                                Unblock
+
+                                            </button>
+
+                                        </form>
+
+                                    {% else %}
+
+                                        <button
+                                            type="button"
+                                            class="nx-action nx-ban"
+                                            data-user-id="{{ user.id }}"
+                                            data-username="{{ user.username|escape }}"
+                                            data-action-url="{% url 'marketplace_toggle_ban' user.id %}"
+                                            onclick="openBanDialog(this)"
+                                        >
+
+                                            <span
+                                                class="material-symbols-outlined"
+                                            >
+                                                block
+                                            </span>
+
+                                            Block
+
+                                        </button>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+
+                    {% empty %}
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                style="
+                                    text-align: center;
+                                    padding: 50px;
+                                    color: #94a3b8;
+                                "
+                            >
+                                No users found.
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- =================================================
+             FOOTER
+             ================================================= -->
+
+        <div class="nx-footer">
+
+            <div class="nx-footer-count">
+                {{ total }} users
+            </div>
+
+
+            <div class="nx-pagination">
+
+                {% if page > 1 %}
+
+                    <a
+                        href="?page={{ page|add:'-1' }}&search={{ search|urlencode }}"
+                    >
+                        ← Previous
+                    </a>
+
+                {% endif %}
+
+
+                <span class="nx-pagination-status">
+                    Page {{ page }} / {{ pages }}
+                </span>
+
+
+                {% if page < pages %}
+
+                    <a
+                        href="?page={{ page|add:'1' }}&search={{ search|urlencode }}"
+                    >
+                        Next →
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     GLOBAL BAN MODAL
+     ========================================================= -->
+
+<dialog
+    id="nx-ban-dialog"
+    class="nx-ban-dialog"
+>
+
+    <form
+        id="nx-ban-form"
+        method="post"
+        class="nx-ban-form"
+    >
+
+        {% csrf_token %}
+
+        <input
+            type="hidden"
+            name="action"
+            value="ban"
+        >
+
+
+        <div class="nx-dialog-header">
+
+            <div class="nx-dialog-icon">
+
+                <span class="material-symbols-outlined">
+                    lock
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <h2 class="nx-dialog-title">
+                    Block user
+                </h2>
+
+                <div
+                    id="nx-ban-username"
+                    class="nx-dialog-user"
+                >
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <p class="nx-dialog-description">
+
+            Utilizatorul nu va mai putea accesa contul
+            până când acesta este deblocat.
+
+            Selectează motivul pentru blocarea contului.
+
+        </p>
+
+
+        <div class="nx-form-group">
+
+            <label
+                for="nx-ban-reason"
+                class="nx-form-label"
+            >
+                Reason
+            </label>
+
+
+            <select
+                id="nx-ban-reason"
+                name="reason"
+                class="nx-select"
+                required
+                onchange="toggleCustomReason()"
+            >
+
+                <option value="">
+                    Selectează motivul...
+                </option>
+
+                <option
+                    value="Încălcarea regulilor platformei"
+                >
+                    Încălcarea regulilor platformei
+                </option>
+
+                <option
+                    value="Activitate suspectă"
+                >
+                    Activitate suspectă
+                </option>
+
+                <option
+                    value="Fraudă / tentativă de fraudă"
+                >
+                    Fraudă / tentativă de fraudă
+                </option>
+
+                <option
+                    value="Anunțuri sau produse interzise"
+                >
+                    Anunțuri sau produse interzise
+                </option>
+
+                <option
+                    value="Hărțuire / comportament abuziv"
+                >
+                    Hărțuire / comportament abuziv
+                </option>
+
+                <option value="Spam">
+                    Spam
+                </option>
+
+                <option
+                    value="Cont fals / identitate falsă"
+                >
+                    Cont fals / identitate falsă
+                </option>
+
+                <option value="Alt motiv">
+                    Alt motiv
+                </option>
+
+            </select>
+
+
+            <textarea
+                id="nx-custom-reason"
+                name="custom_reason"
+                class="nx-custom-reason"
+                placeholder="Descrie motivul blocării..."
+                maxlength="500"
+                style="display: none;"
+            ></textarea>
+
+
+            <div class="nx-reason-help">
+                Motivul va fi salvat în contul utilizatorului.
+            </div>
+
+        </div>
+
+
+        <div class="nx-dialog-actions">
+
+            <button
+                type="button"
+                class="nx-dialog-cancel"
+                onclick="closeBanDialog()"
+            >
+                Cancel
+            </button>
+
+
+            <button
+                type="submit"
+                class="nx-dialog-confirm"
+            >
+
+                <span class="material-symbols-outlined">
+                    block
+                </span>
+
+                Block user
+
+            </button>
+
+        </div>
+
+    </form>
+
+</dialog>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+     ========================================================= -->
+
+<script>
+    const banDialog =
+        document.getElementById(
+            "nx-ban-dialog"
+        );
+
+    const banForm =
+        document.getElementById(
+            "nx-ban-form"
+        );
+
+    const banUsername =
+        document.getElementById(
+            "nx-ban-username"
+        );
+
+    const reasonSelect =
+        document.getElementById(
+            "nx-ban-reason"
+        );
+
+    const customReason =
+        document.getElementById(
+            "nx-custom-reason"
+        );
+
+
+    function openBanDialog(button) {
+
+        const username =
+            button.dataset.username || "Unknown";
+
+        const actionUrl =
+            button.dataset.actionUrl;
+
+        if (!actionUrl) {
+            return;
+        }
+
+        banForm.action = actionUrl;
+
+        banUsername.textContent =
+            `User: ${username}`;
+
+        reasonSelect.value = "";
+
+        customReason.value = "";
+
+        customReason.style.display =
+            "none";
+
+        customReason.required = false;
+
+        banDialog.showModal();
+    }
+
+
+    function closeBanDialog() {
+
+        banDialog.close();
+
+        reasonSelect.value = "";
+
+        customReason.value = "";
+
+        customReason.style.display =
+            "none";
+
+        customReason.required = false;
+    }
+
+
+    function toggleCustomReason() {
+
+        if (
+            reasonSelect.value ===
+            "Alt motiv"
+        ) {
+
+            customReason.style.display =
+                "block";
+
+            customReason.required = true;
+
+            customReason.focus();
+
+        } else {
+
+            customReason.style.display =
+                "none";
+
+            customReason.required = false;
+
+            customReason.value = "";
+
+        }
+    }
+
+
+    banDialog.addEventListener(
+        "click",
+        function(event) {
+
+            const rect =
+                banDialog.getBoundingClientRect();
+
+            const clickedOutside =
+                event.clientX < rect.left ||
+                event.clientX > rect.right ||
+                event.clientY < rect.top ||
+                event.clientY > rect.bottom;
+
+            if (clickedOutside) {
+                closeBanDialog();
+            }
+        }
+    );
+
+
+    banForm.addEventListener(
+        "submit",
+        function(event) {
+
+            const reason =
+                reasonSelect.value;
+
+            if (!reason) {
+
+                event.preventDefault();
+
+                alert(
+                    "Selectează un motiv pentru blocare."
+                );
+
+                return;
+            }
+
+
+            if (
+                reason === "Alt motiv"
+            ) {
+
+                const value =
+                    customReason.value.trim();
+
+                if (value.length < 3) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Introdu un motiv valid pentru blocare."
+                    );
+
+                    customReason.focus();
+
+                    return;
+                }
+            }
+        }
+    );
+</script>
+
+{% endblock %}

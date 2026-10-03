@@ -1,0 +1,971 @@
+{% extends "admin/base_site.html" %} {% load unfold %} {% block content %}
+
+<style>
+  .nx-page {
+    max-width: 1500px;
+  }
+
+  /* =====================================================
+       HEADER
+       ===================================================== */
+
+  .nx-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 20px;
+
+    margin-bottom: 24px;
+  }
+
+  .nx-title {
+    margin: 0;
+
+    font-size: 27px;
+    font-weight: 700;
+  }
+
+  .nx-subtitle {
+    margin-top: 6px;
+
+    color: #94a3b8;
+
+    font-size: 14px;
+  }
+
+  /* =====================================================
+       STATS
+       ===================================================== */
+
+  .nx-stats {
+    display: grid;
+
+    grid-template-columns: repeat(4, minmax(170px, 1fr));
+
+    gap: 16px;
+
+    margin-bottom: 22px;
+  }
+
+  .nx-stat {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 18px;
+
+    border: 1px solid #273449;
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, 0.025);
+  }
+
+  .nx-stat-icon {
+    width: 43px;
+    height: 43px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 11px;
+  }
+
+  .nx-stat-icon.pending {
+    color: #fbbf24;
+    background: rgba(245, 158, 11, 0.13);
+  }
+
+  .nx-stat-icon.completed {
+    color: #4ade80;
+    background: rgba(34, 197, 94, 0.13);
+  }
+
+  .nx-stat-icon.rejected {
+    color: #f87171;
+    background: rgba(239, 68, 68, 0.13);
+  }
+
+  .nx-stat-icon.failed {
+    color: #fb7185;
+    background: rgba(244, 63, 94, 0.13);
+  }
+
+  .nx-stat-label {
+    color: #94a3b8;
+
+    font-size: 11px;
+  }
+
+  .nx-stat-value {
+    margin-top: 3px;
+
+    font-size: 23px;
+    font-weight: 700;
+  }
+
+  /* =====================================================
+       FILTERS
+       ===================================================== */
+
+  .nx-filters {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 18px;
+
+    overflow-x: auto;
+  }
+
+  .nx-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 8px 13px;
+
+    border: 1px solid #334155;
+    border-radius: 999px;
+
+    color: #94a3b8;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+
+    transition:
+      color 0.15s ease,
+      border-color 0.15s ease,
+      background 0.15s ease;
+  }
+
+  .nx-filter:hover {
+    color: white;
+  }
+
+  .nx-filter-active {
+    color: #c084fc;
+
+    border-color: rgba(124, 58, 237, 0.5);
+
+    background: rgba(124, 58, 237, 0.12);
+  }
+
+  .nx-filter-count {
+    min-width: 18px;
+
+    text-align: center;
+
+    padding: 2px 6px;
+
+    border-radius: 999px;
+
+    background: rgba(255, 255, 255, 0.07);
+
+    font-size: 10px;
+  }
+
+  /* =====================================================
+       CARD / TABLE
+       ===================================================== */
+
+  .nx-card {
+    border: 1px solid #273449;
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, 0.02);
+
+    overflow: hidden;
+  }
+
+  .nx-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+  }
+
+  .nx-table {
+    width: 100%;
+
+    border-collapse: collapse;
+  }
+
+  .nx-table th {
+    padding: 14px 18px;
+
+    text-align: left;
+
+    color: #94a3b8;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+
+    background: rgba(255, 255, 255, 0.025);
+
+    border-bottom: 1px solid #273449;
+
+    white-space: nowrap;
+  }
+
+  .nx-table td {
+    padding: 15px 18px;
+
+    vertical-align: middle;
+
+    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  }
+
+  .nx-table tbody tr {
+    transition: background 0.15s ease;
+  }
+
+  .nx-table tbody tr:hover {
+    background: rgba(124, 58, 237, 0.055);
+  }
+
+  .nx-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  /* =====================================================
+       CUSTOMER
+       ===================================================== */
+
+  .nx-user {
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    min-width: 190px;
+  }
+
+  .nx-avatar {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+
+    color: white;
+
+    font-weight: 700;
+  }
+
+  .nx-user-name {
+    font-weight: 600;
+  }
+
+  .nx-user-email {
+    margin-top: 2px;
+
+    color: #94a3b8;
+
+    font-size: 11px;
+  }
+
+  /* =====================================================
+       AMOUNT
+       ===================================================== */
+
+  .nx-amount {
+    font-size: 15px;
+    font-weight: 700;
+
+    white-space: nowrap;
+  }
+
+  .nx-currency {
+    margin-left: 3px;
+
+    color: #94a3b8;
+
+    font-size: 11px;
+  }
+
+  /* =====================================================
+       BANK
+       ===================================================== */
+
+  .nx-account-name {
+    font-weight: 600;
+
+    margin-bottom: 4px;
+  }
+
+  .nx-iban {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    color: #94a3b8;
+
+    font-size: 11px;
+
+    white-space: nowrap;
+  }
+
+  .nx-copy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 25px;
+    height: 25px;
+
+    padding: 0;
+
+    border: 0;
+    border-radius: 6px;
+
+    background: transparent;
+    color: #64748b;
+
+    cursor: pointer;
+  }
+
+  .nx-copy:hover {
+    color: #c084fc;
+
+    background: rgba(124, 58, 237, 0.1);
+  }
+
+  .nx-copy .material-symbols-outlined {
+    font-size: 15px;
+  }
+
+  /* =====================================================
+       BADGES
+       ===================================================== */
+
+  .nx-badge {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 5px;
+
+    border-radius: 999px;
+
+    padding: 5px 10px;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    white-space: nowrap;
+  }
+
+  .nx-pending {
+    color: #fbbf24;
+
+    background: rgba(245, 158, 11, 0.13);
+  }
+
+  .nx-completed {
+    color: #4ade80;
+
+    background: rgba(34, 197, 94, 0.13);
+  }
+
+  .nx-rejected {
+    color: #f87171;
+
+    background: rgba(239, 68, 68, 0.13);
+  }
+
+  .nx-failed {
+    color: #fb7185;
+
+    background: rgba(244, 63, 94, 0.13);
+  }
+
+  /* =====================================================
+       ACTIONS
+       ===================================================== */
+
+  .nx-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    min-width: 190px;
+  }
+
+  .nx-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    border-radius: 9px;
+
+    padding: 8px 11px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    transition:
+      background 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .nx-action:active {
+    transform: scale(0.97);
+  }
+
+  .nx-action .material-symbols-outlined {
+    font-size: 17px;
+  }
+
+  .nx-approve {
+    border: 1px solid rgba(34, 197, 94, 0.28);
+
+    background: rgba(34, 197, 94, 0.1);
+
+    color: #4ade80;
+  }
+
+  .nx-approve:hover {
+    background: rgba(34, 197, 94, 0.18);
+  }
+
+  .nx-reject {
+    border: 1px solid rgba(239, 68, 68, 0.28);
+
+    background: rgba(239, 68, 68, 0.08);
+
+    color: #f87171;
+  }
+
+  .nx-reject:hover {
+    background: rgba(239, 68, 68, 0.17);
+  }
+
+  /* =====================================================
+       EMPTY
+       ===================================================== */
+
+  .nx-empty {
+    padding: 65px 20px;
+
+    text-align: center;
+
+    color: #64748b;
+  }
+
+  .nx-empty-icon {
+    margin-bottom: 10px;
+  }
+
+  .nx-empty-icon .material-symbols-outlined {
+    font-size: 38px;
+  }
+
+  .nx-empty-title {
+    color: #94a3b8;
+
+    font-weight: 600;
+  }
+
+  .nx-empty-description {
+    margin-top: 5px;
+
+    font-size: 12px;
+  }
+
+  /* =====================================================
+       FOOTER
+       ===================================================== */
+
+  .nx-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 15px 18px;
+
+    border-top: 1px solid rgba(148, 163, 184, 0.1);
+  }
+
+  .nx-footer-count {
+    color: #94a3b8;
+
+    font-size: 12px;
+  }
+
+  .nx-pagination {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+  }
+
+  .nx-pagination a {
+    padding: 7px 11px;
+
+    border: 1px solid #334155;
+    border-radius: 8px;
+
+    color: inherit;
+
+    text-decoration: none;
+  }
+
+  .nx-pagination a:hover {
+    background: rgba(124, 58, 237, 0.08);
+  }
+
+  .nx-pagination-status {
+    color: #94a3b8;
+
+    font-size: 12px;
+  }
+
+  /* =====================================================
+       API ERROR
+       ===================================================== */
+
+  .nx-error {
+    margin-bottom: 20px;
+
+    padding: 14px 16px;
+
+    border: 1px solid rgba(239, 68, 68, 0.3);
+
+    border-radius: 11px;
+
+    background: rgba(239, 68, 68, 0.07);
+
+    color: #f87171;
+
+    font-size: 13px;
+  }
+
+  /* =====================================================
+       RESPONSIVE
+       ===================================================== */
+
+  @media (max-width: 1050px) {
+    .nx-stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 650px) {
+    .nx-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .nx-footer {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+</style>
+
+<div class="nx-page">
+  <!-- =================================================
+         HEADER
+         ================================================= -->
+
+  <div class="nx-header">
+    <div>
+      <h1 class="nx-title">Withdrawals</h1>
+
+      <div class="nx-subtitle">
+        Gestionează cererile de retragere ale utilizatorilor NEXORA
+      </div>
+    </div>
+  </div>
+
+  {% if api_error %}
+
+  <div class="nx-error">{{ api_error }}</div>
+
+  {% endif %}
+
+  <!-- =================================================
+         STATS
+         ================================================= -->
+
+  <div class="nx-stats">
+    <div class="nx-stat">
+      <div class="nx-stat-icon pending">
+        <span class="material-symbols-outlined"> schedule </span>
+      </div>
+
+      <div>
+        <div class="nx-stat-label">Pending</div>
+
+        <div class="nx-stat-value">
+          {{ withdrawal_counts.pending|default:"0" }}
+        </div>
+      </div>
+    </div>
+
+    <div class="nx-stat">
+      <div class="nx-stat-icon completed">
+        <span class="material-symbols-outlined"> check_circle </span>
+      </div>
+
+      <div>
+        <div class="nx-stat-label">Completed</div>
+
+        <div class="nx-stat-value">
+          {{ withdrawal_counts.completed|default:"0" }}
+        </div>
+      </div>
+    </div>
+
+    <div class="nx-stat">
+      <div class="nx-stat-icon rejected">
+        <span class="material-symbols-outlined"> cancel </span>
+      </div>
+
+      <div>
+        <div class="nx-stat-label">Rejected</div>
+
+        <div class="nx-stat-value">
+          {{ withdrawal_counts.rejected|default:"0" }}
+        </div>
+      </div>
+    </div>
+
+    <div class="nx-stat">
+      <div class="nx-stat-icon failed">
+        <span class="material-symbols-outlined"> error </span>
+      </div>
+
+      <div>
+        <div class="nx-stat-label">Failed</div>
+
+        <div class="nx-stat-value">
+          {{ withdrawal_counts.failed|default:"0" }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =================================================
+         FILTERS
+         ================================================= -->
+
+  <div class="nx-filters">
+    <a
+      href="?status=pending"
+      class="nx-filter {% if status == 'pending' %} nx-filter-active {% endif %}"
+    >
+      Pending
+
+      <span class="nx-filter-count">
+        {{ withdrawal_counts.pending|default:"0" }}
+      </span>
+    </a>
+
+    <a
+      href="?status=completed"
+      class="nx-filter {% if status == 'completed' %} nx-filter-active {% endif %}"
+    >
+      Completed
+
+      <span class="nx-filter-count">
+        {{ withdrawal_counts.completed|default:"0" }}
+      </span>
+    </a>
+
+    <a
+      href="?status=rejected"
+      class="nx-filter {% if status == 'rejected' %} nx-filter-active {% endif %}"
+    >
+      Rejected
+
+      <span class="nx-filter-count">
+        {{ withdrawal_counts.rejected|default:"0" }}
+      </span>
+    </a>
+
+    <a
+      href="?status=failed"
+      class="nx-filter {% if status == 'failed' %} nx-filter-active {% endif %}"
+    >
+      Failed
+
+      <span class="nx-filter-count">
+        {{ withdrawal_counts.failed|default:"0" }}
+      </span>
+    </a>
+  </div>
+
+  <!-- =================================================
+         TABLE
+         ================================================= -->
+
+  <div class="nx-card">
+    <div class="nx-table-wrapper">
+      <table class="nx-table">
+        <thead>
+          <tr>
+            <th>Customer</th>
+            <th>Amount</th>
+            <th>Bank account</th>
+            <th>Status</th>
+            <th>Requested</th>
+
+            {% if status == "pending" %}
+            <th>Actions</th>
+            {% endif %}
+          </tr>
+        </thead>
+
+        <tbody>
+          {% if withdrawals %} {% for withdrawal in withdrawals %}
+
+          <tr>
+            <!-- CUSTOMER -->
+
+            <td>
+              <div class="nx-user">
+                <div class="nx-avatar">
+                  {{ withdrawal.user.username|default:"U"|slice:":1"|upper }}
+                </div>
+
+                <div>
+                  <div class="nx-user-name">
+                    {{ withdrawal.user.username|default:"Unknown" }}
+                  </div>
+
+                  <div class="nx-user-email">
+                    {{ withdrawal.user.email|default:"-" }}
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <!-- AMOUNT -->
+
+            <td>
+              <span class="nx-amount">
+                {{ withdrawal.amount|default:"0" }}
+              </span>
+
+              <span class="nx-currency">
+                {{ withdrawal.currency|default:"RON" }}
+              </span>
+            </td>
+
+            <!-- BANK -->
+
+            <td>
+              <div class="nx-account-name">
+                {{ withdrawal.withdrawal.accountName|default:"-" }}
+              </div>
+
+              <div class="nx-iban">
+                <span> {{ withdrawal.withdrawal.iban|default:"-" }} </span>
+
+                <button
+                  type="button"
+                  class="nx-copy"
+                  data-iban="{{ withdrawal.withdrawal.iban|default:'' }}"
+                  onclick="copyIban(this)"
+                >
+                  <span class="material-symbols-outlined"> content_copy </span>
+                </button>
+              </div>
+            </td>
+
+            <!-- STATUS -->
+
+            <td>
+              <span
+                class="nx-badge nx-{{ withdrawal.status|default:'pending' }}"
+              >
+                {{ withdrawal.status|default:"pending"|title }}
+              </span>
+            </td>
+
+            <!-- CREATED -->
+
+            <td>{{ withdrawal.createdAt|default:"-" }}</td>
+
+            <!-- ACTIONS -->
+
+            <td>
+              {% if withdrawal.status == "pending" %}
+
+              <div class="nx-actions">
+                <form
+                  method="post"
+                  action="{% url 'marketplace_withdrawal_action' withdrawal.id %}"
+                  class="nx-withdrawal-form"
+                  data-action-type="approve"
+                >
+                  {% csrf_token %}
+
+                  <input type="hidden" name="action" value="approve" />
+
+                  <button type="submit" class="nx-action nx-approve">
+                    <span class="material-symbols-outlined"> check </span>
+
+                    Approve
+                  </button>
+                </form>
+
+                <form
+                  method="post"
+                  action="{% url 'marketplace_withdrawal_action' withdrawal.id %}"
+                  class="nx-withdrawal-form"
+                  data-action-type="reject"
+                >
+                  {% csrf_token %}
+
+                  <input type="hidden" name="action" value="reject" />
+
+                  <button type="submit" class="nx-action nx-reject">
+                    <span class="material-symbols-outlined"> close </span>
+
+                    Reject
+                  </button>
+                </form>
+              </div>
+
+              {% else %}
+
+              <span style="color: #64748b"> — </span>
+
+              {% endif %}
+            </td>
+          </tr>
+
+          {% endfor %} {% else %}
+
+          <tr>
+            <td colspan="6" class="nx-empty">
+              <div class="nx-empty-icon">
+                <span class="material-symbols-outlined">
+                  account_balance_wallet
+                </span>
+              </div>
+
+              <div class="nx-empty-title">Nu există retrageri</div>
+
+              <div class="nx-empty-description">
+                Nu există cereri cu statusul "{{ status }}".
+              </div>
+            </td>
+          </tr>
+
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- =================================================
+             PAGINATION
+             ================================================= -->
+
+    <div class="nx-footer">
+      <div class="nx-footer-count">
+        {{ total }} withdrawal{{ total|pluralize }}
+      </div>
+
+      <div class="nx-pagination">
+        {% if page > 1 %}
+
+        <a href="?status={{ status|urlencode }}&page={{ page|add:'-1' }}">
+          ← Previous
+        </a>
+
+        {% endif %}
+
+        <span class="nx-pagination-status">
+          Page {{ page }} / {{ pages }}
+        </span>
+
+        {% if page < pages %}
+
+        <a href="?status={{ status|urlencode }}&page={{ page|add:'1' }}">
+          Next →
+        </a>
+
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  async function copyIban(button) {
+    const iban = button.dataset.iban;
+
+    if (!iban) {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(iban);
+
+      const icon = button.querySelector(".material-symbols-outlined");
+
+      if (icon) {
+        icon.textContent = "check";
+
+        setTimeout(function () {
+          icon.textContent = "content_copy";
+        }, 1200);
+      }
+    } catch (error) {
+      console.error("COPY IBAN ERROR:", error);
+    }
+  }
+
+  document.querySelectorAll(".nx-withdrawal-form").forEach(function (form) {
+    form.addEventListener("submit", function (event) {
+      const action = form.dataset.actionType;
+
+      let message = "";
+
+      if (action === "approve") {
+        message = "Confirmi aprobarea acestei retrageri?";
+      }
+
+      if (action === "reject") {
+        message =
+          "Sigur vrei să respingi această retragere? " +
+          "Suma va fi returnată în soldul utilizatorului.";
+      }
+
+      if (message && !window.confirm(message)) {
+        event.preventDefault();
+      }
+    });
+  });
+</script>
+
+{% endblock %}

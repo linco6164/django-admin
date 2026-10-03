@@ -1,0 +1,1126 @@
+{% extends "admin/base_site.html" %}
+{% load unfold %}
+
+{% block content %}
+
+<style>
+    .nx-support-page {
+        max-width: 1500px;
+    }
+
+    /* =========================
+       HEADER
+       ========================= */
+
+    .nx-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+
+        margin-bottom: 24px;
+    }
+
+    .nx-title {
+        margin: 0;
+
+        font-size: 27px;
+        font-weight: 700;
+    }
+
+    .nx-subtitle {
+        margin-top: 6px;
+
+        color: #94a3b8;
+
+        font-size: 14px;
+    }
+
+    /* =========================
+       STATS
+       ========================= */
+
+    .nx-stats {
+        display: grid;
+
+        grid-template-columns:
+            repeat(4, minmax(160px, 1fr));
+
+        gap: 14px;
+
+        margin-bottom: 20px;
+    }
+
+    .nx-stat {
+        padding: 17px;
+
+        border: 1px solid #273449;
+        border-radius: 14px;
+
+        background:
+            rgba(255,255,255,.025);
+    }
+
+    .nx-stat-label {
+        color: #94a3b8;
+
+        font-size: 11px;
+    }
+
+    .nx-stat-value {
+        margin-top: 6px;
+
+        font-size: 25px;
+        font-weight: 700;
+    }
+
+    .nx-stat-urgent {
+        color: #f87171;
+    }
+
+    /* =========================
+       MAIN
+       ========================= */
+
+    .nx-support-grid {
+        display: grid;
+
+        grid-template-columns:
+            230px
+            minmax(0, 1fr);
+
+        gap: 18px;
+
+        align-items: start;
+    }
+
+    .nx-card {
+        border: 1px solid #273449;
+        border-radius: 15px;
+
+        background:
+            rgba(255,255,255,.025);
+
+        overflow: hidden;
+    }
+
+    /* =========================
+       SIDEBAR
+       ========================= */
+
+    .nx-sidebar {
+        padding: 10px;
+    }
+
+    .nx-sidebar-title {
+        padding: 10px 11px 7px;
+
+        color: #64748b;
+
+        font-size: 10px;
+        font-weight: 700;
+
+        letter-spacing: .08em;
+
+        text-transform: uppercase;
+    }
+
+    .nx-nav {
+        display: flex;
+        flex-direction: column;
+
+        gap: 3px;
+    }
+
+    .nx-nav-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 12px;
+
+        padding: 10px 11px;
+
+        border-radius: 9px;
+
+        color: #94a3b8;
+
+        text-decoration: none;
+
+        font-size: 13px;
+    }
+
+    .nx-nav-item:hover {
+        color: #e2e8f0;
+
+        background:
+            rgba(255,255,255,.04);
+    }
+
+    .nx-nav-item-active {
+        color: #c084fc;
+
+        background:
+            rgba(124,58,237,.12);
+    }
+
+    .nx-nav-left {
+        display: flex;
+        align-items: center;
+
+        gap: 8px;
+    }
+
+    .nx-nav-left
+    .material-symbols-outlined {
+        font-size: 18px;
+    }
+
+    .nx-count {
+        min-width: 20px;
+
+        text-align: center;
+
+        padding: 2px 6px;
+
+        border-radius: 999px;
+
+        background:
+            rgba(255,255,255,.07);
+
+        font-size: 10px;
+    }
+
+    /* =========================
+       TOOLBAR
+       ========================= */
+
+    .nx-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 15px;
+
+        padding: 15px 17px;
+
+        border-bottom:
+            1px solid
+            rgba(148,163,184,.1);
+    }
+
+    .nx-toolbar-title {
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .nx-toolbar-count {
+        margin-top: 3px;
+
+        color: #64748b;
+
+        font-size: 11px;
+    }
+
+    .nx-filter-form {
+        display: flex;
+        align-items: center;
+
+        gap: 8px;
+    }
+
+    .nx-select {
+        min-width: 150px;
+
+        border: 1px solid #334155;
+        border-radius: 9px;
+
+        background:
+            rgba(15,23,42,.75);
+
+        color: inherit;
+
+        padding: 8px 10px;
+
+        outline: none;
+
+        font-size: 12px;
+    }
+
+    .nx-filter-button {
+        border: 1px solid #334155;
+        border-radius: 9px;
+
+        background:
+            rgba(255,255,255,.025);
+
+        color: inherit;
+
+        padding: 8px 11px;
+
+        cursor: pointer;
+    }
+
+    /* =========================
+       TICKETS
+       ========================= */
+
+    .nx-ticket {
+        display: grid;
+
+        grid-template-columns:
+            minmax(0, 1.8fr)
+            130px
+            115px
+            145px
+            35px;
+
+        align-items: center;
+
+        gap: 15px;
+
+        padding: 16px 18px;
+
+        color: inherit;
+
+        text-decoration: none;
+
+        border-bottom:
+            1px solid
+            rgba(148,163,184,.09);
+
+        transition:
+            background .15s ease;
+    }
+
+    .nx-ticket:hover {
+        background:
+            rgba(124,58,237,.055);
+    }
+
+    .nx-ticket:last-child {
+        border-bottom: 0;
+    }
+
+    .nx-ticket-main {
+        min-width: 0;
+    }
+
+    .nx-ticket-top {
+        display: flex;
+        align-items: center;
+
+        gap: 8px;
+
+        margin-bottom: 5px;
+    }
+
+    .nx-ticket-subject {
+        min-width: 0;
+
+        font-weight: 650;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .nx-ticket-user {
+        color: #94a3b8;
+
+        font-size: 11px;
+
+        margin-bottom: 5px;
+    }
+
+    .nx-ticket-preview {
+        color: #64748b;
+
+        font-size: 12px;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* =========================
+       BADGES
+       ========================= */
+
+    .nx-badge {
+        display: inline-flex;
+        align-items: center;
+
+        padding: 5px 9px;
+
+        border-radius: 999px;
+
+        font-size: 10px;
+        font-weight: 650;
+
+        white-space: nowrap;
+    }
+
+    .nx-open {
+        color: #4ade80;
+
+        background:
+            rgba(34,197,94,.13);
+    }
+
+    .nx-pending {
+        color: #fbbf24;
+
+        background:
+            rgba(245,158,11,.13);
+    }
+
+    .nx-closed {
+        color: #60a5fa;
+
+        background:
+            rgba(59,130,246,.13);
+    }
+
+    .nx-low {
+        color: #94a3b8;
+
+        background:
+            rgba(148,163,184,.1);
+    }
+
+    .nx-normal {
+        color: #60a5fa;
+
+        background:
+            rgba(59,130,246,.12);
+    }
+
+    .nx-high {
+        color: #fb923c;
+
+        background:
+            rgba(249,115,22,.12);
+    }
+
+    .nx-urgent {
+        color: #f87171;
+
+        background:
+            rgba(239,68,68,.13);
+    }
+
+    /* =========================
+       ASSIGNEE
+       ========================= */
+
+    .nx-meta-label {
+        color: #64748b;
+
+        font-size: 10px;
+
+        margin-bottom: 4px;
+    }
+
+    .nx-meta-value {
+        font-size: 12px;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .nx-unassigned {
+        color: #64748b;
+    }
+
+    .nx-arrow {
+        color: #64748b;
+    }
+
+    .nx-arrow
+    .material-symbols-outlined {
+        font-size: 19px;
+    }
+
+    /* =========================
+       EMPTY / ERROR
+       ========================= */
+
+    .nx-empty {
+        padding: 65px 25px;
+
+        text-align: center;
+
+        color: #64748b;
+    }
+
+    .nx-empty
+    .material-symbols-outlined {
+        font-size: 40px;
+
+        margin-bottom: 10px;
+    }
+
+    .nx-error {
+        margin-bottom: 18px;
+
+        padding: 13px 15px;
+
+        border:
+            1px solid
+            rgba(239,68,68,.3);
+
+        border-radius: 10px;
+
+        background:
+            rgba(239,68,68,.07);
+
+        color: #f87171;
+    }
+
+    /* =========================
+       RESPONSIVE
+       ========================= */
+
+    @media(max-width: 1150px) {
+        .nx-stats {
+            grid-template-columns:
+                repeat(2, 1fr);
+        }
+
+        .nx-support-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .nx-sidebar {
+            display: flex;
+            overflow-x: auto;
+        }
+
+        .nx-nav {
+            flex-direction: row;
+        }
+
+        .nx-sidebar-title {
+            display: none;
+        }
+
+        .nx-nav-item {
+            white-space: nowrap;
+        }
+    }
+
+    @media(max-width: 850px) {
+        .nx-ticket {
+            grid-template-columns:
+                minmax(0,1fr)
+                100px
+                35px;
+        }
+
+        .nx-ticket-department,
+        .nx-ticket-assignee {
+            display: none;
+        }
+
+        .nx-toolbar {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .nx-filter-form {
+            width: 100%;
+            flex-wrap: wrap;
+        }
+    }
+
+    @media(max-width: 600px) {
+        .nx-stats {
+            grid-template-columns: 1fr;
+        }
+
+        .nx-ticket {
+            grid-template-columns:
+                minmax(0,1fr)
+                35px;
+        }
+
+        .nx-ticket-status {
+            display: none;
+        }
+    }
+</style>
+
+
+<div class="nx-support-page">
+
+    <!-- HEADER -->
+
+    <div class="nx-header">
+
+        <div>
+
+            <h1 class="nx-title">
+                Support
+            </h1>
+
+            <div class="nx-subtitle">
+                Gestionează conversațiile și solicitările clienților
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {% if api_error %}
+
+        <div class="nx-error">
+            {{ api_error }}
+        </div>
+
+    {% endif %}
+
+
+    <!-- STATS -->
+
+    <div class="nx-stats">
+
+        <div class="nx-stat">
+
+            <div class="nx-stat-label">
+                Total tickets
+            </div>
+
+            <div class="nx-stat-value">
+                {{ stats.total|default:"0" }}
+            </div>
+
+        </div>
+
+
+        <div class="nx-stat">
+
+            <div class="nx-stat-label">
+                Open
+            </div>
+
+            <div class="nx-stat-value">
+                {{ stats.open|default:"0" }}
+            </div>
+
+        </div>
+
+
+        <div class="nx-stat">
+
+            <div class="nx-stat-label">
+                My tickets
+            </div>
+
+            <div class="nx-stat-value">
+                {{ stats.myTickets|default:"0" }}
+            </div>
+
+        </div>
+
+
+        <div class="nx-stat">
+
+            <div class="nx-stat-label">
+                Urgent
+            </div>
+
+            <div class="nx-stat-value nx-stat-urgent">
+                {{ stats.urgent|default:"0" }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="nx-support-grid">
+
+        <!-- SIDEBAR -->
+
+        <div class="nx-card nx-sidebar">
+
+            <div>
+
+                <div class="nx-sidebar-title">
+                    Tickets
+                </div>
+
+                <div class="nx-nav">
+
+                    <a
+                        href="?filter=all"
+                        class="
+                            nx-nav-item
+                            {% if active_filter == 'all' %}
+                                nx-nav-item-active
+                            {% endif %}
+                        "
+                    >
+                        <span class="nx-nav-left">
+
+                            <span class="material-symbols-outlined">
+                                inbox
+                            </span>
+
+                            All
+
+                        </span>
+
+                        <span class="nx-count">
+                            {{ stats.total|default:"0" }}
+                        </span>
+                    </a>
+
+
+                    <a
+                        href="?filter=my"
+                        class="
+                            nx-nav-item
+                            {% if active_filter == 'my' %}
+                                nx-nav-item-active
+                            {% endif %}
+                        "
+                    >
+                        <span class="nx-nav-left">
+
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+
+                            My tickets
+
+                        </span>
+
+                        <span class="nx-count">
+                            {{ stats.myTickets|default:"0" }}
+                        </span>
+                    </a>
+
+
+                    <a
+                        href="?filter=unassigned"
+                        class="
+                            nx-nav-item
+                            {% if active_filter == 'unassigned' %}
+                                nx-nav-item-active
+                            {% endif %}
+                        "
+                    >
+                        <span class="nx-nav-left">
+
+                            <span class="material-symbols-outlined">
+                                person_off
+                            </span>
+
+                            Unassigned
+
+                        </span>
+
+                        <span class="nx-count">
+                            {{ stats.unassigned|default:"0" }}
+                        </span>
+                    </a>
+
+
+                    <a
+                        href="?filter=open"
+                        class="
+                            nx-nav-item
+                            {% if active_filter == 'open' %}
+                                nx-nav-item-active
+                            {% endif %}
+                        "
+                    >
+                        <span class="nx-nav-left">
+
+                            <span class="material-symbols-outlined">
+                                mark_email_unread
+                            </span>
+
+                            Open
+
+                        </span>
+
+                        <span class="nx-count">
+                            {{ stats.open|default:"0" }}
+                        </span>
+                    </a>
+
+
+                    <a
+                        href="?filter=pending"
+                        class="
+                            nx-nav-item
+                            {% if active_filter == 'pending' %}
+                                nx-nav-item-active
+                            {% endif %}
+                        "
+                    >
+                        <span class="nx-nav-left">
+
+                            <span class="material-symbols-outlined">
+                                schedule
+                            </span>
+
+                            On hold
+
+                        </span>
+
+                        <span class="nx-count">
+                            {{ stats.pending|default:"0" }}
+                        </span>
+                    </a>
+
+
+                    <a
+                        href="?filter=closed"
+                        class="
+                            nx-nav-item
+                            {% if active_filter == 'closed' %}
+                                nx-nav-item-active
+                            {% endif %}
+                        "
+                    >
+                        <span class="nx-nav-left">
+
+                            <span class="material-symbols-outlined">
+                                task_alt
+                            </span>
+
+                            Resolved
+
+                        </span>
+
+                        <span class="nx-count">
+                            {{ stats.closed|default:"0" }}
+                        </span>
+                    </a>
+
+
+                    <a
+                        href="?filter=urgent"
+                        class="
+                            nx-nav-item
+                            {% if active_filter == 'urgent' %}
+                                nx-nav-item-active
+                            {% endif %}
+                        "
+                    >
+                        <span class="nx-nav-left">
+
+                            <span class="material-symbols-outlined">
+                                priority_high
+                            </span>
+
+                            Urgent
+
+                        </span>
+
+                        <span class="nx-count">
+                            {{ stats.urgent|default:"0" }}
+                        </span>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TICKETS -->
+
+        <div class="nx-card">
+
+            <div class="nx-toolbar">
+
+                <div>
+
+                    <div class="nx-toolbar-title">
+                        Tickets
+                    </div>
+
+                    <div class="nx-toolbar-count">
+                        {{ total }} rezultate
+                    </div>
+
+                </div>
+
+
+                <form
+                    method="get"
+                    class="nx-filter-form"
+                >
+
+                    <input
+                        type="hidden"
+                        name="filter"
+                        value="{{ active_filter }}"
+                    >
+
+
+                    <select
+                        name="department"
+                        class="nx-select"
+                    >
+
+                        <option value="">
+                            All departments
+                        </option>
+
+                        {% for department in staff.departments %}
+
+                            <option
+                                value="{{ department }}"
+                                {% if filter_department == department %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ department }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+
+                    <select
+                        name="priority"
+                        class="nx-select"
+                    >
+
+                        <option value="">
+                            All priorities
+                        </option>
+
+                        <option
+                            value="low"
+                            {% if filter_priority == "low" %}
+                                selected
+                            {% endif %}
+                        >
+                            Low
+                        </option>
+
+                        <option
+                            value="normal"
+                            {% if filter_priority == "normal" %}
+                                selected
+                            {% endif %}
+                        >
+                            Normal
+                        </option>
+
+                        <option
+                            value="high"
+                            {% if filter_priority == "high" %}
+                                selected
+                            {% endif %}
+                        >
+                            High
+                        </option>
+
+                        <option
+                            value="urgent"
+                            {% if filter_priority == "urgent" %}
+                                selected
+                            {% endif %}
+                        >
+                            Urgent
+                        </option>
+
+                    </select>
+
+
+                    <button
+                        type="submit"
+                        class="nx-filter-button"
+                    >
+                        Filter
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            {% for ticket in tickets %}
+
+                <a
+                    href="{% url 'marketplace_support_detail' ticket.id %}"
+                    class="nx-ticket"
+                >
+
+                    <!-- MAIN -->
+
+                    <div class="nx-ticket-main">
+
+                        <div class="nx-ticket-top">
+
+                            <div class="nx-ticket-subject">
+                                {{ ticket.subject|default:"Support ticket" }}
+                            </div>
+
+
+                            {% if ticket.priority == "urgent" %}
+
+                                <span class="nx-badge nx-urgent">
+                                    Urgent
+                                </span>
+
+                            {% elif ticket.priority == "high" %}
+
+                                <span class="nx-badge nx-high">
+                                    High
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="nx-ticket-user">
+
+                            {% if ticket.user.fullName %}
+
+                                {{ ticket.user.fullName }}
+
+                            {% else %}
+
+                                {{ ticket.user.username|default:"Unknown user" }}
+
+                            {% endif %}
+
+                            ·
+
+                            {{ ticket.user.email|default:"-" }}
+
+                        </div>
+
+
+                        <div class="nx-ticket-preview">
+                            {{ ticket.preview|default:"No messages" }}
+                        </div>
+
+                    </div>
+
+
+                    <!-- DEPARTMENT -->
+
+                    <div class="nx-ticket-department">
+
+                        <div class="nx-meta-label">
+                            Department
+                        </div>
+
+                        <div class="nx-meta-value">
+                            {{ ticket.department|default:"-" }}
+                        </div>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <div class="nx-ticket-status">
+
+                        {% if ticket.status == "open" %}
+
+                            <span class="nx-badge nx-open">
+                                Open
+                            </span>
+
+                        {% elif ticket.status == "pending" %}
+
+                            <span class="nx-badge nx-pending">
+                                On hold
+                            </span>
+
+                        {% elif ticket.status == "closed" %}
+
+                            <span class="nx-badge nx-closed">
+                                Resolved
+                            </span>
+
+                        {% else %}
+
+                            <span class="nx-badge">
+                                {{ ticket.status }}
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- ASSIGNEE -->
+
+                    <div class="nx-ticket-assignee">
+
+                        <div class="nx-meta-label">
+                            Assigned to
+                        </div>
+
+                        <div class="nx-meta-value">
+
+                            {% if ticket.assignedTo %}
+
+                                {{ ticket.assignedTo.fullName|default:ticket.assignedTo.username }}
+
+                            {% else %}
+
+                                <span class="nx-unassigned">
+                                    Unassigned
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ARROW -->
+
+                    <div class="nx-arrow">
+
+                        <span class="material-symbols-outlined">
+                            chevron_right
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+            {% empty %}
+
+                <div class="nx-empty">
+
+                    <span class="material-symbols-outlined">
+                        support_agent
+                    </span>
+
+                    <div>
+                        Nu există tichete pentru filtrul selectat.
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

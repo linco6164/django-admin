@@ -1,0 +1,2526 @@
+{% extends "admin/base_site.html" %}
+{% load unfold %}
+
+{% block content %}
+
+<style>
+    .nx-user-page {
+        max-width: 1450px;
+    }
+
+    /* =========================
+       GENERAL
+       ========================= */
+
+    .nx-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 22px;
+        color: #94a3b8;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .nx-back:hover {
+        color: #c084fc;
+    }
+
+    .nx-card {
+        border: 1px solid #273449;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.025);
+        overflow: hidden;
+    }
+
+    .nx-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 20px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+    }
+
+    .nx-card-title {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .nx-card-subtitle {
+        margin-top: 4px;
+        color: #94a3b8;
+        font-size: 12px;
+    }
+
+    .nx-card-body {
+        padding: 20px;
+    }
+
+    /* =========================
+       HEADER
+       ========================= */
+
+    .nx-profile-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+        margin-bottom: 25px;
+    }
+
+    .nx-profile-main {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .nx-avatar-large {
+        width: 68px;
+        height: 68px;
+        border-radius: 18px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: linear-gradient(
+            135deg,
+            #7c3aed,
+            #a855f7
+        );
+
+        color: white;
+        font-size: 26px;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    .nx-profile-title {
+        margin: 0;
+        font-size: 27px;
+        font-weight: 700;
+    }
+
+    .nx-profile-email {
+        margin-top: 4px;
+        color: #94a3b8;
+    }
+
+    .nx-badges {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 9px;
+    }
+
+    .nx-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+
+        border-radius: 999px;
+        padding: 5px 10px;
+
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .nx-active {
+        color: #4ade80;
+        background: rgba(34, 197, 94, 0.14);
+    }
+
+    .nx-banned {
+        color: #f87171;
+        background: rgba(239, 68, 68, 0.14);
+    }
+
+    .nx-role {
+        color: #c084fc;
+        background: rgba(124, 58, 237, 0.14);
+    }
+
+    .nx-provider {
+        color: #60a5fa;
+        background: rgba(59, 130, 246, 0.14);
+    }
+
+    .nx-sold {
+        color: #60a5fa;
+        background: rgba(59, 130, 246, 0.14);
+    }
+
+    .nx-neutral {
+        color: #cbd5e1;
+        background: rgba(148, 163, 184, 0.12);
+    }
+
+    /* =========================
+       TABS
+       ========================= */
+
+    .nx-tabs {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        margin-bottom: 24px;
+
+        border-bottom:
+            1px solid rgba(148, 163, 184, 0.14);
+
+        overflow-x: auto;
+    }
+
+    .nx-tab {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+
+        padding: 11px 14px;
+
+        color: #94a3b8;
+
+        text-decoration: none;
+
+        border-bottom: 2px solid transparent;
+
+        white-space: nowrap;
+
+        transition:
+            color 0.15s ease,
+            border-color 0.15s ease;
+    }
+
+    .nx-tab:hover {
+        color: #e2e8f0;
+    }
+
+    .nx-tab-active {
+        color: #c084fc;
+        border-bottom-color: #9333ea;
+    }
+
+    .nx-tab .material-symbols-outlined {
+        font-size: 19px;
+    }
+
+    /* =========================
+       GRID
+       ========================= */
+
+    .nx-grid {
+        display: grid;
+
+        grid-template-columns:
+            minmax(0, 2fr)
+            minmax(300px, 0.9fr);
+
+        gap: 20px;
+
+        align-items: start;
+    }
+
+    .nx-column {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* =========================
+       OVERVIEW
+       ========================= */
+
+    .nx-overview-stats {
+        display: grid;
+
+        grid-template-columns:
+            repeat(4, minmax(160px, 1fr));
+
+        gap: 16px;
+
+        margin-bottom: 20px;
+    }
+
+    .nx-stat {
+        padding: 19px;
+    }
+
+    .nx-stat-label {
+        color: #94a3b8;
+        font-size: 12px;
+        margin-bottom: 8px;
+    }
+
+    .nx-stat-value {
+        font-size: 25px;
+        font-weight: 700;
+    }
+
+    .nx-info-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .nx-info-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+
+        padding: 11px 0;
+
+        border-bottom:
+            1px solid rgba(148, 163, 184, 0.1);
+    }
+
+    .nx-info-row:last-child {
+        border-bottom: 0;
+    }
+
+    .nx-info-label {
+        color: #94a3b8;
+        font-size: 13px;
+    }
+
+    .nx-info-value {
+        text-align: right;
+        font-size: 13px;
+        word-break: break-word;
+    }
+
+    /* =========================
+       FORMS
+       ========================= */
+
+    .nx-form-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 16px;
+    }
+
+    .nx-full {
+        grid-column: 1 / -1;
+    }
+
+    .nx-field label {
+        display: block;
+        margin-bottom: 7px;
+
+        color: #cbd5e1;
+
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .nx-input,
+    .nx-textarea {
+        width: 100%;
+
+        box-sizing: border-box;
+
+        border: 1px solid #334155;
+        border-radius: 10px;
+
+        background: rgba(15, 23, 42, 0.65);
+
+        color: inherit;
+
+        padding: 11px 12px;
+
+        outline: none;
+
+        transition:
+            border 0.15s ease,
+            box-shadow 0.15s ease;
+    }
+
+    .nx-input:focus,
+    .nx-textarea:focus {
+        border-color: #7c3aed;
+
+        box-shadow:
+            0 0 0 3px
+            rgba(124, 58, 237, 0.12);
+    }
+
+    .nx-textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    .nx-form-actions {
+        display: flex;
+        justify-content: flex-end;
+
+        margin-top: 18px;
+    }
+
+    .nx-save {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+
+        border: 0;
+        border-radius: 10px;
+
+        padding: 10px 16px;
+
+        background: #7c3aed;
+        color: white;
+
+        cursor: pointer;
+
+        font-weight: 600;
+    }
+
+    .nx-save:hover {
+        background: #6d28d9;
+    }
+
+    /* =========================
+       SECURITY
+       ========================= */
+
+    .nx-security-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 18px;
+
+        padding: 16px 0;
+
+        border-bottom:
+            1px solid rgba(148, 163, 184, 0.1);
+    }
+
+    .nx-security-row:last-child {
+        border-bottom: 0;
+    }
+
+    .nx-security-title {
+        font-weight: 600;
+    }
+
+    .nx-security-description {
+        margin-top: 4px;
+        color: #94a3b8;
+        font-size: 12px;
+    }
+
+    .nx-secondary-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+
+        border: 1px solid #334155;
+        border-radius: 9px;
+
+        background: transparent;
+        color: inherit;
+
+        padding: 8px 12px;
+
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    .nx-secondary-button:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .nx-danger-button {
+        border-color: rgba(239, 68, 68, 0.35);
+        color: #f87171;
+        background: rgba(239, 68, 68, 0.08);
+    }
+
+    .nx-success-button {
+        border-color: rgba(34, 197, 94, 0.35);
+        color: #4ade80;
+        background: rgba(34, 197, 94, 0.08);
+    }
+
+    .nx-ban-box {
+        padding: 15px;
+
+        border:
+            1px solid rgba(239, 68, 68, 0.25);
+
+        border-radius: 11px;
+
+        background:
+            rgba(239, 68, 68, 0.08);
+    }
+
+    .nx-ban-reason {
+        margin-top: 7px;
+        color: #fca5a5;
+        font-size: 12px;
+    }
+
+    /* =========================
+       LISTINGS
+       ========================= */
+
+    .nx-listing-stats {
+        display: grid;
+
+        grid-template-columns:
+            repeat(3, minmax(180px, 1fr));
+
+        gap: 16px;
+
+        margin-bottom: 18px;
+    }
+
+    .nx-stat-mini {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+
+        padding: 18px 20px;
+    }
+
+    .nx-stat-mini span {
+        color: #94a3b8;
+        font-size: 12px;
+    }
+
+    .nx-stat-mini strong {
+        font-size: 26px;
+    }
+
+    .nx-listing-toolbar {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 18px;
+    }
+
+    .nx-filter {
+        padding: 8px 13px;
+
+        border: 1px solid #334155;
+        border-radius: 999px;
+
+        color: #94a3b8;
+
+        text-decoration: none;
+
+        font-size: 13px;
+    }
+
+    .nx-filter:hover {
+        color: white;
+    }
+
+    .nx-filter-active {
+        color: #c084fc;
+
+        border-color:
+            rgba(147, 51, 234, 0.5);
+
+        background:
+            rgba(147, 51, 234, 0.12);
+    }
+
+    .nx-listings-table-wrap {
+        overflow-x: auto;
+    }
+
+    .nx-listings-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .nx-listings-table th {
+        padding: 13px 18px;
+
+        text-align: left;
+
+        color: #94a3b8;
+
+        font-size: 11px;
+        font-weight: 600;
+
+        text-transform: uppercase;
+
+        border-bottom:
+            1px solid rgba(148, 163, 184, 0.12);
+    }
+
+    .nx-listings-table td {
+        padding: 15px 18px;
+
+        border-bottom:
+            1px solid rgba(148, 163, 184, 0.1);
+    }
+
+    .nx-listings-table tbody tr:last-child td {
+        border-bottom: 0;
+    }
+
+    .nx-listing-title {
+        font-weight: 600;
+    }
+
+    .nx-empty {
+        text-align: center;
+        padding: 50px !important;
+        color: #64748b;
+    }
+
+    .nx-listings-pagination {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        gap: 14px;
+
+        padding: 15px 18px;
+
+        border-top:
+            1px solid rgba(148, 163, 184, 0.1);
+    }
+
+    .nx-listings-pagination a {
+        text-decoration: none;
+
+        border: 1px solid #334155;
+        border-radius: 8px;
+
+        padding: 7px 11px;
+
+        color: inherit;
+    }
+
+    /* =========================
+       DIALOG
+       ========================= */
+
+    .nx-dialog {
+        width: min(
+            500px,
+            calc(100% - 30px)
+        );
+
+        padding: 0;
+
+        border: 1px solid #334155;
+        border-radius: 16px;
+
+        background: #111827;
+        color: white;
+
+        box-shadow:
+            0 25px 70px
+            rgba(0, 0, 0, 0.55);
+    }
+
+    .nx-dialog::backdrop {
+        background:
+            rgba(0, 0, 0, 0.7);
+
+        backdrop-filter: blur(4px);
+    }
+
+    .nx-dialog-content {
+        padding: 24px;
+    }
+
+    .nx-dialog-title {
+        margin: 0 0 6px 0;
+        font-size: 20px;
+    }
+
+    .nx-dialog-description {
+        margin-bottom: 20px;
+        color: #94a3b8;
+        font-size: 13px;
+    }
+
+    .nx-dialog-actions {
+        display: flex;
+        justify-content: flex-end;
+
+        gap: 10px;
+
+        margin-top: 20px;
+    }
+
+    /* =========================
+       RESPONSIVE
+       ========================= */
+
+    @media (max-width: 1050px) {
+        .nx-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .nx-overview-stats {
+            grid-template-columns:
+                repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 700px) {
+        .nx-profile-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .nx-form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .nx-full {
+            grid-column: auto;
+        }
+
+        .nx-overview-stats,
+        .nx-listing-stats {
+            grid-template-columns: 1fr;
+        }
+
+        .nx-security-row {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+    }
+</style>
+
+
+<div class="nx-user-page">
+
+    <a
+        href="{% url 'marketplace_users' %}"
+        class="nx-back"
+    >
+        <span class="material-symbols-outlined">
+            arrow_back
+        </span>
+
+        Înapoi la utilizatori
+    </a>
+
+
+    {% if api_error %}
+
+        <div
+            class="nx-card"
+            style="
+                padding: 18px;
+                margin-bottom: 20px;
+                color: #f87171;
+                border-color:
+                    rgba(239,68,68,.35);
+            "
+        >
+            {{ api_error }}
+        </div>
+
+    {% endif %}
+
+
+    {% if marketplace_user %}
+
+        <!-- =========================
+             USER HEADER
+             ========================= -->
+
+        <div class="nx-profile-header">
+
+            <div class="nx-profile-main">
+
+                <div class="nx-avatar-large">
+
+                    {% if marketplace_user.username %}
+
+                        {{ marketplace_user.username|slice:":1"|upper }}
+
+                    {% else %}
+
+                        U
+
+                    {% endif %}
+
+                </div>
+
+
+                <div>
+
+                    <h1 class="nx-profile-title">
+                        {{ marketplace_user.username|default:"Unknown" }}
+                    </h1>
+
+                    <div class="nx-profile-email">
+                        {{ marketplace_user.email }}
+                    </div>
+
+
+                    <div class="nx-badges">
+
+                        {% if marketplace_user.banned %}
+
+                            <span class="nx-badge nx-banned">
+                                ● Banned
+                            </span>
+
+                        {% else %}
+
+                            <span class="nx-badge nx-active">
+                                ● Active
+                            </span>
+
+                        {% endif %}
+
+
+                        <span class="nx-badge nx-role">
+                            {{ marketplace_user.role|default:"user" }}
+                        </span>
+
+
+                        <span class="nx-badge nx-provider">
+                            {{ marketplace_user.provider|default:"credentials" }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             TABS
+             ========================= -->
+
+        <div class="nx-tabs">
+
+            <a
+                href="?tab=overview"
+                class="
+                    nx-tab
+                    {% if current_tab == 'overview' %}
+                        nx-tab-active
+                    {% endif %}
+                "
+            >
+                <span class="material-symbols-outlined">
+                    dashboard
+                </span>
+
+                Overview
+            </a>
+
+
+            <a
+                href="?tab=profile"
+                class="
+                    nx-tab
+                    {% if current_tab == 'profile' %}
+                        nx-tab-active
+                    {% endif %}
+                "
+            >
+                <span class="material-symbols-outlined">
+                    person
+                </span>
+
+                Profile
+            </a>
+
+
+            <a
+                href="?tab=listings"
+                class="
+                    nx-tab
+                    {% if current_tab == 'listings' %}
+                        nx-tab-active
+                    {% endif %}
+                "
+            >
+                <span class="material-symbols-outlined">
+                    sell
+                </span>
+
+                Listings
+            </a>
+
+
+            <a
+                href="?tab=security"
+                class="
+                    nx-tab
+                    {% if current_tab == 'security' %}
+                        nx-tab-active
+                    {% endif %}
+                "
+            >
+                <span class="material-symbols-outlined">
+                    security
+                </span>
+
+                Security
+            </a>
+
+        </div>
+
+
+        <!-- =================================================
+             OVERVIEW
+             ================================================= -->
+
+        {% if current_tab == "overview" %}
+
+            <div class="nx-overview-stats">
+
+                <div class="nx-card nx-stat">
+
+                    <div class="nx-stat-label">
+                        Balance
+                    </div>
+
+                    <div class="nx-stat-value">
+                        {{ marketplace_user.balance|default:"0" }}
+                    </div>
+
+                </div>
+
+
+                <div class="nx-card nx-stat">
+
+                    <div class="nx-stat-label">
+                        Role
+                    </div>
+
+                    <div class="nx-stat-value">
+                        {{ marketplace_user.role|default:"user" }}
+                    </div>
+
+                </div>
+
+
+                <div class="nx-card nx-stat">
+
+                    <div class="nx-stat-label">
+                        Provider
+                    </div>
+
+                    <div class="nx-stat-value">
+                        {{ marketplace_user.provider|default:"credentials" }}
+                    </div>
+
+                </div>
+
+
+                <div class="nx-card nx-stat">
+
+                    <div class="nx-stat-label">
+                        2FA
+                    </div>
+
+                    <div class="nx-stat-value">
+
+                        {% if marketplace_user.twoFactorEnabled %}
+                            ON
+                        {% else %}
+                            OFF
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="nx-grid">
+
+                <div class="nx-column">
+
+                    <div class="nx-card">
+
+                        <div class="nx-card-header">
+
+                            <div>
+
+                                <h2 class="nx-card-title">
+                                    Customer information
+                                </h2>
+
+                                <div class="nx-card-subtitle">
+                                    Date generale despre client
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="nx-card-body">
+
+                            <div class="nx-info-list">
+
+                                <div class="nx-info-row">
+                                    <span class="nx-info-label">
+                                        Username
+                                    </span>
+
+                                    <span class="nx-info-value">
+                                        {{ marketplace_user.username|default:"-" }}
+                                    </span>
+                                </div>
+
+
+                                <div class="nx-info-row">
+                                    <span class="nx-info-label">
+                                        Full name
+                                    </span>
+
+                                    <span class="nx-info-value">
+                                        {{ marketplace_user.fullName|default:"-" }}
+                                    </span>
+                                </div>
+
+
+                                <div class="nx-info-row">
+                                    <span class="nx-info-label">
+                                        Email
+                                    </span>
+
+                                    <span class="nx-info-value">
+                                        {{ marketplace_user.email|default:"-" }}
+                                    </span>
+                                </div>
+
+
+                                <div class="nx-info-row">
+                                    <span class="nx-info-label">
+                                        Phone
+                                    </span>
+
+                                    <span class="nx-info-value">
+                                        {{ marketplace_user.phone|default:"-" }}
+                                    </span>
+                                </div>
+
+
+                                <div class="nx-info-row">
+                                    <span class="nx-info-label">
+                                        Location
+                                    </span>
+
+                                    <span class="nx-info-value">
+
+                                        {% if marketplace_user.city %}
+                                            {{ marketplace_user.city }}
+                                        {% endif %}
+
+                                        {% if marketplace_user.county %}
+                                            / {{ marketplace_user.county }}
+                                        {% endif %}
+
+                                        {% if not marketplace_user.city and not marketplace_user.county %}
+                                            -
+                                        {% endif %}
+
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    {% if marketplace_user.bio %}
+
+                        <div class="nx-card">
+
+                            <div class="nx-card-header">
+                                <h2 class="nx-card-title">
+                                    Bio
+                                </h2>
+                            </div>
+
+                            <div class="nx-card-body">
+                                {{ marketplace_user.bio }}
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="nx-column">
+
+                    <div class="nx-card">
+
+                        <div class="nx-card-header">
+
+                            <div>
+
+                                <h2 class="nx-card-title">
+                                    Account
+                                </h2>
+
+                                <div class="nx-card-subtitle">
+                                    Informații tehnice
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="nx-card-body">
+
+                            <div class="nx-info-list">
+
+                                <div class="nx-info-row">
+
+                                    <span class="nx-info-label">
+                                        ID
+                                    </span>
+
+                                    <span class="nx-info-value">
+                                        {{ marketplace_user.id }}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="nx-info-row">
+
+                                    <span class="nx-info-label">
+                                        Department
+                                    </span>
+
+                                    <span class="nx-info-value">
+                                        {{ marketplace_user.department|default:"-" }}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="nx-info-row">
+
+                                    <span class="nx-info-label">
+                                        Created
+                                    </span>
+
+                                    <span class="nx-info-value">
+                                        {{ marketplace_user.createdAt|default:"-" }}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="nx-info-row">
+
+                                    <span class="nx-info-label">
+                                        Updated
+                                    </span>
+
+                                    <span class="nx-info-value">
+                                        {{ marketplace_user.updatedAt|default:"-" }}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="nx-card">
+
+                        <div class="nx-card-header">
+                            <h2 class="nx-card-title">
+                                Account status
+                            </h2>
+                        </div>
+
+
+                        <div class="nx-card-body">
+
+                            {% if marketplace_user.banned %}
+
+                                <div class="nx-ban-box">
+
+                                    <strong>
+                                        Cont blocat
+                                    </strong>
+
+                                    {% if marketplace_user.banReason %}
+
+                                        <div class="nx-ban-reason">
+                                            {{ marketplace_user.banReason }}
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                            {% else %}
+
+                                <span class="nx-badge nx-active">
+                                    ● Account active
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        <!-- =================================================
+             PROFILE
+             ================================================= -->
+
+        {% elif current_tab == "profile" %}
+
+            <div class="nx-grid">
+
+                <div class="nx-column">
+
+                    <div class="nx-card">
+
+                        <div class="nx-card-header">
+
+                            <div>
+
+                                <h2 class="nx-card-title">
+                                    Profile information
+                                </h2>
+
+                                <div class="nx-card-subtitle">
+                                    Modifică informațiile clientului
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="nx-card-body">
+
+                            <form
+                                method="post"
+                                action="{% url 'marketplace_user_update' marketplace_user.id %}"
+                            >
+
+                                {% csrf_token %}
+
+                                <input
+                                    type="hidden"
+                                    name="action"
+                                    value="profile"
+                                >
+
+
+                                <div class="nx-form-grid">
+
+                                    <div class="nx-field">
+
+                                        <label>
+                                            Username
+                                        </label>
+
+                                        <input
+                                            class="nx-input"
+                                            type="text"
+                                            name="username"
+                                            value="{{ marketplace_user.username|default:'' }}"
+                                            required
+                                        >
+
+                                    </div>
+
+
+                                    <div class="nx-field">
+
+                                        <label>
+                                            Full name
+                                        </label>
+
+                                        <input
+                                            class="nx-input"
+                                            type="text"
+                                            name="fullName"
+                                            value="{{ marketplace_user.fullName|default:'' }}"
+                                        >
+
+                                    </div>
+
+
+                                    <div class="nx-field">
+
+                                        <label>
+                                            Phone
+                                        </label>
+
+                                        <input
+                                            class="nx-input"
+                                            type="text"
+                                            name="phone"
+                                            value="{{ marketplace_user.phone|default:'' }}"
+                                        >
+
+                                    </div>
+
+
+                                    <div class="nx-field">
+
+                                        <label>
+                                            Country
+                                        </label>
+
+                                        <input
+                                            class="nx-input"
+                                            type="text"
+                                            name="country"
+                                            value="{{ marketplace_user.country|default:'' }}"
+                                        >
+
+                                    </div>
+
+
+                                    <div class="nx-field">
+
+                                        <label>
+                                            County
+                                        </label>
+
+                                        <input
+                                            class="nx-input"
+                                            type="text"
+                                            name="county"
+                                            value="{{ marketplace_user.county|default:'' }}"
+                                        >
+
+                                    </div>
+
+
+                                    <div class="nx-field">
+
+                                        <label>
+                                            City
+                                        </label>
+
+                                        <input
+                                            class="nx-input"
+                                            type="text"
+                                            name="city"
+                                            value="{{ marketplace_user.city|default:'' }}"
+                                        >
+
+                                    </div>
+
+
+                                    <div class="nx-field">
+
+                                        <label>
+                                            Postal code
+                                        </label>
+
+                                        <input
+                                            class="nx-input"
+                                            type="text"
+                                            name="postalCode"
+                                            value="{{ marketplace_user.postalCode|default:'' }}"
+                                        >
+
+                                    </div>
+
+
+                                    <div class="nx-field">
+
+                                        <label>
+                                            Website
+                                        </label>
+
+                                        <input
+                                            class="nx-input"
+                                            type="text"
+                                            name="website"
+                                            value="{{ marketplace_user.website|default:'' }}"
+                                        >
+
+                                    </div>
+
+
+                                    <div class="nx-field">
+
+                                        <label>
+                                            Instagram
+                                        </label>
+
+                                        <input
+                                            class="nx-input"
+                                            type="text"
+                                            name="instagram"
+                                            value="{{ marketplace_user.instagram|default:'' }}"
+                                        >
+
+                                    </div>
+
+
+                                    <div class="nx-field">
+
+                                        <label>
+                                            Facebook
+                                        </label>
+
+                                        <input
+                                            class="nx-input"
+                                            type="text"
+                                            name="facebook"
+                                            value="{{ marketplace_user.facebook|default:'' }}"
+                                        >
+
+                                    </div>
+
+
+                                    <div class="nx-field nx-full">
+
+                                        <label>
+                                            Bio
+                                        </label>
+
+                                        <textarea
+                                            class="nx-textarea"
+                                            name="bio"
+                                        >{{ marketplace_user.bio|default:'' }}</textarea>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="nx-form-actions">
+
+                                    <button
+                                        type="submit"
+                                        class="nx-save"
+                                    >
+
+                                        <span class="material-symbols-outlined">
+                                            save
+                                        </span>
+
+                                        Save profile
+
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="nx-column">
+
+                    <div class="nx-card">
+
+                        <div class="nx-card-header">
+
+                            <div>
+
+                                <h2 class="nx-card-title">
+                                    Email address
+                                </h2>
+
+                                <div class="nx-card-subtitle">
+                                    Adresa principală de autentificare
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="nx-card-body">
+
+                            <form
+                                method="post"
+                                action="{% url 'marketplace_user_update' marketplace_user.id %}"
+                            >
+
+                                {% csrf_token %}
+
+                                <input
+                                    type="hidden"
+                                    name="action"
+                                    value="email"
+                                >
+
+
+                                <div class="nx-field">
+
+                                    <label>
+                                        Email
+                                    </label>
+
+                                    <input
+                                        class="nx-input"
+                                        type="email"
+                                        name="email"
+                                        value="{{ marketplace_user.email }}"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <div class="nx-form-actions">
+
+                                    <button
+                                        type="submit"
+                                        class="nx-save"
+                                    >
+
+                                        <span class="material-symbols-outlined">
+                                            alternate_email
+                                        </span>
+
+                                        Update email
+
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="nx-card">
+
+                        <div class="nx-card-header">
+                            <h2 class="nx-card-title">
+                                Current account
+                            </h2>
+                        </div>
+
+
+                        <div class="nx-card-body">
+
+                            <div class="nx-info-list">
+
+                                <div class="nx-info-row">
+
+                                    <span class="nx-info-label">
+                                        Role
+                                    </span>
+
+                                    <span class="nx-info-value">
+                                        {{ marketplace_user.role }}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="nx-info-row">
+
+                                    <span class="nx-info-label">
+                                        Department
+                                    </span>
+
+                                    <span class="nx-info-value">
+                                        {{ marketplace_user.department|default:"-" }}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="nx-info-row">
+
+                                    <span class="nx-info-label">
+                                        Provider
+                                    </span>
+
+                                    <span class="nx-info-value">
+                                        {{ marketplace_user.provider|default:"-" }}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        <!-- =================================================
+             LISTINGS
+             ================================================= -->
+
+        {% elif current_tab == "listings" %}
+
+            <div class="nx-listing-stats">
+
+                <div class="nx-card nx-stat-mini">
+
+                    <span>
+                        Total listings
+                    </span>
+
+                    <strong>
+                        {{ listings_stats.total }}
+                    </strong>
+
+                </div>
+
+
+                <div class="nx-card nx-stat-mini">
+
+                    <span>
+                        Active
+                    </span>
+
+                    <strong>
+                        {{ listings_stats.active }}
+                    </strong>
+
+                </div>
+
+
+                <div class="nx-card nx-stat-mini">
+
+                    <span>
+                        Sold
+                    </span>
+
+                    <strong>
+                        {{ listings_stats.sold }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="nx-listing-toolbar">
+
+                <a
+                    href="?tab=listings"
+                    class="
+                        nx-filter
+                        {% if not listing_status %}
+                            nx-filter-active
+                        {% endif %}
+                    "
+                >
+                    All
+                </a>
+
+
+                <a
+                    href="?tab=listings&status=active"
+                    class="
+                        nx-filter
+                        {% if listing_status == 'active' %}
+                            nx-filter-active
+                        {% endif %}
+                    "
+                >
+                    Active
+                </a>
+
+
+                <a
+                    href="?tab=listings&status=sold"
+                    class="
+                        nx-filter
+                        {% if listing_status == 'sold' %}
+                            nx-filter-active
+                        {% endif %}
+                    "
+                >
+                    Sold
+                </a>
+
+            </div>
+
+
+            <div class="nx-card">
+
+                <div class="nx-listings-table-wrap">
+
+                    <table class="nx-listings-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Listing</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Views</th>
+                                <th>Created</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for listing in listings %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <div class="nx-listing-title">
+                                            {{ listing.title|default:"Untitled listing" }}
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <strong>
+                                            {{ listing.price|default:"0" }}
+                                        </strong>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if listing.status == "active" %}
+
+                                            <span class="nx-badge nx-active">
+                                                ● Active
+                                            </span>
+
+                                        {% elif listing.status == "sold" %}
+
+                                            <span class="nx-badge nx-sold">
+                                                ● Sold
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="nx-badge nx-neutral">
+                                                {{ listing.status|default:"-" }}
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+                                        {{ listing.views|default:"0" }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ listing.createdAt|default:"-" }}
+                                    </td>
+
+                                </tr>
+
+
+                            {% empty %}
+
+                                <tr>
+
+                                    <td
+                                        colspan="5"
+                                        class="nx-empty"
+                                    >
+                                        Acest utilizator nu are anunțuri.
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                {% if listings_pages > 1 %}
+
+                    <div class="nx-listings-pagination">
+
+                        {% if listings_page > 1 %}
+
+                            <a
+                                href="?tab=listings&page={{ listings_page|add:'-1' }}&status={{ listing_status|urlencode }}"
+                            >
+                                ← Previous
+                            </a>
+
+                        {% endif %}
+
+
+                        <span>
+                            Page
+                            {{ listings_page }}
+                            /
+                            {{ listings_pages }}
+                        </span>
+
+
+                        {% if listings_page < listings_pages %}
+
+                            <a
+                                href="?tab=listings&page={{ listings_page|add:'1' }}&status={{ listing_status|urlencode }}"
+                            >
+                                Next →
+                            </a>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+        <!-- =================================================
+             SECURITY
+             ================================================= -->
+
+        {% elif current_tab == "security" %}
+
+            <div class="nx-grid">
+
+                <div class="nx-column">
+
+                    <div class="nx-card">
+
+                        <div class="nx-card-header">
+
+                            <div>
+
+                                <h2 class="nx-card-title">
+                                    Password & authentication
+                                </h2>
+
+                                <div class="nx-card-subtitle">
+                                    Gestionează accesul clientului
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="nx-card-body">
+
+                            <div class="nx-security-row">
+
+                                <div>
+
+                                    <div class="nx-security-title">
+                                        Password
+                                    </div>
+
+                                    <div class="nx-security-description">
+                                        Setează manual o parolă nouă
+                                    </div>
+
+                                </div>
+
+
+                                <button
+                                    type="button"
+                                    class="nx-secondary-button"
+                                    onclick="
+                                        document
+                                            .getElementById(
+                                                'password-dialog'
+                                            )
+                                            .showModal()
+                                    "
+                                >
+                                    <span class="material-symbols-outlined">
+                                        password
+                                    </span>
+
+                                    Change
+                                </button>
+
+                            </div>
+
+
+                            <div class="nx-security-row">
+
+                                <div>
+
+                                    <div class="nx-security-title">
+                                        Temporary password
+                                    </div>
+
+                                    <div class="nx-security-description">
+                                        Generează automat o parolă nouă
+                                    </div>
+
+                                </div>
+
+
+                                <form
+                                    method="post"
+                                    action="{% url 'marketplace_user_update' marketplace_user.id %}"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <input
+                                        type="hidden"
+                                        name="action"
+                                        value="generate_password"
+                                    >
+
+
+                                    <button
+                                        type="submit"
+                                        class="nx-secondary-button"
+                                        onclick="
+                                            return confirm(
+                                                'Generezi o parolă nouă pentru acest cont?'
+                                            );
+                                        "
+                                    >
+                                        Generate
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+
+                            <div class="nx-security-row">
+
+                                <div>
+
+                                    <div class="nx-security-title">
+                                        Two-factor authentication
+                                    </div>
+
+                                    <div class="nx-security-description">
+
+                                        {% if marketplace_user.twoFactorEnabled %}
+                                            Activată
+                                        {% else %}
+                                            Dezactivată
+                                        {% endif %}
+
+                                    </div>
+
+                                </div>
+
+
+                                {% if marketplace_user.twoFactorEnabled %}
+
+                                    <form
+                                        method="post"
+                                        action="{% url 'marketplace_user_update' marketplace_user.id %}"
+                                    >
+
+                                        {% csrf_token %}
+
+                                        <input
+                                            type="hidden"
+                                            name="action"
+                                            value="disable_2fa"
+                                        >
+
+
+                                        <button
+                                            type="submit"
+                                            class="
+                                                nx-secondary-button
+                                                nx-danger-button
+                                            "
+                                            onclick="
+                                                return confirm(
+                                                    'Sigur dezactivezi 2FA pentru acest utilizator?'
+                                                );
+                                            "
+                                        >
+                                            Disable
+                                        </button>
+
+                                    </form>
+
+                                {% else %}
+
+                                    <span class="nx-badge nx-neutral">
+                                        Disabled
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="nx-security-row">
+
+                                <div>
+
+                                    <div class="nx-security-title">
+                                        Login provider
+                                    </div>
+
+                                    <div class="nx-security-description">
+                                        Metoda principală de autentificare
+                                    </div>
+
+                                </div>
+
+                                <span class="nx-badge nx-provider">
+                                    {{ marketplace_user.provider|default:"credentials" }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="nx-column">
+
+                    <div class="nx-card">
+
+                        <div class="nx-card-header">
+
+                            <div>
+
+                                <h2 class="nx-card-title">
+                                    Account status
+                                </h2>
+
+                                <div class="nx-card-subtitle">
+                                    Restricționarea accesului
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="nx-card-body">
+
+                            {% if marketplace_user.banned %}
+
+                                <div class="nx-ban-box">
+
+                                    <strong>
+                                        Cont blocat
+                                    </strong>
+
+
+                                    {% if marketplace_user.banReason %}
+
+                                        <div class="nx-ban-reason">
+                                            Reason:
+                                            {{ marketplace_user.banReason }}
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                <form
+                                    method="post"
+                                    action="{% url 'marketplace_toggle_ban' marketplace_user.id %}"
+                                    style="margin-top: 16px;"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <input
+                                        type="hidden"
+                                        name="action"
+                                        value="unban"
+                                    >
+
+
+                                    <button
+                                        type="submit"
+                                        class="
+                                            nx-secondary-button
+                                            nx-success-button
+                                        "
+                                        onclick="
+                                            return confirm(
+                                                'Sigur vrei să deblochezi acest cont?'
+                                            );
+                                        "
+                                    >
+                                        <span class="material-symbols-outlined">
+                                            lock_open
+                                        </span>
+
+                                        Unblock account
+                                    </button>
+
+                                </form>
+
+
+                            {% else %}
+
+                                <span class="nx-badge nx-active">
+                                    ● Account active
+                                </span>
+
+
+                                <div style="margin-top: 16px;">
+
+                                    <button
+                                        type="button"
+                                        class="
+                                            nx-secondary-button
+                                            nx-danger-button
+                                        "
+                                        onclick="
+                                            document
+                                                .getElementById(
+                                                    'ban-dialog'
+                                                )
+                                                .showModal()
+                                        "
+                                    >
+                                        <span class="material-symbols-outlined">
+                                            block
+                                        </span>
+
+                                        Block account
+                                    </button>
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="nx-card">
+
+                        <div class="nx-card-header">
+                            <h2 class="nx-card-title">
+                                Account identity
+                            </h2>
+                        </div>
+
+
+                        <div class="nx-card-body">
+
+                            <div class="nx-info-list">
+
+                                <div class="nx-info-row">
+
+                                    <span class="nx-info-label">
+                                        User ID
+                                    </span>
+
+                                    <span class="nx-info-value">
+                                        {{ marketplace_user.id }}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="nx-info-row">
+
+                                    <span class="nx-info-label">
+                                        Role
+                                    </span>
+
+                                    <span class="nx-info-value">
+                                        {{ marketplace_user.role }}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="nx-info-row">
+
+                                    <span class="nx-info-label">
+                                        Department
+                                    </span>
+
+                                    <span class="nx-info-value">
+                                        {{ marketplace_user.department|default:"-" }}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             PASSWORD DIALOG
+             ================================================= -->
+
+        <dialog
+            id="password-dialog"
+            class="nx-dialog"
+        >
+
+            <div class="nx-dialog-content">
+
+                <h2 class="nx-dialog-title">
+                    Change password
+                </h2>
+
+                <div class="nx-dialog-description">
+                    Setează o parolă nouă pentru
+                    {{ marketplace_user.username }}.
+                </div>
+
+
+                <form
+                    method="post"
+                    action="{% url 'marketplace_user_update' marketplace_user.id %}"
+                >
+
+                    {% csrf_token %}
+
+                    <input
+                        type="hidden"
+                        name="action"
+                        value="password"
+                    >
+
+
+                    <div
+                        class="nx-field"
+                        style="margin-bottom: 14px;"
+                    >
+
+                        <label>
+                            New password
+                        </label>
+
+                        <input
+                            class="nx-input"
+                            type="password"
+                            name="new_password"
+                            minlength="8"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="nx-field">
+
+                        <label>
+                            Confirm password
+                        </label>
+
+                        <input
+                            class="nx-input"
+                            type="password"
+                            name="confirm_password"
+                            minlength="8"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="nx-dialog-actions">
+
+                        <button
+                            type="button"
+                            class="nx-secondary-button"
+                            onclick="
+                                document
+                                    .getElementById(
+                                        'password-dialog'
+                                    )
+                                    .close()
+                            "
+                        >
+                            Cancel
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="nx-save"
+                        >
+                            Change password
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </dialog>
+
+
+        <!-- =================================================
+             BAN DIALOG
+             ================================================= -->
+
+        <dialog
+            id="ban-dialog"
+            class="nx-dialog"
+        >
+
+            <div class="nx-dialog-content">
+
+                <h2 class="nx-dialog-title">
+                    Block account
+                </h2>
+
+                <div class="nx-dialog-description">
+                    Selectează motivul pentru blocarea contului
+                    {{ marketplace_user.username }}.
+                </div>
+
+
+                <form
+                    method="post"
+                    action="{% url 'marketplace_toggle_ban' marketplace_user.id %}"
+                >
+
+                    {% csrf_token %}
+
+                    <input
+                        type="hidden"
+                        name="action"
+                        value="ban"
+                    >
+
+
+                    <div
+                        class="nx-field"
+                        style="margin-bottom: 14px;"
+                    >
+
+                        <label>
+                            Reason
+                        </label>
+
+                        <select
+                            id="ban-reason"
+                            class="nx-input"
+                            name="reason"
+                            required
+                            onchange="toggleCustomReason()"
+                        >
+
+                            <option value="">
+                                Selectează motivul...
+                            </option>
+
+                            <option value="Încălcarea regulilor platformei">
+                                Încălcarea regulilor platformei
+                            </option>
+
+                            <option value="Activitate suspectă">
+                                Activitate suspectă
+                            </option>
+
+                            <option value="Fraudă / tentativă de fraudă">
+                                Fraudă / tentativă de fraudă
+                            </option>
+
+                            <option value="Anunțuri sau produse interzise">
+                                Anunțuri sau produse interzise
+                            </option>
+
+                            <option value="Hărțuire / comportament abuziv">
+                                Hărțuire / comportament abuziv
+                            </option>
+
+                            <option value="Spam">
+                                Spam
+                            </option>
+
+                            <option value="Cont fals / identitate falsă">
+                                Cont fals / identitate falsă
+                            </option>
+
+                            <option value="Alt motiv">
+                                Alt motiv
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div
+                        id="custom-reason-container"
+                        class="nx-field"
+                        style="display: none;"
+                    >
+
+                        <label>
+                            Custom reason
+                        </label>
+
+                        <textarea
+                            id="custom-reason"
+                            class="nx-textarea"
+                            name="custom_reason"
+                            maxlength="500"
+                            placeholder="Descrie motivul blocării..."
+                        ></textarea>
+
+                    </div>
+
+
+                    <div class="nx-dialog-actions">
+
+                        <button
+                            type="button"
+                            class="nx-secondary-button"
+                            onclick="
+                                document
+                                    .getElementById(
+                                        'ban-dialog'
+                                    )
+                                    .close()
+                            "
+                        >
+                            Cancel
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="
+                                nx-secondary-button
+                                nx-danger-button
+                            "
+                        >
+                            Block account
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </dialog>
+
+
+    {% else %}
+
+        <div class="nx-card">
+
+            <div class="nx-card-body">
+                Utilizatorul nu a fost găsit.
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+<script>
+    function toggleCustomReason() {
+        const select =
+            document.getElementById(
+                "ban-reason"
+            );
+
+        const container =
+            document.getElementById(
+                "custom-reason-container"
+            );
+
+        const textarea =
+            document.getElementById(
+                "custom-reason"
+            );
+
+        if (
+            !select ||
+            !container ||
+            !textarea
+        ) {
+            return;
+        }
+
+        if (
+            select.value ===
+            "Alt motiv"
+        ) {
+            container.style.display =
+                "block";
+
+            textarea.required = true;
+
+            textarea.focus();
+        } else {
+            container.style.display =
+                "none";
+
+            textarea.required = false;
+
+            textarea.value = "";
+        }
+    }
+</script>
+
+{% endblock %}

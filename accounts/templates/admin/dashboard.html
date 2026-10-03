@@ -1,0 +1,242 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+
+<style>
+
+    .nx-dashboard {
+        max-width: 1500px;
+    }
+
+    .nx-dashboard-header {
+        margin-bottom: 28px;
+    }
+
+    .nx-dashboard-title {
+        font-size: 28px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .nx-dashboard-subtitle {
+        margin-top: 6px;
+        color: #94a3b8;
+    }
+
+    .nx-stat-grid {
+        display: grid;
+        grid-template-columns:
+            repeat(4, minmax(200px, 1fr));
+        gap: 18px;
+    }
+
+    .nx-stat-card {
+        border: 1px solid #273449;
+        border-radius: 16px;
+
+        padding: 22px;
+
+        background:
+            rgba(255,255,255,.025);
+    }
+
+    .nx-stat-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .nx-stat-icon {
+        width: 44px;
+        height: 44px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 12px;
+
+        background:
+            rgba(124,58,237,.15);
+
+        color: #a855f7;
+    }
+
+    .nx-stat-label {
+        color: #94a3b8;
+        font-size: 14px;
+        margin-top: 18px;
+    }
+
+    .nx-stat-value {
+        font-size: 30px;
+        font-weight: 700;
+        margin-top: 5px;
+    }
+
+    .nx-section {
+        margin-top: 30px;
+
+        border: 1px solid #273449;
+        border-radius: 16px;
+
+        padding: 24px;
+
+        background:
+            rgba(255,255,255,.02);
+    }
+
+    .nx-section h2 {
+        margin-top: 0;
+    }
+
+    @media(max-width:1100px) {
+
+        .nx-stat-grid {
+            grid-template-columns:
+                repeat(2,1fr);
+        }
+
+    }
+
+    @media(max-width:650px) {
+
+        .nx-stat-grid {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+</style>
+
+
+<div class="nx-dashboard">
+
+    <div class="nx-dashboard-header">
+
+        <h1 class="nx-dashboard-title">
+            Dashboard
+        </h1>
+
+        <div class="nx-dashboard-subtitle">
+            Overview of the NEXORA marketplace
+        </div>
+
+    </div>
+
+
+    {% if api_error %}
+
+        <div
+            style="
+                padding:16px;
+                background:rgba(239,68,68,.15);
+                color:#f87171;
+                border-radius:12px;
+                margin-bottom:20px;
+            "
+        >
+            {{ api_error }}
+        </div>
+
+    {% endif %}
+
+
+    <div class="nx-stat-grid">
+
+        <div class="nx-stat-card">
+
+            <div class="nx-stat-top">
+
+                <div class="nx-stat-icon">
+                    <span class="material-symbols-outlined">
+                        group
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="nx-stat-label">
+                Total users
+            </div>
+
+            <div class="nx-stat-value">
+                {{ stats.totalUsers|default:"0" }}
+            </div>
+
+        </div>
+
+
+        <div class="nx-stat-card">
+
+            <div class="nx-stat-icon">
+                <span class="material-symbols-outlined">
+                    sell
+                </span>
+            </div>
+
+            <div class="nx-stat-label">
+                Total listings
+            </div>
+
+            <div class="nx-stat-value">
+                {{ stats.totalListings|default:"0" }}
+            </div>
+
+        </div>
+
+
+        <div class="nx-stat-card">
+
+            <div class="nx-stat-icon">
+                <span class="material-symbols-outlined">
+                    check_circle
+                </span>
+            </div>
+
+            <div class="nx-stat-label">
+                Active listings
+            </div>
+
+            <div class="nx-stat-value">
+                {{ stats.activeListings|default:"0" }}
+            </div>
+
+        </div>
+
+
+        <div class="nx-stat-card">
+
+            <div class="nx-stat-icon">
+                <span class="material-symbols-outlined">
+                    forum
+                </span>
+            </div>
+
+            <div class="nx-stat-label">
+                Conversations
+            </div>
+
+            <div class="nx-stat-value">
+                {{ stats.totalConversations|default:"0" }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="nx-section">
+
+        <h2>NEXORA Marketplace</h2>
+
+        <p style="color:#94a3b8;">
+            Users, listings, payments, support and marketplace
+            operations will be available from this dashboard.
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}
