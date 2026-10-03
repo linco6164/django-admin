@@ -11,6 +11,8 @@ from accounts.views import (
     marketplace_toggle_ban,
 
     marketplace_notifications,
+    marketplace_notification_detail,
+    marketplace_notification_action,
 
     marketplace_withdrawals,
     marketplace_withdrawal_action,
@@ -86,6 +88,25 @@ urlpatterns = [
             marketplace_notifications
         ),
         name="marketplace_notifications",
+    ),
+    
+    path(
+        "admin/notifications/<str:notification_id>/",
+        admin.site.admin_view(
+            marketplace_notification_detail
+        ),
+        name="marketplace_notification_detail",
+    ),
+
+    path(
+        (
+            "admin/notifications/"
+            "<str:notification_id>/action/"
+        ),
+        admin.site.admin_view(
+            marketplace_notification_action
+        ),
+        name="marketplace_notification_action",
     ),
 
     # Withdrawals

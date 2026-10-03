@@ -3,8 +3,11 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.http import JsonResponse
 from django.shortcuts import render
 
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
+
 from django.contrib import messages
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.views.decorators.http import require_POST
@@ -353,7 +356,52 @@ def marketplace_user_detail(request, user_id):
 # ============================================================
 
 def marketplace_notifications(request):
+    active_status = request.GET.get(
+        "status",
+        "all",
+    ).strip()
+
+    search = request.GET.get(
+        "search",
+        "",
+    ).strip()
+
+    try:
+        page = max(
+            1,
+            int(
+                request.GET.get(
+                    "page",
+                    "1",
+                )
+            ),
+        )
+    except ValueError:
+        page = 1
+
+    allowed_statuses = {
+        "all",
+        "draft",
+        "scheduled",
+        "processing",
+        "sent",
+        "failed",
+        "cancelled",
+    }
+
+    if active_status not in allowed_statuses:
+        active_status = "all"
+
+    # ==========================================
+    # POST
+    # ==========================================
+
     if request.method == "POST":
+        action = request.POST.get(
+            "action",
+            "",
+        ).strip()
+
         title = request.POST.get(
             "title",
             "",
@@ -364,10 +412,50 @@ def marketplace_notifications(request):
             "",
         ).strip()
 
-        if not title or not body:
+        image_url = request.POST.get(
+            "image_url",
+            "",
+        ).strip()
+
+        audience = request.POST.get(
+            "audience",
+            "all",
+        ).strip()
+
+        priority = request.POST.get(
+            "priority",
+            "normal",
+        ).strip()
+
+        route = request.POST.get(
+            "route",
+            "",
+        ).strip()
+
+        target_id = request.POST.get(
+            "target_id",
+            "",
+        ).strip()
+
+        url = request.POST.get(
+            "url",
+            "",
+        ).strip()
+
+        if not title:
             messages.error(
                 request,
-                "Titlul și mesajul sunt obligatorii.",
+                "Titlul este obligatoriu.",
+            )
+
+            return redirect(
+                "marketplace_notifications"
+            )
+
+        if not body:
+            messages.error(
+                request,
+                "Mesajul este obligatoriu.",
             )
 
             return redirect(
@@ -375,24 +463,205 @@ def marketplace_notifications(request):
             )
 
         try:
-            node_request(
-                request,
-                "POST",
-                "/admin/broadcast",
-                json={
+            # ==================================
+            # SEND NOW
+            # ==================================
+
+            if action == "send_now":
+                payload = {
                     "title": title,
                     "body": body,
-                },
-            )
+                    "priority": priority,
+                }
 
-            messages.success(
-                request,
-                "Notificarea a fost trimisă.",
-            )
+                if image_url:
+                    payload["imageUrl"] = (
+                        image_url
+                    )
 
-            return redirect(
-                "marketplace_notifications"
-            )
+                if route:
+                    payload["route"] = route
+
+                if target_id:
+                    payload["targetId"] = (
+                        target_id
+                    )
+
+                if url:
+                    payload["url"] = url
+
+                node_request(
+                    request,
+                    "POST",
+                    "/admin/broadcast",
+                    json=payload,
+                )
+
+                messages.success(
+                    request,
+                    "Notificarea a fost trimisă.",
+                )
+
+            # ==================================
+            # SAVE DRAFT
+            # ==================================
+
+            elif action == "draft":
+                payload = {
+                    "title": title,
+                    "body": body,
+                    "audience": audience,
+                    "priority": priority,
+                    "status": "draft",
+                    "timezone": (
+                        "Europe/Bucharest"
+                    ),
+                }
+
+                if image_url:
+                    payload["imageUrl"] = (
+                        image_url
+                    )
+
+                if route:
+                    payload["route"] = route
+
+                if target_id:
+                    payload["targetId"] = (
+                        target_id
+                    )
+
+                if url:
+                    payload["url"] = url
+
+                node_request(
+                    request,
+                    "POST",
+                    "/admin/notifications",
+                    json=payload,
+                )
+
+                messages.success(
+                    request,
+                    "Draftul a fost salvat.",
+                )
+
+            # ==================================
+            # SCHEDULE
+            # ==================================
+
+            elif action == "schedule":
+                scheduled_at = (
+                    request.POST.get(
+                        "scheduled_at",
+                        "",
+                    ).strip()
+                )
+
+                if not scheduled_at:
+                    messages.error(
+                        request,
+                        (
+                            "Selectează data și "
+                            "ora programării."
+                        ),
+                    )
+
+                    return redirect(
+                        "marketplace_notifications"
+                    )
+
+                try:
+                    local_date = datetime.fromisoformat(
+                        scheduled_at
+                    )
+
+                    bucharest = ZoneInfo(
+                        "Europe/Bucharest"
+                    )
+
+                    if local_date.tzinfo is None:
+                        local_date = (
+                            local_date.replace(
+                                tzinfo=bucharest
+                            )
+                        )
+
+                    scheduled_utc = (
+                        local_date
+                        .astimezone(
+                            timezone.utc
+                        )
+                        .isoformat()
+                        .replace(
+                            "+00:00",
+                            "Z",
+                        )
+                    )
+
+                except ValueError:
+                    messages.error(
+                        request,
+                        (
+                            "Data programării "
+                            "este invalidă."
+                        ),
+                    )
+
+                    return redirect(
+                        "marketplace_notifications"
+                    )
+
+                payload = {
+                    "title": title,
+                    "body": body,
+                    "audience": audience,
+                    "priority": priority,
+                    "status": "scheduled",
+                    "scheduledAt": (
+                        scheduled_utc
+                    ),
+                    "timezone": (
+                        "Europe/Bucharest"
+                    ),
+                }
+
+                if image_url:
+                    payload["imageUrl"] = (
+                        image_url
+                    )
+
+                if route:
+                    payload["route"] = route
+
+                if target_id:
+                    payload["targetId"] = (
+                        target_id
+                    )
+
+                if url:
+                    payload["url"] = url
+
+                node_request(
+                    request,
+                    "POST",
+                    "/admin/notifications",
+                    json=payload,
+                )
+
+                messages.success(
+                    request,
+                    (
+                        "Notificarea a fost "
+                        "programată."
+                    ),
+                )
+
+            else:
+                messages.error(
+                    request,
+                    "Acțiune necunoscută.",
+                )
 
         except NodeAPIError as error:
             messages.error(
@@ -400,18 +669,547 @@ def marketplace_notifications(request):
                 str(error),
             )
 
-    context = admin.site.each_context(
-        request
+        return redirect(
+            "marketplace_notifications"
+        )
+
+    # ==========================================
+    # GET
+    # ==========================================
+
+    params = {
+        "page": page,
+        "limit": 20,
+    }
+
+    if active_status != "all":
+        params["status"] = (
+            active_status
+        )
+
+    if search:
+        params["search"] = search
+
+    try:
+        response = node_request(
+            request,
+            "GET",
+            "/admin/notifications",
+            params=params,
+        )
+
+        notifications = (
+            response.get(
+                "notifications",
+                [],
+            )
+        )
+
+        pagination = (
+            response.get(
+                "pagination",
+                {},
+            )
+        )
+
+        stats = response.get(
+            "stats",
+            {},
+        )
+
+        for notification in notifications:
+            notification["id"] = str(
+                notification.get("_id")
+                or notification.get("id")
+                or ""
+            )
+
+        api_error = None
+
+    except NodeAPIError as error:
+        notifications = []
+
+        pagination = {
+            "page": 1,
+            "total": 0,
+            "totalPages": 1,
+            "hasNext": False,
+            "hasPrevious": False,
+        }
+
+        stats = {
+            "all": 0,
+            "draft": 0,
+            "scheduled": 0,
+            "processing": 0,
+            "sent": 0,
+            "failed": 0,
+            "cancelled": 0,
+        }
+
+        api_error = str(error)
+
+    context = (
+        admin.site.each_context(
+            request
+        )
     )
 
     context.update({
         "title": "Notifications",
+
+        "notifications": (
+            notifications
+        ),
+
+        "pagination": pagination,
+
+        "stats": stats,
+
+        "active_status": (
+            active_status
+        ),
+
+        "search": search,
+
+        "api_error": api_error,
     })
 
     return render(
         request,
-        "admin/marketplace_notifications.html",
+        (
+            "admin/"
+            "marketplace_notifications.html"
+        ),
         context,
+    )
+    
+def marketplace_notification_detail(
+    request,
+    notification_id,
+):
+    try:
+        response = node_request(
+            request,
+            "GET",
+            f"/admin/notifications/{notification_id}",
+        )
+
+        notification = response.get(
+            "notification"
+        )
+
+        if not notification:
+            raise NodeAPIError(
+                "Notificarea nu a fost găsită."
+            )
+
+        notification["id"] = str(
+            notification.get("_id")
+            or notification.get("id")
+            or notification_id
+        )
+
+        # Convertim data UTC din MongoDB
+        # în ora României pentru datetime-local.
+        scheduled_at_local = ""
+
+        scheduled_at = notification.get(
+            "scheduledAt"
+        )
+
+        if scheduled_at:
+            try:
+                parsed_date = (
+                    datetime.fromisoformat(
+                        scheduled_at.replace(
+                            "Z",
+                            "+00:00",
+                        )
+                    )
+                )
+
+                scheduled_at_local = (
+                    parsed_date
+                    .astimezone(
+                        ZoneInfo(
+                            "Europe/Bucharest"
+                        )
+                    )
+                    .strftime(
+                        "%Y-%m-%dT%H:%M"
+                    )
+                )
+            except (
+                ValueError,
+                TypeError,
+            ):
+                scheduled_at_local = ""
+
+        context = (
+            admin.site.each_context(
+                request
+            )
+        )
+
+        context.update({
+            "title": (
+                notification.get(
+                    "title"
+                )
+                or "Notification"
+            ),
+
+            "notification": (
+                notification
+            ),
+
+            "scheduled_at_local": (
+                scheduled_at_local
+            ),
+
+            "api_error": None,
+        })
+
+    except NodeAPIError as error:
+        context = (
+            admin.site.each_context(
+                request
+            )
+        )
+
+        context.update({
+            "title": "Notification",
+
+            "notification": None,
+
+            "scheduled_at_local": "",
+
+            "api_error": str(error),
+        })
+
+    return render(
+        request,
+        (
+            "admin/"
+            "marketplace_notification_detail.html"
+        ),
+        context,
+    )
+    
+@require_POST
+def marketplace_notification_action(
+    request,
+    notification_id,
+):
+    action = request.POST.get(
+        "action",
+        "",
+    ).strip()
+
+    try:
+        # =====================================
+        # SEND NOW
+        # =====================================
+
+        if action == "send_now":
+            node_request(
+                request,
+                "POST",
+                (
+                    f"/admin/notifications/"
+                    f"{notification_id}/send"
+                ),
+                json={},
+            )
+
+            messages.success(
+                request,
+                "Notificarea a fost trimisă.",
+            )
+
+        # =====================================
+        # CANCEL
+        # =====================================
+
+        elif action == "cancel":
+            node_request(
+                request,
+                "POST",
+                (
+                    f"/admin/notifications/"
+                    f"{notification_id}/cancel"
+                ),
+                json={},
+            )
+
+            messages.success(
+                request,
+                "Programarea a fost anulată.",
+            )
+
+        # =====================================
+        # DELETE
+        # =====================================
+
+        elif action == "delete":
+            node_request(
+                request,
+                "DELETE",
+                (
+                    f"/admin/notifications/"
+                    f"{notification_id}"
+                ),
+            )
+
+            messages.success(
+                request,
+                "Notificarea a fost ștearsă.",
+            )
+
+            return redirect(
+                "marketplace_notifications"
+            )
+
+        # =====================================
+        # UPDATE / SAVE DRAFT / RESCHEDULE
+        # =====================================
+
+        elif action in {
+            "update",
+            "draft",
+            "schedule",
+        }:
+            title = request.POST.get(
+                "title",
+                "",
+            ).strip()
+
+            body = request.POST.get(
+                "body",
+                "",
+            ).strip()
+
+            image_url = request.POST.get(
+                "image_url",
+                "",
+            ).strip()
+
+            audience = request.POST.get(
+                "audience",
+                "all",
+            ).strip()
+
+            priority = request.POST.get(
+                "priority",
+                "normal",
+            ).strip()
+
+            route = request.POST.get(
+                "route",
+                "",
+            ).strip()
+
+            target_id = request.POST.get(
+                "target_id",
+                "",
+            ).strip()
+
+            url = request.POST.get(
+                "url",
+                "",
+            ).strip()
+
+            if not title:
+                messages.error(
+                    request,
+                    "Titlul este obligatoriu.",
+                )
+
+                return redirect(
+                    "marketplace_notification_detail",
+                    notification_id=notification_id,
+                )
+
+            if not body:
+                messages.error(
+                    request,
+                    "Mesajul este obligatoriu.",
+                )
+
+                return redirect(
+                    "marketplace_notification_detail",
+                    notification_id=notification_id,
+                )
+
+            payload = {
+                "title": title,
+                "body": body,
+                "imageUrl": (
+                    image_url or None
+                ),
+                "audience": audience,
+                "priority": priority,
+                "timezone": (
+                    "Europe/Bucharest"
+                ),
+                "route": route,
+                "targetId": target_id,
+                "url": url,
+            }
+
+            # -----------------------------
+            # SAVE AS DRAFT
+            # -----------------------------
+
+            if action == "draft":
+                payload["status"] = (
+                    "draft"
+                )
+
+            # -----------------------------
+            # SCHEDULE / RESCHEDULE
+            # -----------------------------
+
+            elif action == "schedule":
+                scheduled_at = (
+                    request.POST.get(
+                        "scheduled_at",
+                        "",
+                    ).strip()
+                )
+
+                if not scheduled_at:
+                    messages.error(
+                        request,
+                        (
+                            "Selectează data "
+                            "și ora programării."
+                        ),
+                    )
+
+                    return redirect(
+                        (
+                            "marketplace_"
+                            "notification_detail"
+                        ),
+                        notification_id=(
+                            notification_id
+                        ),
+                    )
+
+                try:
+                    local_date = (
+                        datetime.fromisoformat(
+                            scheduled_at
+                        )
+                    )
+
+                    bucharest = ZoneInfo(
+                        "Europe/Bucharest"
+                    )
+
+                    if (
+                        local_date.tzinfo
+                        is None
+                    ):
+                        local_date = (
+                            local_date.replace(
+                                tzinfo=bucharest
+                            )
+                        )
+
+                    scheduled_utc = (
+                        local_date
+                        .astimezone(
+                            timezone.utc
+                        )
+                        .isoformat()
+                        .replace(
+                            "+00:00",
+                            "Z",
+                        )
+                    )
+
+                except ValueError:
+                    messages.error(
+                        request,
+                        (
+                            "Data programării "
+                            "este invalidă."
+                        ),
+                    )
+
+                    return redirect(
+                        (
+                            "marketplace_"
+                            "notification_detail"
+                        ),
+                        notification_id=(
+                            notification_id
+                        ),
+                    )
+
+                payload["status"] = (
+                    "scheduled"
+                )
+
+                payload["scheduledAt"] = (
+                    scheduled_utc
+                )
+
+            node_request(
+                request,
+                "PATCH",
+                (
+                    f"/admin/notifications/"
+                    f"{notification_id}"
+                ),
+                json=payload,
+            )
+
+            if action == "schedule":
+                messages.success(
+                    request,
+                    (
+                        "Notificarea a fost "
+                        "programată."
+                    ),
+                )
+
+            elif action == "draft":
+                messages.success(
+                    request,
+                    (
+                        "Notificarea a fost "
+                        "salvată ca draft."
+                    ),
+                )
+
+            else:
+                messages.success(
+                    request,
+                    (
+                        "Notificarea a fost "
+                        "actualizată."
+                    ),
+                )
+
+        else:
+            messages.error(
+                request,
+                "Acțiune necunoscută.",
+            )
+
+    except NodeAPIError as error:
+        messages.error(
+            request,
+            str(error),
+        )
+
+    return redirect(
+        "marketplace_notification_detail",
+        notification_id=notification_id,
     )
 
 

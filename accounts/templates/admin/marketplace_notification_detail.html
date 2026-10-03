@@ -1,0 +1,922 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+
+<style>
+  .nx-notification-detail {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 60px;
+  }
+
+  .nx-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    margin-bottom: 20px;
+
+    color: #64748b;
+    text-decoration: none;
+    font-size: 13px;
+  }
+
+  .nx-back:hover {
+    color: #2563eb;
+  }
+
+  .nx-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+
+    margin-bottom: 24px;
+  }
+
+  .nx-title {
+    margin: 0;
+    font-size: 27px;
+    font-weight: 700;
+  }
+
+  .nx-id {
+    margin-top: 6px;
+    color: #64748b;
+    font-size: 11px;
+  }
+
+  .nx-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    padding: 6px 10px;
+
+    border-radius: 999px;
+
+    font-size: 11px;
+    font-weight: 650;
+  }
+
+  .nx-draft {
+    color: #94a3b8;
+    background: rgba(148, 163, 184, .13);
+  }
+
+  .nx-scheduled {
+    color: #a78bfa;
+    background: rgba(139, 92, 246, .13);
+  }
+
+  .nx-processing {
+    color: #38bdf8;
+    background: rgba(14, 165, 233, .13);
+  }
+
+  .nx-sent {
+    color: #34d399;
+    background: rgba(16, 185, 129, .13);
+  }
+
+  .nx-failed {
+    color: #fb7185;
+    background: rgba(244, 63, 94, .13);
+  }
+
+  .nx-cancelled {
+    color: #94a3b8;
+    background: rgba(100, 116, 139, .13);
+  }
+
+  .nx-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(280px, .6fr);
+    gap: 20px;
+  }
+
+  .nx-card {
+    border: 1px solid rgba(148, 163, 184, .18);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .nx-card-header {
+    padding: 17px 19px;
+
+    border-bottom: 1px solid rgba(148, 163, 184, .13);
+  }
+
+  .nx-card-title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .nx-card-subtitle {
+    margin-top: 4px;
+    color: #64748b;
+    font-size: 11px;
+  }
+
+  .nx-card-body {
+    padding: 19px;
+  }
+
+  .nx-field {
+    margin-bottom: 17px;
+  }
+
+  .nx-field label {
+    display: block;
+    margin-bottom: 7px;
+
+    font-size: 12px;
+    font-weight: 650;
+  }
+
+  .nx-field input,
+  .nx-field textarea,
+  .nx-field select {
+    width: 100%;
+    box-sizing: border-box;
+
+    border: 1px solid rgba(148, 163, 184, .25);
+    border-radius: 9px;
+
+    padding: 10px 12px;
+
+    background: transparent;
+    color: inherit;
+
+    outline: none;
+  }
+
+  .nx-field textarea {
+    min-height: 130px;
+    resize: vertical;
+  }
+
+  .nx-field input:focus,
+  .nx-field textarea:focus,
+  .nx-field select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, .08);
+  }
+
+  .nx-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+
+  .nx-help {
+    margin-top: 5px;
+    color: #64748b;
+    font-size: 11px;
+  }
+
+  .nx-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    margin-top: 22px;
+    padding-top: 18px;
+
+    border-top: 1px solid rgba(148, 163, 184, .13);
+  }
+
+  .nx-button {
+    border: 0;
+    border-radius: 9px;
+
+    padding: 10px 14px;
+
+    font-size: 12px;
+    font-weight: 650;
+
+    cursor: pointer;
+  }
+
+  .nx-save {
+    background: #2563eb;
+    color: white;
+  }
+
+  .nx-draft-button {
+    background: rgba(148, 163, 184, .15);
+    color: inherit;
+  }
+
+  .nx-schedule-button {
+    background: #7c3aed;
+    color: white;
+  }
+
+  .nx-send-button {
+    background: #059669;
+    color: white;
+  }
+
+  .nx-cancel-button {
+    background: #d97706;
+    color: white;
+  }
+
+  .nx-delete-button {
+    background: #dc2626;
+    color: white;
+  }
+
+  .nx-info-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+
+    padding: 11px 0;
+
+    border-bottom: 1px solid rgba(148, 163, 184, .1);
+  }
+
+  .nx-info-row:last-child {
+    border-bottom: 0;
+  }
+
+  .nx-info-label {
+    color: #64748b;
+    font-size: 11px;
+  }
+
+  .nx-info-value {
+    text-align: right;
+    font-size: 12px;
+    word-break: break-word;
+  }
+
+  .nx-image {
+    width: 100%;
+    max-height: 220px;
+
+    object-fit: cover;
+
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+
+  .nx-error {
+    padding: 14px 16px;
+
+    border-radius: 10px;
+    border: 1px solid rgba(244, 63, 94, .25);
+
+    background: rgba(244, 63, 94, .08);
+    color: #fb7185;
+  }
+
+  .nx-readonly {
+    opacity: .7;
+  }
+
+  @media (max-width: 900px) {
+    .nx-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .nx-grid-2 {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+
+<div class="nx-notification-detail">
+
+  <a
+    href="{% url 'marketplace_notifications' %}"
+    class="nx-back"
+  >
+    <span class="material-symbols-outlined">
+      arrow_back
+    </span>
+
+    Back to notifications
+  </a>
+
+
+  {% if api_error %}
+
+    <div class="nx-error">
+      {{ api_error }}
+    </div>
+
+  {% elif notification %}
+
+    <div class="nx-header">
+
+      <div>
+        <h1 class="nx-title">
+          {{ notification.title }}
+        </h1>
+
+        <div class="nx-id">
+          {{ notification.id }}
+        </div>
+      </div>
+
+
+      <div>
+
+        {% if notification.status == "draft" %}
+          <span class="nx-badge nx-draft">
+            Draft
+          </span>
+
+        {% elif notification.status == "scheduled" %}
+          <span class="nx-badge nx-scheduled">
+            <span class="material-symbols-outlined" style="font-size:14px;">
+              schedule
+            </span>
+            Scheduled
+          </span>
+
+        {% elif notification.status == "processing" %}
+          <span class="nx-badge nx-processing">
+            Processing
+          </span>
+
+        {% elif notification.status == "sent" %}
+          <span class="nx-badge nx-sent">
+            Sent
+          </span>
+
+        {% elif notification.status == "failed" %}
+          <span class="nx-badge nx-failed">
+            Failed
+          </span>
+
+        {% elif notification.status == "cancelled" %}
+          <span class="nx-badge nx-cancelled">
+            Cancelled
+          </span>
+        {% endif %}
+
+      </div>
+
+    </div>
+
+
+    <div class="nx-layout">
+
+      <!-- LEFT -->
+
+      <div class="nx-card">
+
+        <div class="nx-card-header">
+          <h2 class="nx-card-title">
+            Notification content
+          </h2>
+
+          <div class="nx-card-subtitle">
+            Edit content, targeting and delivery.
+          </div>
+        </div>
+
+
+        <div class="nx-card-body">
+
+          <form
+            method="post"
+            action="{% url 'marketplace_notification_action' notification.id %}"
+            id="notificationEditForm"
+          >
+
+            {% csrf_token %}
+
+
+            <div class="nx-field">
+              <label>
+                Title
+              </label>
+
+              <input
+                type="text"
+                name="title"
+                maxlength="120"
+                value="{{ notification.title }}"
+                required
+                {% if notification.status == "sent" or notification.status == "processing" %}
+                  disabled
+                {% endif %}
+              >
+            </div>
+
+
+            <div class="nx-field">
+              <label>
+                Message
+              </label>
+
+              <textarea
+                name="body"
+                maxlength="1000"
+                required
+                {% if notification.status == "sent" or notification.status == "processing" %}
+                  disabled
+                {% endif %}
+              >{{ notification.body }}</textarea>
+            </div>
+
+
+            <div class="nx-field">
+              <label>
+                Image URL
+              </label>
+
+              <input
+                type="url"
+                name="image_url"
+                value="{{ notification.imageUrl|default:'' }}"
+                placeholder="https://..."
+                {% if notification.status == "sent" or notification.status == "processing" %}
+                  disabled
+                {% endif %}
+              >
+
+              {% if notification.imageUrl %}
+                <img
+                  class="nx-image"
+                  src="{{ notification.imageUrl }}"
+                  alt=""
+                >
+              {% endif %}
+            </div>
+
+
+            <div class="nx-grid-2">
+
+              <div class="nx-field">
+                <label>
+                  Audience
+                </label>
+
+                <select
+                  name="audience"
+                  {% if notification.status == "sent" or notification.status == "processing" %}
+                    disabled
+                  {% endif %}
+                >
+
+                  <option
+                    value="all"
+                    {% if notification.audience == "all" %}selected{% endif %}
+                  >
+                    All users
+                  </option>
+
+                  <option
+                    value="buyers"
+                    {% if notification.audience == "buyers" %}selected{% endif %}
+                  >
+                    Buyers
+                  </option>
+
+                  <option
+                    value="sellers"
+                    {% if notification.audience == "sellers" %}selected{% endif %}
+                  >
+                    Sellers
+                  </option>
+
+                  <option
+                    value="verified"
+                    {% if notification.audience == "verified" %}selected{% endif %}
+                  >
+                    Verified users
+                  </option>
+
+                  <option
+                    value="custom"
+                    {% if notification.audience == "custom" %}selected{% endif %}
+                  >
+                    Custom
+                  </option>
+
+                </select>
+              </div>
+
+
+              <div class="nx-field">
+                <label>
+                  Priority
+                </label>
+
+                <select
+                  name="priority"
+                  {% if notification.status == "sent" or notification.status == "processing" %}
+                    disabled
+                  {% endif %}
+                >
+
+                  <option
+                    value="normal"
+                    {% if notification.priority == "normal" %}selected{% endif %}
+                  >
+                    Normal
+                  </option>
+
+                  <option
+                    value="high"
+                    {% if notification.priority == "high" %}selected{% endif %}
+                  >
+                    High
+                  </option>
+
+                </select>
+              </div>
+
+            </div>
+
+
+            <div class="nx-grid-2">
+
+              <div class="nx-field">
+                <label>
+                  App route
+                </label>
+
+                <input
+                  type="text"
+                  name="route"
+                  value="{{ notification.data.route|default:'' }}"
+                  placeholder="/listing"
+                  {% if notification.status == "sent" or notification.status == "processing" %}
+                    disabled
+                  {% endif %}
+                >
+              </div>
+
+
+              <div class="nx-field">
+                <label>
+                  Target ID
+                </label>
+
+                <input
+                  type="text"
+                  name="target_id"
+                  value="{{ notification.data.targetId|default:'' }}"
+                  {% if notification.status == "sent" or notification.status == "processing" %}
+                    disabled
+                  {% endif %}
+                >
+              </div>
+
+            </div>
+
+
+            <div class="nx-field">
+              <label>
+                External URL
+              </label>
+
+              <input
+                type="url"
+                name="url"
+                value="{{ notification.data.url|default:'' }}"
+                placeholder="https://nx-store.com/..."
+                {% if notification.status == "sent" or notification.status == "processing" %}
+                  disabled
+                {% endif %}
+              >
+            </div>
+
+
+            {% if notification.status != "sent" and notification.status != "processing" %}
+
+              <div class="nx-field">
+                <label>
+                  Schedule
+                </label>
+
+                <input
+                  type="datetime-local"
+                  name="scheduled_at"
+                  id="scheduledAt"
+                  value="{{ scheduled_at_local }}"
+                >
+
+                <div class="nx-help">
+                  Europe/Bucharest
+                </div>
+              </div>
+
+
+              <div class="nx-actions">
+
+                <button
+                  type="submit"
+                  name="action"
+                  value="update"
+                  class="nx-button nx-save"
+                >
+                  Save changes
+                </button>
+
+
+                <button
+                  type="submit"
+                  name="action"
+                  value="draft"
+                  class="nx-button nx-draft-button"
+                >
+                  Save as draft
+                </button>
+
+
+                <button
+                  type="submit"
+                  name="action"
+                  value="schedule"
+                  class="nx-button nx-schedule-button"
+                >
+                  {% if notification.status == "scheduled" %}
+                    Reschedule
+                  {% else %}
+                    Schedule
+                  {% endif %}
+                </button>
+
+              </div>
+
+            {% endif %}
+
+          </form>
+
+        </div>
+
+      </div>
+
+
+      <!-- RIGHT -->
+
+      <div>
+
+        <div class="nx-card">
+
+          <div class="nx-card-header">
+            <h2 class="nx-card-title">
+              Delivery
+            </h2>
+          </div>
+
+
+          <div class="nx-card-body">
+
+            <div class="nx-info-row">
+              <span class="nx-info-label">
+                Status
+              </span>
+
+              <span class="nx-info-value">
+                {{ notification.status|title }}
+              </span>
+            </div>
+
+
+            <div class="nx-info-row">
+              <span class="nx-info-label">
+                Audience
+              </span>
+
+              <span class="nx-info-value">
+                {{ notification.audience|default:"all"|title }}
+              </span>
+            </div>
+
+
+            <div class="nx-info-row">
+              <span class="nx-info-label">
+                Priority
+              </span>
+
+              <span class="nx-info-value">
+                {{ notification.priority|default:"normal"|title }}
+              </span>
+            </div>
+
+
+            <div class="nx-info-row">
+              <span class="nx-info-label">
+                Scheduled
+              </span>
+
+              <span
+                class="nx-info-value nx-date"
+                data-date="{{ notification.scheduledAt|default:'' }}"
+              >
+                {{ notification.scheduledAt|default:"—" }}
+              </span>
+            </div>
+
+
+            <div class="nx-info-row">
+              <span class="nx-info-label">
+                Sent
+              </span>
+
+              <span
+                class="nx-info-value nx-date"
+                data-date="{{ notification.sentAt|default:'' }}"
+              >
+                {{ notification.sentAt|default:"—" }}
+              </span>
+            </div>
+
+
+            <div class="nx-info-row">
+              <span class="nx-info-label">
+                Created
+              </span>
+
+              <span
+                class="nx-info-value nx-date"
+                data-date="{{ notification.createdAt|default:'' }}"
+              >
+                {{ notification.createdAt|default:"—" }}
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="nx-card"
+          style="margin-top:20px;"
+        >
+
+          <div class="nx-card-header">
+            <h2 class="nx-card-title">
+              Actions
+            </h2>
+
+            <div class="nx-card-subtitle">
+              Delivery and lifecycle actions.
+            </div>
+          </div>
+
+
+          <div class="nx-card-body">
+
+            {% if notification.status == "draft" or notification.status == "scheduled" or notification.status == "failed" %}
+
+              <form
+                method="post"
+                action="{% url 'marketplace_notification_action' notification.id %}"
+                style="margin-bottom:10px;"
+              >
+                {% csrf_token %}
+
+                <input
+                  type="hidden"
+                  name="action"
+                  value="send_now"
+                >
+
+                <button
+                  type="submit"
+                  class="nx-button nx-send-button"
+                  style="width:100%;"
+                  onclick="return confirm('Trimitem notificarea acum?');"
+                >
+                  Send now
+                </button>
+              </form>
+
+            {% endif %}
+
+
+            {% if notification.status == "scheduled" %}
+
+              <form
+                method="post"
+                action="{% url 'marketplace_notification_action' notification.id %}"
+                style="margin-bottom:10px;"
+              >
+                {% csrf_token %}
+
+                <input
+                  type="hidden"
+                  name="action"
+                  value="cancel"
+                >
+
+                <button
+                  type="submit"
+                  class="nx-button nx-cancel-button"
+                  style="width:100%;"
+                  onclick="return confirm('Anulăm această programare?');"
+                >
+                  Cancel schedule
+                </button>
+              </form>
+
+            {% endif %}
+
+
+            {% if notification.status == "draft" or notification.status == "failed" or notification.status == "cancelled" %}
+
+              <form
+                method="post"
+                action="{% url 'marketplace_notification_action' notification.id %}"
+              >
+                {% csrf_token %}
+
+                <input
+                  type="hidden"
+                  name="action"
+                  value="delete"
+                >
+
+                <button
+                  type="submit"
+                  class="nx-button nx-delete-button"
+                  style="width:100%;"
+                  onclick="return confirm('Ștergi definitiv notificarea?');"
+                >
+                  Delete notification
+                </button>
+              </form>
+
+            {% endif %}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  {% endif %}
+
+</div>
+
+
+<script>
+  (() => {
+    document
+      .querySelectorAll(".nx-date")
+      .forEach((element) => {
+        const raw = element.dataset.date;
+
+        if (!raw) {
+          element.textContent = "—";
+          return;
+        }
+
+        const date = new Date(raw);
+
+        if (Number.isNaN(date.getTime())) {
+          return;
+        }
+
+        element.textContent =
+          new Intl.DateTimeFormat(
+            "ro-RO",
+            {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            }
+          ).format(date);
+      });
+
+
+    const scheduledAt =
+      document.getElementById(
+        "scheduledAt"
+      );
+
+    if (scheduledAt) {
+      const now = new Date();
+
+      now.setMinutes(
+        now.getMinutes()
+        - now.getTimezoneOffset()
+        + 1
+      );
+
+      scheduledAt.min =
+        now
+          .toISOString()
+          .slice(0, 16);
+    }
+  })();
+</script>
+
+{% endblock %}
