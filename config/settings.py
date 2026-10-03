@@ -16,7 +16,6 @@ import dj_database_url
 
 
 from django.urls import reverse_lazy
-from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,39 +80,39 @@ UNFOLD = {
 
         "navigation": [
             {
-                "title": _("Marketplace"),
+                "title": "Marketplace",
                 "separator": True,
                 "collapsible": False,
 
                 "items": [
                     {
-                        "title": _("Dashboard"),
+                        "title": "Dashboard",
                         "icon": "dashboard",
                         "link": reverse_lazy("nexora_dashboard"),
                     },
                     {
-                        "title": _("Users"),
+                        "title": "Users",
                         "icon": "group",
                         "link": reverse_lazy(
                             "marketplace_users"
                         ),
                     },
                     {
-                        "title": _("Notifications"),
+                        "title": "Notifications",
                         "icon": "notifications",
                         "link": reverse_lazy(
                             "marketplace_notifications"
                         ),
                     },
                     {
-                        "title": _("Withdrawals"),
+                        "title": "Withdrawals",
                         "icon": "payments",
                         "link": reverse_lazy(
                             "marketplace_withdrawals"
                         ),
                     },
                     {
-                        "title": _("Support"),
+                        "title": "Support",
                         "icon": "support_agent",
                         "link": reverse_lazy(
                             "marketplace_support"
