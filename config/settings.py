@@ -37,10 +37,12 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
     ".vercel.app",
+    "admin.nx-store.com",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://*.vercel.app",
+    "https://admin.nx-store.com",
 ]
 
 if not DEBUG:
