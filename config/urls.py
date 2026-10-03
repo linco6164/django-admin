@@ -22,6 +22,14 @@ from accounts.views import (
 
 
 urlpatterns = [
+    path(
+        "",
+        RedirectView.as_view(
+            url="/admin/login/",
+            permanent=False,
+        ),
+    ),
+    
     # /admin/ -> dashboard-ul NEXORA
     path(
         "admin/",
@@ -56,75 +64,75 @@ urlpatterns = [
     ),
 
     path(
-    "admin/marketplace-users/<str:user_id>/ban/",
-    admin.site.admin_view(
-        marketplace_toggle_ban
-    ),
+        "admin/marketplace-users/<str:user_id>/ban/",
+        admin.site.admin_view(
+            marketplace_toggle_ban
+        ),
     name="marketplace_toggle_ban",
-),
-
-path(
-    "admin/marketplace-users/<str:user_id>/update/",
-    admin.site.admin_view(
-        marketplace_user_update
     ),
-    name="marketplace_user_update",
-),
 
-# Notifications
-path(
-    "admin/notifications/",
-    admin.site.admin_view(
-        marketplace_notifications
-    ),
-    name="marketplace_notifications",
-),
-
-# Withdrawals
-path(
-    "admin/withdrawals/",
-    admin.site.admin_view(
-        marketplace_withdrawals
-    ),
-    name="marketplace_withdrawals",
-),
-
-path(
-    "admin/withdrawals/<str:withdrawal_id>/action/",
-    admin.site.admin_view(
-        marketplace_withdrawal_action
-    ),
-    name="marketplace_withdrawal_action",
-),
-
-# Support
-path(
-    "admin/support/",
-    admin.site.admin_view(
-        marketplace_support
-    ),
-    name="marketplace_support",
-),
-
-path(
-    "admin/support/<str:ticket_id>/",
-    admin.site.admin_view(
-        marketplace_support_detail
-    ),
-    name="marketplace_support_detail",
-),
-
-path(
-    "admin/support/<str:ticket_id>/action/",
-    admin.site.admin_view(
-        marketplace_support_action
-    ),
-    name="marketplace_support_action",
-),
-
-    # Trebuie să fie ultimul
     path(
-        "admin/",
-        admin.site.urls,
+        "admin/marketplace-users/<str:user_id>/update/",
+        admin.site.admin_view(
+            marketplace_user_update
+        ),
+        name="marketplace_user_update",
     ),
+
+    # Notifications
+    path(
+        "admin/notifications/",
+        admin.site.admin_view(
+            marketplace_notifications
+        ),
+        name="marketplace_notifications",
+    ),
+
+    # Withdrawals
+    path(
+        "admin/withdrawals/",
+        admin.site.admin_view(
+            marketplace_withdrawals
+        ),
+        name="marketplace_withdrawals",
+    ),
+
+    path(
+        "admin/withdrawals/<str:withdrawal_id>/action/",
+        admin.site.admin_view(
+            marketplace_withdrawal_action
+        ),
+        name="marketplace_withdrawal_action",
+    ),
+
+    # Support
+    path(
+        "admin/support/",
+        admin.site.admin_view(
+            marketplace_support
+        ),
+        name="marketplace_support",
+    ),
+
+    path(
+        "admin/support/<str:ticket_id>/",
+        admin.site.admin_view(
+            marketplace_support_detail
+        ),
+        name="marketplace_support_detail",
+    ),
+
+    path(
+        "admin/support/<str:ticket_id>/action/",
+        admin.site.admin_view(
+            marketplace_support_action
+        ),
+        name="marketplace_support_action",
+    ),
+
+        # Trebuie să fie ultimul
+        path(
+            "admin/",
+            admin.site.urls,
+        ),
 ]
