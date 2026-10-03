@@ -8,7 +8,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2);\n"
 
-
 # =========================================================
 # GENERAL
 # =========================================================
@@ -35,7 +34,7 @@ msgid "Search..."
 msgstr "Caută..."
 
 msgid "Filter"
-msgstr "Filtru"
+msgstr "Filtrează"
 
 msgid "Filters"
 msgstr "Filtre"
@@ -139,7 +138,6 @@ msgstr "Tip"
 msgid "ID"
 msgstr "ID"
 
-
 # =========================================================
 # STATUSES
 # =========================================================
@@ -166,13 +164,13 @@ msgid "Pending"
 msgstr "În așteptare"
 
 msgid "Completed"
-msgstr "Finalizat"
+msgstr "Finalizate"
 
 msgid "Rejected"
-msgstr "Respins"
+msgstr "Respinse"
 
 msgid "Failed"
-msgstr "Eșuat"
+msgstr "Eșuate"
 
 msgid "Processing"
 msgstr "În procesare"
@@ -212,7 +210,6 @@ msgstr "Dezactivat"
 
 msgid "Sold"
 msgstr "Vândut"
-
 
 # =========================================================
 # DASHBOARD
@@ -256,7 +253,6 @@ msgstr "Vezi toate"
 
 msgid "Statistics"
 msgstr "Statistici"
-
 
 # =========================================================
 # USERS
@@ -403,7 +399,6 @@ msgstr "Sigur vrei să ștergi acest utilizator?"
 msgid "Are you sure you want to unban this account?"
 msgstr "Sigur vrei să deblochezi acest cont?"
 
-
 # =========================================================
 # SECURITY / USER ACCOUNT
 # =========================================================
@@ -462,7 +457,6 @@ msgstr "Resetează parola"
 msgid "Set a new password"
 msgstr "Setează o parolă nouă"
 
-
 # =========================================================
 # LISTINGS
 # =========================================================
@@ -512,7 +506,6 @@ msgstr "Șterge anunțul"
 msgid "No listings found."
 msgstr "Nu au fost găsite anunțuri."
 
-
 # =========================================================
 # ORDERS
 # =========================================================
@@ -534,7 +527,6 @@ msgstr "Total"
 
 msgid "No orders found."
 msgstr "Nu au fost găsite comenzi."
-
 
 # =========================================================
 # NOTIFICATIONS
@@ -690,7 +682,6 @@ msgstr "Trimite test"
 msgid "Send test notification"
 msgstr "Trimite notificare de test"
 
-
 # =========================================================
 # NOTIFICATION STATISTICS
 # =========================================================
@@ -706,7 +697,6 @@ msgstr "Deschise"
 
 msgid "Clicked"
 msgstr "Accesate"
-
 
 # =========================================================
 # WITHDRAWALS
@@ -728,7 +718,7 @@ msgid "Amount"
 msgstr "Sumă"
 
 msgid "Requested"
-msgstr "Solicitat"
+msgstr "Solicitată"
 
 msgid "Requested at"
 msgstr "Solicitat la"
@@ -762,7 +752,6 @@ msgstr "Sigur vrei să aprobi această retragere?"
 
 msgid "Are you sure you want to reject this withdrawal?"
 msgstr "Sigur vrei să respingi această retragere?"
-
 
 # =========================================================
 # SUPPORT
@@ -822,7 +811,6 @@ msgstr "Rezolvă tichetul"
 msgid "No support tickets found."
 msgstr "Nu au fost găsite tichete de suport."
 
-
 # =========================================================
 # PAGINATION / COUNTS
 # =========================================================
@@ -844,7 +832,6 @@ msgstr "retrageri"
 
 msgid "tickets"
 msgstr "tichete"
-
 
 # =========================================================
 # MESSAGES / CONFIRMATIONS
@@ -886,7 +873,6 @@ msgstr "Ești sigur?"
 msgid "This action cannot be undone."
 msgstr "Această acțiune nu poate fi anulată."
 
-
 # =========================================================
 # LOGIN / ACCOUNT
 # =========================================================
@@ -914,3 +900,366 @@ msgstr "Ține-mă minte"
 
 msgid "Welcome back"
 msgstr "Bine ai revenit"
+
+msgid "An error occurred while fetching API data."
+msgstr "A apărut o eroare la preluarea datelor din API."
+
+msgid "NEXORA Marketplace"
+msgstr "Marketplace NEXORA"
+
+msgid "Users, listings, payments, support and marketplace operations will be available from this dashboard."
+msgstr "Utilizatorii, anunțurile, plățile, suportul și operațiunile marketplace-ului vor fi disponibile din acest panou de control."
+
+msgid "Back to notifications"
+msgstr "Înapoi la notificări"
+
+msgid "Notification content"
+msgstr "Conținutul notificării"
+
+msgid "Edit content, targeting and delivery."
+msgstr "Editează conținutul, audiența și livrarea."
+
+msgid "Save changes"
+msgstr "Salvează modificările"
+
+msgid "Save as draft"
+msgstr "Salvează ca ciornă"
+
+msgid "Reschedule"
+msgstr "Reprogramează"
+
+msgid "Delivery and lifecycle actions."
+msgstr "Acțiuni pentru livrare și ciclul de viață."
+
+msgid "Cancel schedule"
+msgstr "Anulează programarea"
+
+msgid "Send this notification now?"
+msgstr "Trimitem notificarea acum?"
+
+msgid "Cancel this schedule?"
+msgstr "Anulezi această programare?"
+
+msgid "Permanently delete this notification?"
+msgstr "Ștergi definitiv notificarea?"
+
+msgid "Back to Support"
+msgstr "Înapoi la Suport"
+
+msgid "On hold"
+msgstr "În așteptare"
+
+msgid "%(counter)s message"
+msgid_plural "%(counter)s messages"
+msgstr[0] "%(counter)s mesaj"
+msgstr[1] "%(counter)s mesaje"
+msgstr[2] "%(counter)s de mesaje"
+
+msgid "Customer"
+msgstr "Client"
+
+msgid "Unknown"
+msgstr "Necunoscut"
+
+msgid "Write a reply to the customer..."
+msgstr "Scrie un răspuns clientului..."
+
+msgid "This ticket is closed."
+msgstr "Acest tichet este închis."
+
+msgid "Reopen it to send a reply."
+msgstr "Redeschide-l pentru a putea răspunde."
+
+msgid "No messages yet."
+msgstr "Nu există mesaje încă."
+
+msgid "View user"
+msgstr "Vezi utilizatorul"
+
+msgid "Ticket information"
+msgstr "Informații tichet"
+
+msgid "Assignment"
+msgstr "Atribuire"
+
+msgid "Unassigned"
+msgstr "Neatribuit"
+
+msgid "Assign to me"
+msgstr "Atribuie-mi"
+
+msgid "Unassign"
+msgstr "Elimină atribuirea"
+
+msgid "Take over"
+msgstr "Preia tichetul"
+
+msgid "Ticket controls"
+msgstr "Control tichet"
+
+msgid "Update status"
+msgstr "Actualizează statusul"
+
+msgid "Low"
+msgstr "Scăzută"
+
+msgid "Urgent"
+msgstr "Urgentă"
+
+msgid "Update priority"
+msgstr "Actualizează prioritatea"
+
+msgid "Support ticket not found."
+msgstr "Tichetul de suport nu a fost găsit."
+
+msgid "Manage customer conversations and requests."
+msgstr "Gestionează conversațiile și solicitările clienților."
+
+msgid "Total tickets"
+msgstr "Total tichete"
+
+msgid "My tickets"
+msgstr "Tichetele mele"
+
+msgid "Tickets"
+msgstr "Tichete"
+
+msgid "All departments"
+msgstr "Toate departamentele"
+
+msgid "All priorities"
+msgstr "Toate prioritățile"
+
+msgid "Unknown user"
+msgstr "Utilizator necunoscut"
+
+msgid "No messages"
+msgstr "Fără mesaje"
+
+msgid "Assigned to"
+msgstr "Atribuit lui"
+
+msgid "There are no tickets for the selected filter."
+msgstr "Nu există tichete pentru filtrul selectat."
+
+msgid "%(counter)s result"
+msgid_plural "%(counter)s results"
+msgstr[0] "%(counter)s rezultat"
+msgstr[1] "%(counter)s rezultate"
+msgstr[2] "%(counter)s de rezultate"
+
+msgid "General"
+msgstr "General"
+
+msgid "Call Center"
+msgstr "Call Center"
+
+msgid "IT"
+msgstr "IT"
+
+msgid "Payments"
+msgstr "Plăți"
+
+msgid "Logistics"
+msgstr "Logistică"
+
+msgid "Moderation"
+msgstr "Moderare"
+
+msgid "Account & Security"
+msgstr "Cont și securitate"
+
+msgid "Admin"
+msgstr "Administrator"
+
+msgid "Credentials"
+msgstr "Credențiale"
+
+msgid "Customer information"
+msgstr "Informații client"
+
+msgid "General information about the customer"
+msgstr "Informații generale despre client"
+
+msgid "Location"
+msgstr "Locație"
+
+msgid "Technical information"
+msgstr "Informații tehnice"
+
+msgid "Account blocked"
+msgstr "Cont blocat"
+
+msgid "Modify customer information"
+msgstr "Modifică informațiile clientului"
+
+msgid "Save profile"
+msgstr "Salvează profilul"
+
+msgid "Primary authentication address"
+msgstr "Adresa principală de autentificare"
+
+msgid "Current account"
+msgstr "Cont curent"
+
+msgid "Password & authentication"
+msgstr "Parolă și autentificare"
+
+msgid "Manage customer access"
+msgstr "Gestionează accesul clientului"
+
+msgid "Set a new password manually"
+msgstr "Setează manual o parolă nouă"
+
+msgid "Generate a new password for this account?"
+msgstr "Generezi o parolă nouă pentru acest cont?"
+
+msgid "Are you sure you want to disable 2FA for this user?"
+msgstr "Sigur vrei să dezactivezi 2FA pentru acest utilizator?"
+
+msgid "Are you sure you want to unblock this account?"
+msgstr "Sigur vrei să deblochezi acest cont?"
+
+msgid "Login provider"
+msgstr "Furnizor de autentificare"
+
+msgid "The primary method of authentication"
+msgstr "Metoda principală de autentificare"
+
+msgid "Access restrictions"
+msgstr "Restricții de acces"
+
+msgid "Unblock account"
+msgstr "Deblochează contul"
+
+msgid "Block account"
+msgstr "Blochează contul"
+
+msgid "Account identity"
+msgstr "Identitatea contului"
+
+msgid "User ID"
+msgstr "ID utilizator"
+
+msgid "Set a new password for %(username)s."
+msgstr "Setează o parolă nouă pentru %(username)s."
+
+msgid "Select the reason for blocking the account %(username)s."
+msgstr "Selectează motivul blocării contului %(username)s."
+
+msgid "Select the reason..."
+msgstr "Selectează motivul..."
+
+msgid "Violation of platform rules"
+msgstr "Încălcarea regulilor platformei"
+
+msgid "Suspicious activity"
+msgstr "Activitate suspectă"
+
+msgid "Fraud / attempted fraud"
+msgstr "Fraudă / tentativă de fraudă"
+
+msgid "Banned listings or products"
+msgstr "Anunțuri sau produse interzise"
+
+msgid "Harassment / abusive behavior"
+msgstr "Hărțuire / comportament abuziv"
+
+msgid "Fake account / false identity"
+msgstr "Cont fals / identitate falsă"
+
+msgid "Other reason"
+msgstr "Alt motiv"
+
+msgid "Custom reason"
+msgstr "Motiv personalizat"
+
+msgid "Describe the reason for the ban..."
+msgstr "Descrie motivul blocării..."
+
+msgid "Page %(page)s of %(pages)s"
+msgstr "Pagina %(page)s din %(pages)s"
+
+msgid "Manage users of the NEXORA marketplace"
+msgstr "Gestionează utilizatorii marketplace-ului NEXORA"
+
+msgid "Current page"
+msgstr "Pagina curentă"
+
+msgid "Total pages"
+msgstr "Total pagini"
+
+msgid "Search username or email..."
+msgstr "Caută după numele de utilizator sau email..."
+
+msgid "Clear"
+msgstr "Șterge filtrul"
+
+msgid "Administrator"
+msgstr "Administrator"
+
+msgid "Unblock"
+msgstr "Deblochează"
+
+msgid "Block"
+msgstr "Blochează"
+
+msgid "Block user"
+msgstr "Blochează utilizatorul"
+
+msgid "Are you sure you want to unblock the account %(username)s?"
+msgstr "Sigur vrei să deblochezi contul %(username)s?"
+
+msgid "%(counter)s user"
+msgid_plural "%(counter)s users"
+msgstr[0] "%(counter)s utilizator"
+msgstr[1] "%(counter)s utilizatori"
+msgstr[2] "%(counter)s de utilizatori"
+
+msgid "Page %(current)s of %(total_pages)s"
+msgstr "Pagina %(current)s din %(total_pages)s"
+
+msgid "The user will not be able to access the account until it is unblocked."
+msgstr "Utilizatorul nu va putea accesa contul până când acesta nu este deblocat."
+
+msgid "Select the reason for blocking the account."
+msgstr "Selectează motivul blocării contului."
+
+msgid "Describe the reason for blocking..."
+msgstr "Descrie motivul blocării..."
+
+msgid "The reason will be saved to the user's account."
+msgstr "Motivul va fi salvat în contul utilizatorului."
+
+msgid "Manage NEXORA user withdrawal requests"
+msgstr "Gestionează cererile de retragere ale utilizatorilor NEXORA"
+
+msgid "Bank account"
+msgstr "Cont bancar"
+
+msgid "Copy IBAN"
+msgstr "Copiază IBAN-ul"
+
+msgid "No withdrawals"
+msgstr "Nu există retrageri"
+
+msgid "There are no pending withdrawal requests."
+msgstr "Nu există cereri de retragere în așteptare."
+
+msgid "There are no completed withdrawal requests."
+msgstr "Nu există cereri de retragere finalizate."
+
+msgid "There are no rejected withdrawal requests."
+msgstr "Nu există cereri de retragere respinse."
+
+msgid "There are no failed withdrawal requests."
+msgstr "Nu există cereri de retragere eșuate."
+
+msgid "There are no withdrawal requests for the selected status."
+msgstr "Nu există cereri de retragere pentru statusul selectat."
+
+msgid "%(counter)s withdrawal"
+msgid_plural "%(counter)s withdrawals"
+msgstr[0] "%(counter)s retragere"
+msgstr[1] "%(counter)s retrageri"
+msgstr[2] "%(counter)s de retrageri"

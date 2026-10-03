@@ -397,7 +397,7 @@
 
             <div class="nx-field">
               <label>
-                Title
+                {% trans "Title" %}
               </label>
 
               <input
@@ -523,14 +523,14 @@
                     value="normal"
                     {% if notification.priority == "normal" %}selected{% endif %}
                   >
-                    Normal
+                    {% trans "Normal" %}
                   </option>
 
                   <option
                     value="high"
                     {% if notification.priority == "high" %}selected{% endif %}
                   >
-                    High
+                    {% trans "High" %}
                   </option>
 
                 </select>

@@ -748,312 +748,541 @@
 </style>
 
 <div class="nx-notifications-page">
-  <!-- HEADER -->
 
-  <div class="nx-page-header">
-    <div>
-      <h1 class="nx-page-title">{% trans "Notifications" %}</h1>
+    <!-- HEADER -->
 
-      <div class="nx-page-subtitle">
-        {% trans "Create, schedule and monitor notifications sent to NEXORA users." %}
-      </div>
+    <div class="nx-page-header">
+
+        <div>
+            <h1 class="nx-page-title">
+                {% trans "Notifications" %}
+            </h1>
+
+            <div class="nx-page-subtitle">
+                {% trans "Create, schedule and monitor notifications sent to NEXORA users." %}
+            </div>
+        </div>
+
+        <button
+            type="button"
+            class="nx-primary-button"
+            id="openNotificationModal"
+        >
+            <span class="material-symbols-outlined">
+                add
+            </span>
+
+            {% trans "Create notification" %}
+        </button>
+
     </div>
 
-    <button type="button" class="nx-primary-button" id="openNotificationModal">
-      <span class="material-symbols-outlined"> add </span>
 
-      {% trans "Create notification" %}
-    </button>
-  </div>
+    {% if api_error %}
 
-  {% if api_error %}
+        <div class="nx-error">
+            <strong>
+                {% trans "An error occurred while fetching API data." %}
+            </strong>
 
-  <div class="nx-error">{{ api_error }}</div>
-
-  {% endif %}
-
-  <!-- STATS -->
-
-  <div class="nx-stats-grid">
-    <a
-      href="?status=all"
-      class="nx-stat-card {% if active_status == 'all' %}active{% endif %}"
-    >
-      <div class="nx-stat-label">{% trans "All" %}</div>
-
-      <div class="nx-stat-value">{{ stats.all|default:"0" }}</div>
-    </a>
-
-    <a
-      href="?status=draft"
-      class="nx-stat-card {% if active_status == 'draft' %}active{% endif %}"
-    >
-      <div class="nx-stat-label">{% trans "Drafts" %}</div>
-
-      <div class="nx-stat-value">{{ stats.draft|default:"0" }}</div>
-    </a>
-
-    <a
-      href="?status=scheduled"
-      class="nx-stat-card {% if active_status == 'scheduled' %}active{% endif %}"
-    >
-      <div class="nx-stat-label">{% trans "Scheduled" %}</div>
-
-      <div class="nx-stat-value">{{ stats.scheduled|default:"0" }}</div>
-    </a>
-
-    <a
-      href="?status=sent"
-      class="nx-stat-card {% if active_status == 'sent' %}active{% endif %}"
-    >
-      <div class="nx-stat-label">{% trans "Sent" %}</div>
-
-      <div class="nx-stat-value">{{ stats.sent|default:"0" }}</div>
-    </a>
-
-    <a
-      href="?status=failed"
-      class="nx-stat-card {% if active_status == 'failed' %}active{% endif %}"
-    >
-      <div class="nx-stat-label">{% trans "Failed" %}</div>
-
-      <div class="nx-stat-value">{{ stats.failed|default:"0" }}</div>
-    </a>
-
-    <a
-      href="?status=cancelled"
-      class="nx-stat-card {% if active_status == 'cancelled' %}active{% endif %}"
-    >
-      <div class="nx-stat-label">{% trans "Cancelled" %}</div>
-
-      <div class="nx-stat-value">{{ stats.cancelled|default:"0" }}</div>
-    </a>
-  </div>
-
-  <!-- SEARCH -->
-
-  <div class="nx-toolbar">
-    <form method="get" class="nx-search-form">
-      {% if active_status != "all" %}
-      <input type="hidden" name="status" value="{{ active_status }}" />
-      {% endif %}
-
-      <span class="material-symbols-outlined nx-search-icon"> search </span>
-
-      <input
-        type="text"
-        name="search"
-        value="{{ search }}"
-        class="nx-search-input"
-        placeholder="{% trans "Search notifications..." %}"
-      />
-    </form>
-
-    <div class="nx-results-count">
-      {{ pagination.total|default:"0" }} {% trans "notification" %}{{ pagination.total|pluralize }}
-    </div>
-  </div>
-
-  <!-- LIST -->
-
-  <div class="nx-card">
-    <div class="nx-table-wrapper">
-      <table class="nx-table">
-        <thead>
-          <tr>
-            <th>{% trans "Notification" %}</th>
-
-            <th>{% trans "Audience" %}</th>
-
-            <th>{% trans "Priority" %}</th>
-
-            <th>{% trans "Status" %}</th>
-
-            <th>{% trans "Schedule / Sent" %}</th>
-
-            <th>{% trans "Actions" %}</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {% if notifications %} {% for notification in notifications %}
-
-          <tr>
-            <td>
-              <div class="nx-notification-main">
-                <div class="nx-notification-icon">
-                  <span class="material-symbols-outlined"> notifications </span>
+            {% if api_error %}
+                <div style="margin-top:6px;">
+                    {{ api_error }}
                 </div>
-
-                <div>
-                  <div class="nx-notification-title">
-                    {{ notification.title }}
-                  </div>
-
-                  <div class="nx-notification-body">
-                    {{ notification.body }}
-                  </div>
-                </div>
-              </div>
-            </td>
-
-            <td>
-              <span class="nx-muted">
-                {{ notification.audience|default:"all"|title }}
-              </span>
-            </td>
-
-            <td>
-              {% if notification.priority == "high" %}
-
-              <span class="nx-priority-high"> {% trans "High" %} </span>
-
-              {% else %}
-
-              <span class="nx-muted"> {% trans "Normal" %} </span>
-
-              {% endif %}
-            </td>
-
-            <td>
-              {% if notification.status == "draft" %}
-
-              <span class="nx-badge nx-badge-draft"> {% trans "Draft" %} </span>
-
-              {% elif notification.status == "scheduled" %}
-
-              <span class="nx-badge nx-badge-scheduled">
-                <span class="material-symbols-outlined" style="font-size: 14px">
-                  schedule
-                </span>
-
-                {% trans "Scheduled" %}
-              </span>
-
-              {% elif notification.status == "processing" %}
-
-              <span class="nx-badge nx-badge-processing"> {% trans "Processing" %} </span>
-
-              {% elif notification.status == "sent" %}
-
-              <span class="nx-badge nx-badge-sent"> {% trans "Sent" %} </span>
-
-              {% elif notification.status == "failed" %}
-
-              <span class="nx-badge nx-badge-failed"> {% trans "Failed" %} </span>
-
-              {% elif notification.status == "cancelled" %}
-
-              <span class="nx-badge nx-badge-cancelled"> {% trans "Cancelled" %} </span>
-
-              {% else %}
-
-              <span class="nx-badge nx-badge-draft">
-                {{ notification.status }}
-              </span>
-
-              {% endif %}
-            </td>
-
-            <td>
-              {% if notification.status == "scheduled" %}
-
-              <span
-                class="nx-muted nx-date"
-                data-date="{{ notification.scheduledAt }}"
-              >
-                {{ notification.scheduledAt }}
-              </span>
-
-              {% elif notification.sentAt %}
-
-              <span
-                class="nx-muted nx-date"
-                data-date="{{ notification.sentAt }}"
-              >
-                {{ notification.sentAt }}
-              </span>
-
-              {% else %}
-
-              <span class="nx-muted"> — </span>
-
-              {% endif %}
-            </td>
-            <td>
-              <a
-                href="{% url 'marketplace_notification_detail' notification.id %}"
-                style="
-                  display: inline-flex;
-                  align-items: center;
-                  gap: 6px;
-                  padding: 7px 10px;
-                  border: 1px solid rgba(148, 163, 184, 0.25);
-                  border-radius: 8px;
-                  color: inherit;
-                  text-decoration: none;
-                  font-size: 12px;
-                  font-weight: 600;
-                "
-              >
-                <span class="material-symbols-outlined" style="font-size: 16px">
-                  edit
-                </span>
-
-                {% trans "View / Edit" %}
-              </a>
-            </td>
-          </tr>
-
-          {% endfor %} {% else %}
-
-          <tr>
-            <td colspan="6" class="nx-empty">
-              <div class="nx-empty-icon">
-                <span class="material-symbols-outlined" style="font-size: 42px">
-                  notifications_off
-                </span>
-              </div>
-
-              <div>{% trans "No notifications found." %}</div>
-            </td>
-          </tr>
-
-          {% endif %}
-        </tbody>
-      </table>
-    </div>
-
-    {% if pagination.totalPages > 1 %}
-
-    <div class="nx-pagination">
-      {% if pagination.hasPrevious %}
-
-      <a
-        href="?status={{ active_status }}&search={{ search|urlencode }}&page={{ pagination.page|add:'-1' }}"
-      >
-        {% trans "Previous" %}
-      </a>
-
-      {% endif %}
-
-      <span class="nx-pagination-info">
-        Page {{ pagination.page }} of {{ pagination.totalPages }}
-      </span>
-
-      {% if pagination.hasNext %}
-
-      <a
-        href="?status={{ active_status }}&search={{ search|urlencode }}&page={{ pagination.page|add:'1' }}"
-      >
-        {% trans "Next" %}
-      </a>
-
-      {% endif %}
-    </div>
+            {% endif %}
+        </div>
 
     {% endif %}
-  </div>
+
+
+    <!-- STATS -->
+
+    <div class="nx-stats-grid">
+
+        <a
+            href="?status=all"
+            class="nx-stat-card {% if active_status == 'all' %}active{% endif %}"
+        >
+            <div class="nx-stat-label">
+                {% trans "All" %}
+            </div>
+
+            <div class="nx-stat-value">
+                {{ stats.all|default:"0" }}
+            </div>
+        </a>
+
+
+        <a
+            href="?status=draft"
+            class="nx-stat-card {% if active_status == 'draft' %}active{% endif %}"
+        >
+            <div class="nx-stat-label">
+                {% trans "Drafts" %}
+            </div>
+
+            <div class="nx-stat-value">
+                {{ stats.draft|default:"0" }}
+            </div>
+        </a>
+
+
+        <a
+            href="?status=scheduled"
+            class="nx-stat-card {% if active_status == 'scheduled' %}active{% endif %}"
+        >
+            <div class="nx-stat-label">
+                {% trans "Scheduled" %}
+            </div>
+
+            <div class="nx-stat-value">
+                {{ stats.scheduled|default:"0" }}
+            </div>
+        </a>
+
+
+        <a
+            href="?status=sent"
+            class="nx-stat-card {% if active_status == 'sent' %}active{% endif %}"
+        >
+            <div class="nx-stat-label">
+                {% trans "Sent" %}
+            </div>
+
+            <div class="nx-stat-value">
+                {{ stats.sent|default:"0" }}
+            </div>
+        </a>
+
+
+        <a
+            href="?status=failed"
+            class="nx-stat-card {% if active_status == 'failed' %}active{% endif %}"
+        >
+            <div class="nx-stat-label">
+                {% trans "Failed" %}
+            </div>
+
+            <div class="nx-stat-value">
+                {{ stats.failed|default:"0" }}
+            </div>
+        </a>
+
+
+        <a
+            href="?status=cancelled"
+            class="nx-stat-card {% if active_status == 'cancelled' %}active{% endif %}"
+        >
+            <div class="nx-stat-label">
+                {% trans "Cancelled" %}
+            </div>
+
+            <div class="nx-stat-value">
+                {{ stats.cancelled|default:"0" }}
+            </div>
+        </a>
+
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <div class="nx-toolbar">
+
+        <form method="get" class="nx-search-form">
+
+            {% if active_status != "all" %}
+                <input
+                    type="hidden"
+                    name="status"
+                    value="{{ active_status }}"
+                />
+            {% endif %}
+
+            <span class="material-symbols-outlined nx-search-icon">
+                search
+            </span>
+
+            {% trans "Search notifications..." as search_placeholder %}
+
+            <input
+                type="text"
+                name="search"
+                value="{{ search }}"
+                class="nx-search-input"
+                placeholder="{{ search_placeholder }}"
+            />
+
+        </form>
+
+
+        <div class="nx-results-count">
+
+            {% with total_notifications=pagination.total|default:0 %}
+
+                {% blocktrans count counter=total_notifications %}
+                    {{ counter }} notification
+                {% plural %}
+                    {{ counter }} notifications
+                {% endblocktrans %}
+
+            {% endwith %}
+
+        </div>
+
+    </div>
+
+
+    <!-- LIST -->
+
+    <div class="nx-card">
+
+        <div class="nx-table-wrapper">
+
+            <table class="nx-table">
+
+                <thead>
+                    <tr>
+                        <th>
+                            {% trans "Notification" %}
+                        </th>
+
+                        <th>
+                            {% trans "Audience" %}
+                        </th>
+
+                        <th>
+                            {% trans "Priority" %}
+                        </th>
+
+                        <th>
+                            {% trans "Status" %}
+                        </th>
+
+                        <th>
+                            {% trans "Schedule / Sent" %}
+                        </th>
+
+                        <th>
+                            {% trans "Actions" %}
+                        </th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+
+                    {% if notifications %}
+
+                        {% for notification in notifications %}
+
+                            <tr>
+
+                                <!-- NOTIFICATION -->
+
+                                <td>
+
+                                    <div class="nx-notification-main">
+
+                                        <div class="nx-notification-icon">
+                                            <span class="material-symbols-outlined">
+                                                notifications
+                                            </span>
+                                        </div>
+
+                                        <div>
+
+                                            <div class="nx-notification-title">
+                                                {{ notification.title }}
+                                            </div>
+
+                                            <div class="nx-notification-body">
+                                                {{ notification.body }}
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- AUDIENCE -->
+
+                                <td>
+
+                                    <span class="nx-muted">
+
+                                        {% if notification.audience == "all" %}
+
+                                            {% trans "All users" %}
+
+                                        {% elif notification.audience == "buyers" %}
+
+                                            {% trans "Buyers" %}
+
+                                        {% elif notification.audience == "sellers" %}
+
+                                            {% trans "Sellers" %}
+
+                                        {% elif notification.audience == "verified" %}
+
+                                            {% trans "Verified users" %}
+
+                                        {% elif notification.audience == "custom" %}
+
+                                            {% trans "Custom" %}
+
+                                        {% else %}
+
+                                            {{ notification.audience|default:"all"|title }}
+
+                                        {% endif %}
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- PRIORITY -->
+
+                                <td>
+
+                                    {% if notification.priority == "high" %}
+
+                                        <span class="nx-priority-high">
+                                            {% trans "High" %}
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="nx-muted">
+                                            {% trans "Normal" %}
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- STATUS -->
+
+                                <td>
+
+                                    {% if notification.status == "draft" %}
+
+                                        <span class="nx-badge nx-badge-draft">
+                                            {% trans "Draft" %}
+                                        </span>
+
+
+                                    {% elif notification.status == "scheduled" %}
+
+                                        <span class="nx-badge nx-badge-scheduled">
+
+                                            <span
+                                                class="material-symbols-outlined"
+                                                style="font-size:14px;"
+                                            >
+                                                schedule
+                                            </span>
+
+                                            {% trans "Scheduled" %}
+
+                                        </span>
+
+
+                                    {% elif notification.status == "processing" %}
+
+                                        <span class="nx-badge nx-badge-processing">
+                                            {% trans "Processing" %}
+                                        </span>
+
+
+                                    {% elif notification.status == "sent" %}
+
+                                        <span class="nx-badge nx-badge-sent">
+                                            {% trans "Sent" %}
+                                        </span>
+
+
+                                    {% elif notification.status == "failed" %}
+
+                                        <span class="nx-badge nx-badge-failed">
+                                            {% trans "Failed" %}
+                                        </span>
+
+
+                                    {% elif notification.status == "cancelled" %}
+
+                                        <span class="nx-badge nx-badge-cancelled">
+                                            {% trans "Cancelled" %}
+                                        </span>
+
+
+                                    {% else %}
+
+                                        <span class="nx-badge nx-badge-draft">
+                                            {{ notification.status }}
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- SCHEDULE / SENT -->
+
+                                <td>
+
+                                    {% if notification.status == "scheduled" %}
+
+                                        <span
+                                            class="nx-muted nx-date"
+                                            data-date="{{ notification.scheduledAt }}"
+                                        >
+                                            {{ notification.scheduledAt }}
+                                        </span>
+
+
+                                    {% elif notification.sentAt %}
+
+                                        <span
+                                            class="nx-muted nx-date"
+                                            data-date="{{ notification.sentAt }}"
+                                        >
+                                            {{ notification.sentAt }}
+                                        </span>
+
+
+                                    {% else %}
+
+                                        <span class="nx-muted">
+                                            —
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- ACTIONS -->
+
+                                <td>
+
+                                    <a
+                                        href="{% url 'marketplace_notification_detail' notification.id %}"
+                                        style="
+                                            display:inline-flex;
+                                            align-items:center;
+                                            gap:6px;
+                                            padding:7px 10px;
+                                            border:1px solid rgba(148,163,184,.25);
+                                            border-radius:8px;
+                                            color:inherit;
+                                            text-decoration:none;
+                                            font-size:12px;
+                                            font-weight:600;
+                                        "
+                                    >
+
+                                        <span
+                                            class="material-symbols-outlined"
+                                            style="font-size:16px;"
+                                        >
+                                            edit
+                                        </span>
+
+                                        {% trans "View / Edit" %}
+
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+
+                    {% else %}
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                class="nx-empty"
+                            >
+
+                                <div class="nx-empty-icon">
+
+                                    <span
+                                        class="material-symbols-outlined"
+                                        style="font-size:42px;"
+                                    >
+                                        notifications_off
+                                    </span>
+
+                                </div>
+
+                                <div>
+                                    {% trans "No notifications found." %}
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- PAGINATION -->
+
+        {% if pagination.totalPages > 1 %}
+
+            <div class="nx-pagination">
+
+                {% if pagination.hasPrevious %}
+
+                    <a
+                        href="?status={{ active_status }}&search={{ search|urlencode }}&page={{ pagination.page|add:'-1' }}"
+                    >
+                        {% trans "Previous" %}
+                    </a>
+
+                {% endif %}
+
+
+                <span class="nx-pagination-info">
+
+                    {% blocktrans with page=pagination.page total=pagination.totalPages %}
+                        Page {{ page }} of {{ total }}
+                    {% endblocktrans %}
+
+                </span>
+
+
+                {% if pagination.hasNext %}
+
+                    <a
+                        href="?status={{ active_status }}&search={{ search|urlencode }}&page={{ pagination.page|add:'1' }}"
+                    >
+                        {% trans "Next" %}
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
 </div>
 
 <!-- ======================================================

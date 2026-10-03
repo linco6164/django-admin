@@ -592,335 +592,671 @@
   }
 </style>
 
+{% trans "Unknown" as default_unknown %}
+
+
 <div class="nx-page">
-  <!-- =================================================
+
+    <!-- =================================================
          HEADER
          ================================================= -->
 
-  <div class="nx-header">
-    <div>
-      <h1 class="nx-title">{% trans "Withdrawals" %}</h1>
+    <div class="nx-header">
 
-      <div class="nx-subtitle">
-        {% trans "Gestionează cererile de retragere ale utilizatorilor NEXORA" %}
-      </div>
+        <div>
+
+            <h1 class="nx-title">
+                {% trans "Withdrawals" %}
+            </h1>
+
+            <div class="nx-subtitle">
+                {% trans "Manage NEXORA user withdrawal requests" %}
+            </div>
+
+        </div>
+
     </div>
-  </div>
 
-  {% if api_error %}
 
-  <div class="nx-error">{{ api_error }}</div>
+    <!-- =================================================
+         API ERROR
+         ================================================= -->
 
-  {% endif %}
+    {% if api_error %}
 
-  <!-- =================================================
+        <div class="nx-error">
+
+            <strong>
+                {% trans "An error occurred while fetching API data." %}
+            </strong>
+
+            <div style="margin-top:6px;">
+                {{ api_error }}
+            </div>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- =================================================
          STATS
          ================================================= -->
 
-  <div class="nx-stats">
-    <div class="nx-stat">
-      <div class="nx-stat-icon pending">
-        <span class="material-symbols-outlined"> {% trans "schedule" %} </span>
-      </div>
+    <div class="nx-stats">
 
-      <div>
-        <div class="nx-stat-label">{% trans "Pending" %}</div>
 
-        <div class="nx-stat-value">
-          {{ withdrawal_counts.pending|default:"0" }}
+        <!-- PENDING -->
+
+        <div class="nx-stat">
+
+            <div class="nx-stat-icon pending">
+
+                <span class="material-symbols-outlined">
+                    schedule
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <div class="nx-stat-label">
+                    {% trans "Pending" %}
+                </div>
+
+                <div class="nx-stat-value">
+                    {{ withdrawal_counts.pending|default:"0" }}
+                </div>
+
+            </div>
+
         </div>
-      </div>
+
+
+        <!-- COMPLETED -->
+
+        <div class="nx-stat">
+
+            <div class="nx-stat-icon completed">
+
+                <span class="material-symbols-outlined">
+                    check_circle
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <div class="nx-stat-label">
+                    {% trans "Completed" %}
+                </div>
+
+                <div class="nx-stat-value">
+                    {{ withdrawal_counts.completed|default:"0" }}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- REJECTED -->
+
+        <div class="nx-stat">
+
+            <div class="nx-stat-icon rejected">
+
+                <span class="material-symbols-outlined">
+                    cancel
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <div class="nx-stat-label">
+                    {% trans "Rejected" %}
+                </div>
+
+                <div class="nx-stat-value">
+                    {{ withdrawal_counts.rejected|default:"0" }}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- FAILED -->
+
+        <div class="nx-stat">
+
+            <div class="nx-stat-icon failed">
+
+                <span class="material-symbols-outlined">
+                    error
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <div class="nx-stat-label">
+                    {% trans "Failed" %}
+                </div>
+
+                <div class="nx-stat-value">
+                    {{ withdrawal_counts.failed|default:"0" }}
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="nx-stat">
-      <div class="nx-stat-icon completed">
-        <span class="material-symbols-outlined"> check_circle </span>
-      </div>
 
-      <div>
-        <div class="nx-stat-label">{% trans "Completed" %}</div>
-
-        <div class="nx-stat-value">
-          {{ withdrawal_counts.completed|default:"0" }}
-        </div>
-      </div>
-    </div>
-
-    <div class="nx-stat">
-      <div class="nx-stat-icon rejected">
-        <span class="material-symbols-outlined"> cancel </span>
-      </div>
-
-      <div>
-        <div class="nx-stat-label">{% trans "Rejected" %}</div>
-
-        <div class="nx-stat-value">
-          {{ withdrawal_counts.rejected|default:"0" }}
-        </div>
-      </div>
-    </div>
-
-    <div class="nx-stat">
-      <div class="nx-stat-icon failed">
-        <span class="material-symbols-outlined"> error </span>
-      </div>
-
-      <div>
-        <div class="nx-stat-label">{% trans "Failed" %}</div>
-
-        <div class="nx-stat-value">
-          {{ withdrawal_counts.failed|default:"0" }}
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- =================================================
+    <!-- =================================================
          FILTERS
          ================================================= -->
 
-  <div class="nx-filters">
-    <a
-      href="?status=pending"
-      class="nx-filter {% if status == 'pending' %} nx-filter-active {% endif %}"
-    >
-      {% trans "Pending" %}
+    <div class="nx-filters">
 
-      <span class="nx-filter-count">
-        {{ withdrawal_counts.pending|default:"0" }}
-      </span>
-    </a>
 
-    <a
-      href="?status=completed"
-      class="nx-filter {% if status == 'completed' %} nx-filter-active {% endif %}"
-    >
-      {% trans "Completed" %}
+        <a
+            href="?status=pending"
+            class="
+                nx-filter
+                {% if status == 'pending' %}
+                    nx-filter-active
+                {% endif %}
+            "
+        >
 
-      <span class="nx-filter-count">
-        {{ withdrawal_counts.completed|default:"0" }}
-      </span>
-    </a>
+            {% trans "Pending" %}
 
-    <a
-      href="?status=rejected"
-      class="nx-filter {% if status == 'rejected' %} nx-filter-active {% endif %}"
-    >
-      {% trans "Rejected" %}
+            <span class="nx-filter-count">
+                {{ withdrawal_counts.pending|default:"0" }}
+            </span>
 
-      <span class="nx-filter-count">
-        {{ withdrawal_counts.rejected|default:"0" }}
-      </span>
-    </a>
+        </a>
 
-    <a
-      href="?status=failed"
-      class="nx-filter {% if status == 'failed' %} nx-filter-active {% endif %}"
-    >
-      {% trans "Failed" %}
 
-      <span class="nx-filter-count">
-        {{ withdrawal_counts.failed|default:"0" }}
-      </span>
-    </a>
-  </div>
+        <a
+            href="?status=completed"
+            class="
+                nx-filter
+                {% if status == 'completed' %}
+                    nx-filter-active
+                {% endif %}
+            "
+        >
 
-  <!-- =================================================
+            {% trans "Completed" %}
+
+            <span class="nx-filter-count">
+                {{ withdrawal_counts.completed|default:"0" }}
+            </span>
+
+        </a>
+
+
+        <a
+            href="?status=rejected"
+            class="
+                nx-filter
+                {% if status == 'rejected' %}
+                    nx-filter-active
+                {% endif %}
+            "
+        >
+
+            {% trans "Rejected" %}
+
+            <span class="nx-filter-count">
+                {{ withdrawal_counts.rejected|default:"0" }}
+            </span>
+
+        </a>
+
+
+        <a
+            href="?status=failed"
+            class="
+                nx-filter
+                {% if status == 'failed' %}
+                    nx-filter-active
+                {% endif %}
+            "
+        >
+
+            {% trans "Failed" %}
+
+            <span class="nx-filter-count">
+                {{ withdrawal_counts.failed|default:"0" }}
+            </span>
+
+        </a>
+
+    </div>
+
+
+    <!-- =================================================
          TABLE
          ================================================= -->
 
-  <div class="nx-card">
-    <div class="nx-table-wrapper">
-      <table class="nx-table">
-        <thead>
-          <tr>
-            <th>{% trans "Customer" %}</th>
-            <th>{% trans "Amount" %}</th>
-            <th>{% trans "Bank account" %}</th>
-            <th>{% trans "Status" %}</th>
-            <th>{% trans "Requested" %}</th>
+    <div class="nx-card">
 
-            {% if status == "pending" %}
-            <th>{% trans "Actions" %}</th>
-            {% endif %}
-          </tr>
-        </thead>
+        <div class="nx-table-wrapper">
 
-        <tbody>
-          {% if withdrawals %} {% for withdrawal in withdrawals %}
+            <table class="nx-table">
 
-          <tr>
-            <!-- CUSTOMER -->
+                <thead>
 
-            <td>
-              <div class="nx-user">
-                <div class="nx-avatar">
-                  {{ withdrawal.user.username|default:"U"|slice:":1"|upper }}
-                </div>
+                    <tr>
 
-                <div>
-                  <div class="nx-user-name">
-                    {{ withdrawal.user.username|default:"Unknown" }}
-                  </div>
+                        <th>
+                            {% trans "Customer" %}
+                        </th>
 
-                  <div class="nx-user-email">
-                    {{ withdrawal.user.email|default:"-" }}
-                  </div>
-                </div>
-              </div>
-            </td>
+                        <th>
+                            {% trans "Amount" %}
+                        </th>
 
-            <!-- AMOUNT -->
+                        <th>
+                            {% trans "Bank account" %}
+                        </th>
 
-            <td>
-              <span class="nx-amount">
-                {{ withdrawal.amount|default:"0" }}
-              </span>
+                        <th>
+                            {% trans "Status" %}
+                        </th>
 
-              <span class="nx-currency">
-                {{ withdrawal.currency|default:"RON" }}
-              </span>
-            </td>
+                        <th>
+                            {% trans "Requested" %}
+                        </th>
 
-            <!-- BANK -->
+                        <th>
+                            {% trans "Actions" %}
+                        </th>
 
-            <td>
-              <div class="nx-account-name">
-                {{ withdrawal.withdrawal.accountName|default:"-" }}
-              </div>
+                    </tr>
 
-              <div class="nx-iban">
-                <span> {{ withdrawal.withdrawal.iban|default:"-" }} </span>
+                </thead>
 
-                <button
-                  type="button"
-                  class="nx-copy"
-                  data-iban="{{ withdrawal.withdrawal.iban|default:'' }}"
-                  onclick="copyIban(this)"
-                >
-                  <span class="material-symbols-outlined"> content_copy </span>
-                </button>
-              </div>
-            </td>
 
-            <!-- STATUS -->
+                <tbody>
 
-            <td>
-              <span
-                class="nx-badge nx-{{ withdrawal.status|default:'pending' }}"
-              >
-                {{ withdrawal.status|default:"pending"|title }}
-              </span>
-            </td>
+                    {% if withdrawals %}
 
-            <!-- CREATED -->
+                        {% for withdrawal in withdrawals %}
 
-            <td>{{ withdrawal.createdAt|default:"-" }}</td>
+                            <tr>
 
-            <!-- ACTIONS -->
 
-            <td>
-              {% if withdrawal.status == "pending" %}
+                                <!-- CUSTOMER -->
 
-              <div class="nx-actions">
-                <form
-                  method="post"
-                  action="{% url 'marketplace_withdrawal_action' withdrawal.id %}"
-                  class="nx-withdrawal-form"
-                  data-action-type="approve"
-                >
-                  {% csrf_token %}
+                                <td>
 
-                  <input type="hidden" name="action" value="approve" />
+                                    <div class="nx-user">
 
-                  <button type="submit" class="nx-action nx-approve">
-                    <span class="material-symbols-outlined"> check </span>
+                                        <div class="nx-avatar">
 
-                    {% trans "Approve" %}
-                  </button>
-                </form>
+                                            {{ withdrawal.user.username|default:"U"|slice:":1"|upper }}
 
-                <form
-                  method="post"
-                  action="{% url 'marketplace_withdrawal_action' withdrawal.id %}"
-                  class="nx-withdrawal-form"
-                  data-action-type="reject"
-                >
-                  {% csrf_token %}
+                                        </div>
 
-                  <input type="hidden" name="action" value="reject" />
 
-                  <button type="submit" class="nx-action nx-reject">
-                    <span class="material-symbols-outlined"> close </span>
+                                        <div>
 
-                    {% trans "Reject" %}
-                  </button>
-                </form>
-              </div>
+                                            <div class="nx-user-name">
 
-              {% else %}
+                                                {{ withdrawal.user.username|default:default_unknown }}
 
-              <span style="color: #64748b"> — </span>
+                                            </div>
 
-              {% endif %}
-            </td>
-          </tr>
+                                            <div class="nx-user-email">
 
-          {% endfor %} {% else %}
+                                                {{ withdrawal.user.email|default:"-" }}
 
-          <tr>
-            <td colspan="6" class="nx-empty">
-              <div class="nx-empty-icon">
-                <span class="material-symbols-outlined">
-                  account_balance_wallet
-                </span>
-              </div>
+                                            </div>
 
-              <div class="nx-empty-title">{% trans "Nu există retrageri" %}</div>
+                                        </div>
 
-              <div class="nx-empty-description">
-                {% trans "Nu există cereri cu statusul" %} "{{ status }}".
-              </div>
-            </td>
-          </tr>
+                                    </div>
 
-          {% endif %}
-        </tbody>
-      </table>
-    </div>
+                                </td>
 
-    <!-- =================================================
+
+                                <!-- AMOUNT -->
+
+                                <td>
+
+                                    <span class="nx-amount">
+                                        {{ withdrawal.amount|default:"0" }}
+                                    </span>
+
+                                    <span class="nx-currency">
+                                        {{ withdrawal.currency|default:"RON" }}
+                                    </span>
+
+                                </td>
+
+
+                                <!-- BANK ACCOUNT -->
+
+                                <td>
+
+                                    <div class="nx-account-name">
+
+                                        {{ withdrawal.withdrawal.accountName|default:"-" }}
+
+                                    </div>
+
+
+                                    <div class="nx-iban">
+
+                                        <span>
+                                            {{ withdrawal.withdrawal.iban|default:"-" }}
+                                        </span>
+
+
+                                        {% if withdrawal.withdrawal.iban %}
+
+                                            <button
+                                                type="button"
+                                                class="nx-copy"
+                                                data-iban="{{ withdrawal.withdrawal.iban }}"
+                                                onclick="copyIban(this)"
+                                                title="{% trans 'Copy IBAN' %}"
+                                                aria-label="{% trans 'Copy IBAN' %}"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    content_copy
+                                                </span>
+
+                                            </button>
+
+                                        {% endif %}
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- STATUS -->
+
+                                <td>
+
+                                    {% if withdrawal.status == "pending" %}
+
+                                        <span class="nx-badge nx-pending">
+                                            {% trans "Pending" %}
+                                        </span>
+
+
+                                    {% elif withdrawal.status == "completed" %}
+
+                                        <span class="nx-badge nx-completed">
+                                            {% trans "Completed" %}
+                                        </span>
+
+
+                                    {% elif withdrawal.status == "rejected" %}
+
+                                        <span class="nx-badge nx-rejected">
+                                            {% trans "Rejected" %}
+                                        </span>
+
+
+                                    {% elif withdrawal.status == "failed" %}
+
+                                        <span class="nx-badge nx-failed">
+                                            {% trans "Failed" %}
+                                        </span>
+
+
+                                    {% else %}
+
+                                        <span
+                                            class="nx-badge nx-{{ withdrawal.status|default:'pending' }}"
+                                        >
+                                            {{ withdrawal.status|default:"pending"|title }}
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- REQUESTED -->
+
+                                <td>
+
+                                    {{ withdrawal.createdAt|default:"-" }}
+
+                                </td>
+
+
+                                <!-- ACTIONS -->
+
+                                <td>
+
+                                    {% if withdrawal.status == "pending" %}
+
+                                        <div class="nx-actions">
+
+
+                                            <!-- APPROVE -->
+
+                                            <form
+                                                method="post"
+                                                action="{% url 'marketplace_withdrawal_action' withdrawal.id %}"
+                                                class="nx-withdrawal-form"
+                                                data-action-type="approve"
+                                            >
+
+                                                {% csrf_token %}
+
+                                                <input
+                                                    type="hidden"
+                                                    name="action"
+                                                    value="approve"
+                                                >
+
+
+                                                <button
+                                                    type="submit"
+                                                    class="nx-action nx-approve"
+                                                >
+
+                                                    <span class="material-symbols-outlined">
+                                                        check
+                                                    </span>
+
+                                                    {% trans "Approve" %}
+
+                                                </button>
+
+                                            </form>
+
+
+                                            <!-- REJECT -->
+
+                                            <form
+                                                method="post"
+                                                action="{% url 'marketplace_withdrawal_action' withdrawal.id %}"
+                                                class="nx-withdrawal-form"
+                                                data-action-type="reject"
+                                            >
+
+                                                {% csrf_token %}
+
+                                                <input
+                                                    type="hidden"
+                                                    name="action"
+                                                    value="reject"
+                                                >
+
+
+                                                <button
+                                                    type="submit"
+                                                    class="nx-action nx-reject"
+                                                >
+
+                                                    <span class="material-symbols-outlined">
+                                                        close
+                                                    </span>
+
+                                                    {% trans "Reject" %}
+
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+
+
+                                    {% else %}
+
+                                        <span style="color:#64748b;">
+                                            —
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+
+                    {% else %}
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                class="nx-empty"
+                            >
+
+                                <div class="nx-empty-icon">
+
+                                    <span class="material-symbols-outlined">
+                                        account_balance_wallet
+                                    </span>
+
+                                </div>
+
+
+                                <div class="nx-empty-title">
+                                    {% trans "No withdrawals" %}
+                                </div>
+
+
+                                <div class="nx-empty-description">
+
+                                    {% if status == "pending" %}
+
+                                        {% trans "There are no pending withdrawal requests." %}
+
+                                    {% elif status == "completed" %}
+
+                                        {% trans "There are no completed withdrawal requests." %}
+
+                                    {% elif status == "rejected" %}
+
+                                        {% trans "There are no rejected withdrawal requests." %}
+
+                                    {% elif status == "failed" %}
+
+                                        {% trans "There are no failed withdrawal requests." %}
+
+                                    {% else %}
+
+                                        {% trans "There are no withdrawal requests for the selected status." %}
+
+                                    {% endif %}
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- =================================================
              PAGINATION
              ================================================= -->
 
-    <div class="nx-footer">
-      <div class="nx-footer-count">
-        {{ total }} withdrawal{{ total|pluralize }}
-      </div>
+        <div class="nx-footer">
 
-      <div class="nx-pagination">
-        {% if page > 1 %}
+            <div class="nx-footer-count">
 
-        <a href="?status={{ status|urlencode }}&page={{ page|add:'-1' }}">
-          ← {% trans "Previous" %}
-        </a>
+                {% with withdrawal_total=total|default:0 %}
 
-        {% endif %}
+                    {% blocktrans count counter=withdrawal_total %}
+                        {{ counter }} withdrawal
+                    {% plural %}
+                        {{ counter }} withdrawals
+                    {% endblocktrans %}
 
-        <span class="nx-pagination-status">
-          {% trans "Page" %} {{ page }} / {{ pages }}
-        </span>
+                {% endwith %}
 
-        {% if page < pages %}
+            </div>
 
-        <a href="?status={{ status|urlencode }}&page={{ page|add:'1' }}">
-          {% trans "Next" %} →
-        </a>
 
-        {% endif %}
-      </div>
+            <div class="nx-pagination">
+
+                {% if page > 1 %}
+
+                    <a
+                        href="?status={{ status|urlencode }}&page={{ page|add:'-1' }}"
+                    >
+                        ← {% trans "Previous" %}
+                    </a>
+
+                {% endif %}
+
+
+                <span class="nx-pagination-status">
+
+                    {% blocktrans with current=page total_pages=pages %}
+                        Page {{ current }} of {{ total_pages }}
+                    {% endblocktrans %}
+
+                </span>
+
+
+                {% if page < pages %}
+
+                    <a
+                        href="?status={{ status|urlencode }}&page={{ page|add:'1' }}"
+                    >
+                        {% trans "Next" %} →
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
     </div>
-  </div>
+
 </div>
 
 <script>

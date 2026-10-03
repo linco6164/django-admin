@@ -1,1126 +1,934 @@
-{% extends "admin/base_site.html" %}
-{% load unfold i18n %}
-
-{% block content %}
+{% extends "admin/base_site.html" %} {% load unfold i18n %} {% block content %}
 
 <style>
-    .nx-support-page {
-        max-width: 1500px;
-    }
+  .nx-support-page {
+    max-width: 1500px;
+  }
 
-    /* =========================
+  /* =========================
        HEADER
        ========================= */
 
-    .nx-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 20px;
+  .nx-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
 
-        margin-bottom: 24px;
-    }
+    margin-bottom: 24px;
+  }
 
-    .nx-title {
-        margin: 0;
+  .nx-title {
+    margin: 0;
 
-        font-size: 27px;
-        font-weight: 700;
-    }
+    font-size: 27px;
+    font-weight: 700;
+  }
 
-    .nx-subtitle {
-        margin-top: 6px;
+  .nx-subtitle {
+    margin-top: 6px;
 
-        color: #94a3b8;
+    color: #94a3b8;
 
-        font-size: 14px;
-    }
+    font-size: 14px;
+  }
 
-    /* =========================
+  /* =========================
        STATS
        ========================= */
 
-    .nx-stats {
-        display: grid;
+  .nx-stats {
+    display: grid;
 
-        grid-template-columns:
-            repeat(4, minmax(160px, 1fr));
+    grid-template-columns: repeat(4, minmax(160px, 1fr));
 
-        gap: 14px;
+    gap: 14px;
 
-        margin-bottom: 20px;
-    }
+    margin-bottom: 20px;
+  }
 
-    .nx-stat {
-        padding: 17px;
+  .nx-stat {
+    padding: 17px;
 
-        border: 1px solid #273449;
-        border-radius: 14px;
+    border: 1px solid #273449;
+    border-radius: 14px;
 
-        background:
-            rgba(255,255,255,.025);
-    }
+    background: rgba(255, 255, 255, 0.025);
+  }
 
-    .nx-stat-label {
-        color: #94a3b8;
+  .nx-stat-label {
+    color: #94a3b8;
 
-        font-size: 11px;
-    }
+    font-size: 11px;
+  }
 
-    .nx-stat-value {
-        margin-top: 6px;
+  .nx-stat-value {
+    margin-top: 6px;
 
-        font-size: 25px;
-        font-weight: 700;
-    }
+    font-size: 25px;
+    font-weight: 700;
+  }
 
-    .nx-stat-urgent {
-        color: #f87171;
-    }
+  .nx-stat-urgent {
+    color: #f87171;
+  }
 
-    /* =========================
+  /* =========================
        MAIN
        ========================= */
 
-    .nx-support-grid {
-        display: grid;
+  .nx-support-grid {
+    display: grid;
 
-        grid-template-columns:
-            230px
-            minmax(0, 1fr);
+    grid-template-columns:
+      230px
+      minmax(0, 1fr);
 
-        gap: 18px;
+    gap: 18px;
 
-        align-items: start;
-    }
+    align-items: start;
+  }
 
-    .nx-card {
-        border: 1px solid #273449;
-        border-radius: 15px;
+  .nx-card {
+    border: 1px solid #273449;
+    border-radius: 15px;
 
-        background:
-            rgba(255,255,255,.025);
+    background: rgba(255, 255, 255, 0.025);
 
-        overflow: hidden;
-    }
+    overflow: hidden;
+  }
 
-    /* =========================
+  /* =========================
        SIDEBAR
        ========================= */
 
-    .nx-sidebar {
-        padding: 10px;
-    }
+  .nx-sidebar {
+    padding: 10px;
+  }
 
-    .nx-sidebar-title {
-        padding: 10px 11px 7px;
+  .nx-sidebar-title {
+    padding: 10px 11px 7px;
 
-        color: #64748b;
+    color: #64748b;
 
-        font-size: 10px;
-        font-weight: 700;
+    font-size: 10px;
+    font-weight: 700;
 
-        letter-spacing: .08em;
+    letter-spacing: 0.08em;
 
-        text-transform: uppercase;
-    }
+    text-transform: uppercase;
+  }
 
-    .nx-nav {
-        display: flex;
-        flex-direction: column;
+  .nx-nav {
+    display: flex;
+    flex-direction: column;
 
-        gap: 3px;
-    }
+    gap: 3px;
+  }
 
-    .nx-nav-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+  .nx-nav-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-        gap: 12px;
+    gap: 12px;
 
-        padding: 10px 11px;
+    padding: 10px 11px;
 
-        border-radius: 9px;
+    border-radius: 9px;
 
-        color: #94a3b8;
+    color: #94a3b8;
 
-        text-decoration: none;
+    text-decoration: none;
 
-        font-size: 13px;
-    }
+    font-size: 13px;
+  }
 
-    .nx-nav-item:hover {
-        color: #e2e8f0;
+  .nx-nav-item:hover {
+    color: #e2e8f0;
 
-        background:
-            rgba(255,255,255,.04);
-    }
+    background: rgba(255, 255, 255, 0.04);
+  }
 
-    .nx-nav-item-active {
-        color: #c084fc;
+  .nx-nav-item-active {
+    color: #c084fc;
 
-        background:
-            rgba(124,58,237,.12);
-    }
+    background: rgba(124, 58, 237, 0.12);
+  }
 
-    .nx-nav-left {
-        display: flex;
-        align-items: center;
+  .nx-nav-left {
+    display: flex;
+    align-items: center;
 
-        gap: 8px;
-    }
+    gap: 8px;
+  }
 
-    .nx-nav-left
-    .material-symbols-outlined {
-        font-size: 18px;
-    }
+  .nx-nav-left .material-symbols-outlined {
+    font-size: 18px;
+  }
 
-    .nx-count {
-        min-width: 20px;
+  .nx-count {
+    min-width: 20px;
 
-        text-align: center;
+    text-align: center;
 
-        padding: 2px 6px;
+    padding: 2px 6px;
 
-        border-radius: 999px;
+    border-radius: 999px;
 
-        background:
-            rgba(255,255,255,.07);
+    background: rgba(255, 255, 255, 0.07);
 
-        font-size: 10px;
-    }
+    font-size: 10px;
+  }
 
-    /* =========================
+  /* =========================
        TOOLBAR
        ========================= */
 
-    .nx-toolbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+  .nx-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-        gap: 15px;
+    gap: 15px;
 
-        padding: 15px 17px;
+    padding: 15px 17px;
 
-        border-bottom:
-            1px solid
-            rgba(148,163,184,.1);
-    }
+    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  }
 
-    .nx-toolbar-title {
-        font-size: 14px;
-        font-weight: 700;
-    }
+  .nx-toolbar-title {
+    font-size: 14px;
+    font-weight: 700;
+  }
 
-    .nx-toolbar-count {
-        margin-top: 3px;
+  .nx-toolbar-count {
+    margin-top: 3px;
 
-        color: #64748b;
+    color: #64748b;
 
-        font-size: 11px;
-    }
+    font-size: 11px;
+  }
 
-    .nx-filter-form {
-        display: flex;
-        align-items: center;
+  .nx-filter-form {
+    display: flex;
+    align-items: center;
 
-        gap: 8px;
-    }
+    gap: 8px;
+  }
 
-    .nx-select {
-        min-width: 150px;
+  .nx-select {
+    min-width: 150px;
 
-        border: 1px solid #334155;
-        border-radius: 9px;
+    border: 1px solid #334155;
+    border-radius: 9px;
 
-        background:
-            rgba(15,23,42,.75);
+    background: rgba(15, 23, 42, 0.75);
 
-        color: inherit;
+    color: inherit;
 
-        padding: 8px 10px;
+    padding: 8px 10px;
 
-        outline: none;
+    outline: none;
 
-        font-size: 12px;
-    }
+    font-size: 12px;
+  }
 
-    .nx-filter-button {
-        border: 1px solid #334155;
-        border-radius: 9px;
+  .nx-filter-button {
+    border: 1px solid #334155;
+    border-radius: 9px;
 
-        background:
-            rgba(255,255,255,.025);
+    background: rgba(255, 255, 255, 0.025);
 
-        color: inherit;
+    color: inherit;
 
-        padding: 8px 11px;
+    padding: 8px 11px;
 
-        cursor: pointer;
-    }
+    cursor: pointer;
+  }
 
-    /* =========================
+  /* =========================
        TICKETS
        ========================= */
 
-    .nx-ticket {
-        display: grid;
+  .nx-ticket {
+    display: grid;
 
-        grid-template-columns:
-            minmax(0, 1.8fr)
-            130px
-            115px
-            145px
-            35px;
+    grid-template-columns:
+      minmax(0, 1.8fr)
+      130px
+      115px
+      145px
+      35px;
 
-        align-items: center;
+    align-items: center;
 
-        gap: 15px;
+    gap: 15px;
 
-        padding: 16px 18px;
+    padding: 16px 18px;
 
-        color: inherit;
+    color: inherit;
 
-        text-decoration: none;
+    text-decoration: none;
 
-        border-bottom:
-            1px solid
-            rgba(148,163,184,.09);
+    border-bottom: 1px solid rgba(148, 163, 184, 0.09);
 
-        transition:
-            background .15s ease;
-    }
+    transition: background 0.15s ease;
+  }
 
-    .nx-ticket:hover {
-        background:
-            rgba(124,58,237,.055);
-    }
+  .nx-ticket:hover {
+    background: rgba(124, 58, 237, 0.055);
+  }
 
-    .nx-ticket:last-child {
-        border-bottom: 0;
-    }
+  .nx-ticket:last-child {
+    border-bottom: 0;
+  }
 
-    .nx-ticket-main {
-        min-width: 0;
-    }
+  .nx-ticket-main {
+    min-width: 0;
+  }
 
-    .nx-ticket-top {
-        display: flex;
-        align-items: center;
+  .nx-ticket-top {
+    display: flex;
+    align-items: center;
 
-        gap: 8px;
+    gap: 8px;
 
-        margin-bottom: 5px;
-    }
+    margin-bottom: 5px;
+  }
 
-    .nx-ticket-subject {
-        min-width: 0;
+  .nx-ticket-subject {
+    min-width: 0;
 
-        font-weight: 650;
+    font-weight: 650;
 
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
-    .nx-ticket-user {
-        color: #94a3b8;
+  .nx-ticket-user {
+    color: #94a3b8;
 
-        font-size: 11px;
+    font-size: 11px;
 
-        margin-bottom: 5px;
-    }
+    margin-bottom: 5px;
+  }
 
-    .nx-ticket-preview {
-        color: #64748b;
+  .nx-ticket-preview {
+    color: #64748b;
 
-        font-size: 12px;
+    font-size: 12px;
 
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
-    /* =========================
+  /* =========================
        BADGES
        ========================= */
 
-    .nx-badge {
-        display: inline-flex;
-        align-items: center;
+  .nx-badge {
+    display: inline-flex;
+    align-items: center;
 
-        padding: 5px 9px;
+    padding: 5px 9px;
 
-        border-radius: 999px;
+    border-radius: 999px;
 
-        font-size: 10px;
-        font-weight: 650;
+    font-size: 10px;
+    font-weight: 650;
 
-        white-space: nowrap;
-    }
+    white-space: nowrap;
+  }
 
-    .nx-open {
-        color: #4ade80;
+  .nx-open {
+    color: #4ade80;
 
-        background:
-            rgba(34,197,94,.13);
-    }
+    background: rgba(34, 197, 94, 0.13);
+  }
 
-    .nx-pending {
-        color: #fbbf24;
+  .nx-pending {
+    color: #fbbf24;
 
-        background:
-            rgba(245,158,11,.13);
-    }
+    background: rgba(245, 158, 11, 0.13);
+  }
 
-    .nx-closed {
-        color: #60a5fa;
+  .nx-closed {
+    color: #60a5fa;
 
-        background:
-            rgba(59,130,246,.13);
-    }
+    background: rgba(59, 130, 246, 0.13);
+  }
 
-    .nx-low {
-        color: #94a3b8;
+  .nx-low {
+    color: #94a3b8;
 
-        background:
-            rgba(148,163,184,.1);
-    }
+    background: rgba(148, 163, 184, 0.1);
+  }
 
-    .nx-normal {
-        color: #60a5fa;
+  .nx-normal {
+    color: #60a5fa;
 
-        background:
-            rgba(59,130,246,.12);
-    }
+    background: rgba(59, 130, 246, 0.12);
+  }
 
-    .nx-high {
-        color: #fb923c;
+  .nx-high {
+    color: #fb923c;
 
-        background:
-            rgba(249,115,22,.12);
-    }
+    background: rgba(249, 115, 22, 0.12);
+  }
 
-    .nx-urgent {
-        color: #f87171;
+  .nx-urgent {
+    color: #f87171;
 
-        background:
-            rgba(239,68,68,.13);
-    }
+    background: rgba(239, 68, 68, 0.13);
+  }
 
-    /* =========================
+  /* =========================
        ASSIGNEE
        ========================= */
 
-    .nx-meta-label {
-        color: #64748b;
+  .nx-meta-label {
+    color: #64748b;
 
-        font-size: 10px;
+    font-size: 10px;
 
-        margin-bottom: 4px;
-    }
+    margin-bottom: 4px;
+  }
 
-    .nx-meta-value {
-        font-size: 12px;
+  .nx-meta-value {
+    font-size: 12px;
 
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
-    .nx-unassigned {
-        color: #64748b;
-    }
+  .nx-unassigned {
+    color: #64748b;
+  }
 
-    .nx-arrow {
-        color: #64748b;
-    }
+  .nx-arrow {
+    color: #64748b;
+  }
 
-    .nx-arrow
-    .material-symbols-outlined {
-        font-size: 19px;
-    }
+  .nx-arrow .material-symbols-outlined {
+    font-size: 19px;
+  }
 
-    /* =========================
+  /* =========================
        EMPTY / ERROR
        ========================= */
 
-    .nx-empty {
-        padding: 65px 25px;
+  .nx-empty {
+    padding: 65px 25px;
 
-        text-align: center;
+    text-align: center;
 
-        color: #64748b;
-    }
+    color: #64748b;
+  }
 
-    .nx-empty
-    .material-symbols-outlined {
-        font-size: 40px;
+  .nx-empty .material-symbols-outlined {
+    font-size: 40px;
 
-        margin-bottom: 10px;
-    }
+    margin-bottom: 10px;
+  }
 
-    .nx-error {
-        margin-bottom: 18px;
+  .nx-error {
+    margin-bottom: 18px;
 
-        padding: 13px 15px;
+    padding: 13px 15px;
 
-        border:
-            1px solid
-            rgba(239,68,68,.3);
+    border: 1px solid rgba(239, 68, 68, 0.3);
 
-        border-radius: 10px;
+    border-radius: 10px;
 
-        background:
-            rgba(239,68,68,.07);
+    background: rgba(239, 68, 68, 0.07);
 
-        color: #f87171;
-    }
+    color: #f87171;
+  }
 
-    /* =========================
+  /* =========================
        RESPONSIVE
        ========================= */
 
-    @media(max-width: 1150px) {
-        .nx-stats {
-            grid-template-columns:
-                repeat(2, 1fr);
-        }
-
-        .nx-support-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .nx-sidebar {
-            display: flex;
-            overflow-x: auto;
-        }
-
-        .nx-nav {
-            flex-direction: row;
-        }
-
-        .nx-sidebar-title {
-            display: none;
-        }
-
-        .nx-nav-item {
-            white-space: nowrap;
-        }
+  @media (max-width: 1150px) {
+    .nx-stats {
+      grid-template-columns: repeat(2, 1fr);
     }
 
-    @media(max-width: 850px) {
-        .nx-ticket {
-            grid-template-columns:
-                minmax(0,1fr)
-                100px
-                35px;
-        }
-
-        .nx-ticket-department,
-        .nx-ticket-assignee {
-            display: none;
-        }
-
-        .nx-toolbar {
-            align-items: flex-start;
-            flex-direction: column;
-        }
-
-        .nx-filter-form {
-            width: 100%;
-            flex-wrap: wrap;
-        }
+    .nx-support-grid {
+      grid-template-columns: 1fr;
     }
 
-    @media(max-width: 600px) {
-        .nx-stats {
-            grid-template-columns: 1fr;
-        }
-
-        .nx-ticket {
-            grid-template-columns:
-                minmax(0,1fr)
-                35px;
-        }
-
-        .nx-ticket-status {
-            display: none;
-        }
+    .nx-sidebar {
+      display: flex;
+      overflow-x: auto;
     }
+
+    .nx-nav {
+      flex-direction: row;
+    }
+
+    .nx-sidebar-title {
+      display: none;
+    }
+
+    .nx-nav-item {
+      white-space: nowrap;
+    }
+  }
+
+  @media (max-width: 850px) {
+    .nx-ticket {
+      grid-template-columns:
+        minmax(0, 1fr)
+        100px
+        35px;
+    }
+
+    .nx-ticket-department,
+    .nx-ticket-assignee {
+      display: none;
+    }
+
+    .nx-toolbar {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .nx-filter-form {
+      width: 100%;
+      flex-wrap: wrap;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .nx-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .nx-ticket {
+      grid-template-columns:
+        minmax(0, 1fr)
+        35px;
+    }
+
+    .nx-ticket-status {
+      display: none;
+    }
+  }
 </style>
 
+{% trans "Support ticket" as default_ticket_title %} {% trans "Unknown user" as
+default_unknown_user %} {% trans "No messages" as default_no_messages %}
 
 <div class="nx-support-page">
+  <!-- HEADER -->
 
-    <!-- HEADER -->
+  <div class="nx-header">
+    <div>
+      <h1 class="nx-title">{% trans "Support" %}</h1>
 
-    <div class="nx-header">
+      <div class="nx-subtitle">
+        {% trans "Manage customer conversations and requests." %}
+      </div>
+    </div>
+  </div>
 
+  {% if api_error %}
+
+  <div class="nx-error">
+    <strong> {% trans "An error occurred while fetching API data." %} </strong>
+
+    <div style="margin-top: 6px">{{ api_error }}</div>
+  </div>
+
+  {% endif %}
+
+  <!-- STATS -->
+
+  <div class="nx-stats">
+    <div class="nx-stat">
+      <div class="nx-stat-label">{% trans "Total tickets" %}</div>
+
+      <div class="nx-stat-value">{{ stats.total|default:"0" }}</div>
+    </div>
+
+    <div class="nx-stat">
+      <div class="nx-stat-label">{% trans "Open" %}</div>
+
+      <div class="nx-stat-value">{{ stats.open|default:"0" }}</div>
+    </div>
+
+    <div class="nx-stat">
+      <div class="nx-stat-label">{% trans "My tickets" %}</div>
+
+      <div class="nx-stat-value">{{ stats.myTickets|default:"0" }}</div>
+    </div>
+
+    <div class="nx-stat">
+      <div class="nx-stat-label">{% trans "Urgent" %}</div>
+
+      <div class="nx-stat-value nx-stat-urgent">
+        {{ stats.urgent|default:"0" }}
+      </div>
+    </div>
+  </div>
+
+  <div class="nx-support-grid">
+    <!-- SIDEBAR -->
+
+    <div class="nx-card nx-sidebar">
+      <div>
+        <div class="nx-sidebar-title">{% trans "Tickets" %}</div>
+
+        <div class="nx-nav">
+          <!-- ALL -->
+
+          <a
+            href="?filter=all"
+            class="nx-nav-item {% if active_filter == 'all' %} nx-nav-item-active {% endif %}"
+          >
+            <span class="nx-nav-left">
+              <span class="material-symbols-outlined"> inbox </span>
+
+              {% trans "All" %}
+            </span>
+
+            <span class="nx-count"> {{ stats.total|default:"0" }} </span>
+          </a>
+
+          <!-- MY TICKETS -->
+
+          <a
+            href="?filter=my"
+            class="nx-nav-item {% if active_filter == 'my' %} nx-nav-item-active {% endif %}"
+          >
+            <span class="nx-nav-left">
+              <span class="material-symbols-outlined"> person </span>
+
+              {% trans "My tickets" %}
+            </span>
+
+            <span class="nx-count"> {{ stats.myTickets|default:"0" }} </span>
+          </a>
+
+          <!-- UNASSIGNED -->
+
+          <a
+            href="?filter=unassigned"
+            class="nx-nav-item {% if active_filter == 'unassigned' %} nx-nav-item-active {% endif %}"
+          >
+            <span class="nx-nav-left">
+              <span class="material-symbols-outlined"> person_off </span>
+
+              {% trans "Unassigned" %}
+            </span>
+
+            <span class="nx-count"> {{ stats.unassigned|default:"0" }} </span>
+          </a>
+
+          <!-- OPEN -->
+
+          <a
+            href="?filter=open"
+            class="nx-nav-item {% if active_filter == 'open' %} nx-nav-item-active {% endif %}"
+          >
+            <span class="nx-nav-left">
+              <span class="material-symbols-outlined"> mark_email_unread </span>
+
+              {% trans "Open" %}
+            </span>
+
+            <span class="nx-count"> {{ stats.open|default:"0" }} </span>
+          </a>
+
+          <!-- ON HOLD -->
+
+          <a
+            href="?filter=pending"
+            class="nx-nav-item {% if active_filter == 'pending' %} nx-nav-item-active {% endif %}"
+          >
+            <span class="nx-nav-left">
+              <span class="material-symbols-outlined"> schedule </span>
+
+              {% trans "On hold" %}
+            </span>
+
+            <span class="nx-count"> {{ stats.pending|default:"0" }} </span>
+          </a>
+
+          <!-- RESOLVED -->
+
+          <a
+            href="?filter=closed"
+            class="nx-nav-item {% if active_filter == 'closed' %} nx-nav-item-active {% endif %}"
+          >
+            <span class="nx-nav-left">
+              <span class="material-symbols-outlined"> task_alt </span>
+
+              {% trans "Resolved" %}
+            </span>
+
+            <span class="nx-count"> {{ stats.closed|default:"0" }} </span>
+          </a>
+
+          <!-- URGENT -->
+
+          <a
+            href="?filter=urgent"
+            class="nx-nav-item {% if active_filter == 'urgent' %} nx-nav-item-active {% endif %}"
+          >
+            <span class="nx-nav-left">
+              <span class="material-symbols-outlined"> priority_high </span>
+
+              {% trans "Urgent" %}
+            </span>
+
+            <span class="nx-count"> {{ stats.urgent|default:"0" }} </span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- TICKETS -->
+
+    <div class="nx-card">
+      <!-- TOOLBAR -->
+
+      <div class="nx-toolbar">
         <div>
+          <div class="nx-toolbar-title">{% trans "Tickets" %}</div>
 
-            <h1 class="nx-title">
-                {% trans "Support" %}
-            </h1>
-
-            <div class="nx-subtitle">
-                {% trans "Gestionează conversațiile și solicitările clienților" %}
-            </div>
-
+          <div class="nx-toolbar-count">
+            {% blocktrans count counter=total %} {{ counter }} result {% plural
+            %} {{ counter }} results {% endblocktrans %}
+          </div>
         </div>
 
-    </div>
-
-
-    {% if api_error %}
-
-        <div class="nx-error">
-            {{ api_error }}
-        </div>
-
-    {% endif %}
-
-
-    <!-- STATS -->
-
-    <div class="nx-stats">
-
-        <div class="nx-stat">
-
-            <div class="nx-stat-label">
-                {% trans "Total tickets" %}
-            </div>
-
-            <div class="nx-stat-value">
-                {{ stats.total|default:"0" }}
-            </div>
-
-        </div>
-
-
-        <div class="nx-stat">
-
-            <div class="nx-stat-label">
-                {% trans "Open" %}
-            </div>
-
-            <div class="nx-stat-value">
-                {{ stats.open|default:"0" }}
-            </div>
-
-        </div>
-
-
-        <div class="nx-stat">
-
-            <div class="nx-stat-label">
-                {% trans "My tickets" %}
-            </div>
-
-            <div class="nx-stat-value">
-                {{ stats.myTickets|default:"0" }}
-            </div>
-
-        </div>
-
-
-        <div class="nx-stat">
-
-            <div class="nx-stat-label">
-                {% trans "Urgent" %}
-            </div>
-
-            <div class="nx-stat-value nx-stat-urgent">
-                {{ stats.urgent|default:"0" }}
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="nx-support-grid">
-
-        <!-- SIDEBAR -->
-
-        <div class="nx-card nx-sidebar">
-
-            <div>
-
-                <div class="nx-sidebar-title">
-                    {% trans "Tickets" %}
-                </div>
-
-                <div class="nx-nav">
-
-                    <a
-                        href="?{% trans "filter" %}={% trans "All" %}"
-                        class="
-                            nx-nav-item
-                            {% if active_filter == '{% trans "All" %}' %}
-                                nx-nav-item-active
-                            {% endif %}
-                        "
-                    >
-                        <span class="nx-nav-left">
-
-                            <span class="material-symbols-outlined">
-                                {% trans "inbox" %}
-                            </span>
-
-                            {% trans "All" %}
-
-                        </span>
-
-                        <span class="nx-count">
-                            {{ stats.total|default:"0" }}
-                        </span>
-                    </a>
-
-
-                    <a
-                        href="?{% trans "filter" %}={% trans "My tickets" %}"
-                        class="
-                            nx-nav-item
-                            {% if active_filter == '{% trans "My tickets" %}' %}
-                                nx-nav-item-active
-                            {% endif %}
-                        "
-                    >
-                        <span class="nx-nav-left">
-
-                            <span class="material-symbols-outlined">
-                                {% trans "person" %}
-                            </span>
-
-                            {% trans "My tickets" %}
-
-                        </span>
-
-                        <span class="nx-count">
-                            {{ stats.myTickets|default:"0" }}
-                        </span>
-                    </a>
-
-
-                    <a
-                        href="?{% trans "filter" %}={% trans "Unassigned" %}"
-                        class="
-                            nx-nav-item
-                            {% if active_filter == '{% trans "Unassigned" %}' %}
-                                nx-nav-item-active
-                            {% endif %}
-                        "
-                    >
-                        <span class="nx-nav-left">
-
-                            <span class="material-symbols-outlined">
-                                {% trans "person_off" %}
-                            </span>
-
-                            {% trans "Unassigned" %}
-
-                        </span>
-
-                        <span class="nx-count">
-                            {{ stats.unassigned|default:"0" }}
-                        </span>
-                    </a>
-
-
-                    <a
-                        href="?{% trans "filter" %}={% trans "Open" %}"
-                        class="
-                            nx-nav-item
-                            {% if active_filter == '{% trans "Open" %}' %}
-                                nx-nav-item-active
-                            {% endif %}
-                        "
-                    >
-                        <span class="nx-nav-left">
-
-                            <span class="material-symbols-outlined">
-                                mark_email_unread
-                            </span>
-
-                            {% trans "Open" %}
-
-                        </span>
-
-                        <span class="nx-count">
-                            {{ stats.open|default:"0" }}
-                        </span>
-                    </a>
-
-
-                    <a
-                        href="?{% trans "filter" %}={% trans "On hold" %}"
-                        class="
-                            nx-nav-item
-                            {% if active_filter == '{% trans "On hold" %}' %}
-                                nx-nav-item-active
-                            {% endif %}
-                        "
-                    >
-                        <span class="nx-nav-left">
-
-                            <span class="material-symbols-outlined">
-                                {% trans "schedule" %}
-                            </span>
-
-                            {% trans "On hold" %}
-
-                        </span>
-
-                        <span class="nx-count">
-                            {{ stats.pending|default:"0" }}
-                        </span>
-                    </a>
-
-
-                    <a
-                        href="?{% trans "filter" %}={% trans "Resolved" %}"
-                        class="
-                            nx-nav-item
-                            {% if active_filter == '{% trans "Resolved" %}' %}
-                                nx-nav-item-active
-                            {% endif %}
-                        "
-                    >
-                        <span class="nx-nav-left">
-
-                            <span class="material-symbols-outlined">
-                                task_alt
-                            </span>
-
-                            {% trans "Resolved" %}
-
-                        </span>
-
-                        <span class="nx-count">
-                            {{ stats.closed|default:"0" }}
-                        </span>
-                    </a>
-
-
-                    <a
-                        href="?{% trans "filter" %}={% trans "Urgent" %}"
-                        class="
-                            nx-nav-item
-                            {% if active_filter == '{% trans "Urgent" %}' %}
-                                nx-nav-item-active
-                            {% endif %}
-                        "
-                    >
-                        <span class="nx-nav-left">
-
-                            <span class="material-symbols-outlined">
-                                priority_high
-                            </span>
-
-                            {% trans "Urgent" %}
-
-                        </span>
-
-                        <span class="nx-count">
-                            {{ stats.urgent|default:"0" }}
-                        </span>
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- TICKETS -->
-
-        <div class="nx-card">
-
-            <div class="nx-toolbar">
-
-                <div>
-
-                    <div class="nx-toolbar-title">
-                        {% trans "Tickets" %}
-                    </div>
-
-                    <div class="nx-toolbar-count">
-                        {{ total }} {% trans "results" %}
-                    </div>
-
-                </div>
-
-
-                <form
-                    method="get"
-                    class="nx-filter-form"
-                >
-
-                    <input
-                        type="hidden"
-                        name="filter"
-                        value="{{ active_filter }}"
-                    >
-
-
-                    <select
-                        name="department"
-                        class="nx-select"
-                    >
-
-                        <option value="">
-                            {% trans "All departments" %}
-                        </option>
-
-                        {% for department in staff.departments %}
-
-                            <option
-                                value="{{ department }}"
-                                {% if filter_department == department %}
-                                    selected
-                                {% endif %}
-                            >
-                                {{ department }}
-                            </option>
-
-                        {% endfor %}
-
-                    </select>
-
-
-                    <select
-                        name="priority"
-                        class="nx-select"
-                    >
-
-                        <option value="">
-                            {% trans "All priorities" %}
-                        </option>
-
-                        <option
-                            value="low"
-                            {% if filter_priority == "low" %}
-                                selected
-                            {% endif %}
-                        >
-                            {% trans "Low" %}
-                        </option>
-
-                        <option
-                            value="normal"
-                            {% if filter_priority == "normal" %}
-                                selected
-                            {% endif %}
-                        >
-                            {% trans "Normal" %}
-                        </option>
-
-                        <option
-                            value="high"
-                            {% if filter_priority == "high" %}
-                                selected
-                            {% endif %}
-                        >
-                            {% trans "High" %}
-                        </option>
-
-                        <option
-                            value="urgent"
-                            {% if filter_priority == "urgent" %}
-                                selected
-                            {% endif %}
-                        >
-                            {% trans "Urgent" %}
-                        </option>
-
-                    </select>
-
-
-                    <button
-                        type="submit"
-                        class="nx-filter-button"
-                    >
-                        {% trans "Filter" %}
-                    </button>
-
-                </form>
-
-            </div>
-
-
-            {% for ticket in tickets %}
-
-                <a
-                    href="{% url 'marketplace_support_detail' ticket.id %}"
-                    class="nx-ticket"
-                >
-
-                    <!-- MAIN -->
-
-                    <div class="nx-ticket-main">
-
-                        <div class="nx-ticket-top">
-
-                            <div class="nx-ticket-subject">
-                                {{ ticket.subject|default:"{% trans "Support ticket" %}" }}
-                            </div>
-
-
-                            {% if ticket.priority == "urgent" %}
-
-                                <span class="nx-badge nx-urgent">
-                                    {% trans "Urgent" %}
-                                </span>
-
-                            {% elif ticket.priority == "high" %}
-
-                                <span class="nx-badge nx-high">
-                                    {% trans "High" %}
-                                </span>
-
-                            {% endif %}
-
-                        </div>
-
-
-                        <div class="nx-ticket-user">
-
-                            {% if ticket.user.fullName %}
-
-                                {{ ticket.user.fullName }}
-
-                            {% else %}
-
-                                {{ ticket.user.username|default:"{% trans "Unknown user" %}" }}
-
-                            {% endif %}
-
-                            ·
-
-                            {{ ticket.user.email|default:"-" }}
-
-                        </div>
-
-
-                        <div class="nx-ticket-preview">
-                            {{ ticket.preview|default:"{% trans "No messages" %}" }}
-                        </div>
-
-                    </div>
-
-
-                    <!-- DEPARTMENT -->
-
-                    <div class="nx-ticket-department">
-
-                        <div class="nx-meta-label">
-                            {% trans "Department" %}
-                        </div>
-
-                        <div class="nx-meta-value">
-                            {{ ticket.department|default:"{% trans "All departments" %}" }}
-                        </div>
-
-                    </div>
-
-
-                    <!-- STATUS -->
-
-                    <div class="nx-ticket-status">
-
-                        {% if ticket.status == "open" %}
-
-                            <span class="nx-badge nx-open">
-                                {% trans "Open" %}
-                            </span>
-
-                        {% elif ticket.status == "pending" %}
-
-                            <span class="nx-badge nx-pending">
-                                {% trans "On hold" %}
-                            </span>
-
-                        {% elif ticket.status == "closed" %}
-
-                            <span class="nx-badge nx-closed">
-                                {% trans "Resolved" %}
-                            </span>
-
-                        {% else %}
-
-                            <span class="nx-badge">
-                                {{ ticket.status }}
-                            </span>
-
-                        {% endif %}
-
-                    </div>
-
-
-                    <!-- ASSIGNEE -->
-
-                    <div class="nx-ticket-assignee">
-
-                        <div class="nx-meta-label">
-                            {% trans "Assigned to" %}
-                        </div>
-
-                        <div class="nx-meta-value">
-
-                            {% if ticket.assignedTo %}
-
-                                {{ ticket.assignedTo.fullName|default:ticket.assignedTo.username }}
-
-                            {% else %}
-
-                                <span class="nx-unassigned">
-                                    {% trans "Unassigned" %}
-                                </span>
-
-                            {% endif %}
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- ARROW -->
-
-                    <div class="nx-arrow">
-
-                        <span class="material-symbols-outlined">
-                            chevron_right
-                        </span>
-
-                    </div>
-
-                </a>
-
-
-            {% empty %}
-
-                <div class="nx-empty">
-
-                    <span class="material-symbols-outlined">
-                        support_agent
-                    </span>
-
-                    <div>
-                        {% trans "There are no tickets for the selected filter." %}
-                    </div>
-
-                </div>
+        <form method="get" class="nx-filter-form">
+          <input type="hidden" name="filter" value="{{ active_filter }}" />
+
+          <!-- DEPARTMENT -->
+
+          <select name="department" class="nx-select">
+            <option value="">{% trans "All departments" %}</option>
+
+            {% for department in staff.departments %}
+
+            <option
+              value="{{ department }}"
+              {%
+              if
+              filter_department=""
+              ="department"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              {% if department == "general" %} {% trans "General" %} {% elif
+              department == "call_center" %} {% trans "Call Center" %} {% elif
+              department == "it" %} {% trans "IT" %} {% elif department ==
+              "payments" %} {% trans "Payments" %} {% elif department ==
+              "orders" %} {% trans "Orders" %} {% elif department == "logistics"
+              %} {% trans "Logistics" %} {% elif department == "moderation" %}
+              {% trans "Moderation" %} {% elif department == "account_security"
+              %} {% trans "Account & Security" %} {% else %} {{ department }} {%
+              endif %}
+            </option>
 
             {% endfor %}
+          </select>
 
+          <!-- PRIORITY -->
+
+          <select name="priority" class="nx-select">
+            <option value="">{% trans "All priorities" %}</option>
+
+            <option
+              value="low"
+              {%
+              if
+              filter_priority=""
+              ="low"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              {% trans "Low" %}
+            </option>
+
+            <option
+              value="normal"
+              {%
+              if
+              filter_priority=""
+              ="normal"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              {% trans "Normal" %}
+            </option>
+
+            <option
+              value="high"
+              {%
+              if
+              filter_priority=""
+              ="high"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              {% trans "High" %}
+            </option>
+
+            <option
+              value="urgent"
+              {%
+              if
+              filter_priority=""
+              ="urgent"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              {% trans "Urgent" %}
+            </option>
+          </select>
+
+          <button type="submit" class="nx-filter-button">
+            {% trans "Filter" %}
+          </button>
+        </form>
+      </div>
+
+      <!-- TICKET LIST -->
+
+      {% for ticket in tickets %}
+
+      <a
+        href="{% url 'marketplace_support_detail' ticket.id %}"
+        class="nx-ticket"
+      >
+        <!-- MAIN -->
+
+        <div class="nx-ticket-main">
+          <div class="nx-ticket-top">
+            <div class="nx-ticket-subject">
+              {{ ticket.subject|default:default_ticket_title }}
+            </div>
+
+            {% if ticket.priority == "urgent" %}
+
+            <span class="nx-badge nx-urgent"> {% trans "Urgent" %} </span>
+
+            {% elif ticket.priority == "high" %}
+
+            <span class="nx-badge nx-high"> {% trans "High" %} </span>
+
+            {% endif %}
+          </div>
+
+          <div class="nx-ticket-user">
+            {% if ticket.user.fullName %} {{ ticket.user.fullName }} {% else %}
+            {{ ticket.user.username|default:default_unknown_user }} {% endif %}
+            · {{ ticket.user.email|default:"-" }}
+          </div>
+
+          <div class="nx-ticket-preview">
+            {{ ticket.preview|default:default_no_messages }}
+          </div>
         </div>
 
-    </div>
+        <!-- DEPARTMENT -->
 
+        <div class="nx-ticket-department">
+          <div class="nx-meta-label">{% trans "Department" %}</div>
+
+          <div class="nx-meta-value">
+            {% if ticket.department == "general" %} {% trans "General" %} {%
+            elif ticket.department == "call_center" %} {% trans "Call Center" %}
+            {% elif ticket.department == "it" %} {% trans "IT" %} {% elif
+            ticket.department == "payments" %} {% trans "Payments" %} {% elif
+            ticket.department == "orders" %} {% trans "Orders" %} {% elif
+            ticket.department == "logistics" %} {% trans "Logistics" %} {% elif
+            ticket.department == "moderation" %} {% trans "Moderation" %} {%
+            elif ticket.department == "account_security" %} {% trans "Account &
+            Security" %} {% elif ticket.department %} {{ ticket.department }} {%
+            else %} {% trans "All departments" %} {% endif %}
+          </div>
+        </div>
+
+        <!-- STATUS -->
+
+        <div class="nx-ticket-status">
+          {% if ticket.status == "open" %}
+
+          <span class="nx-badge nx-open"> {% trans "Open" %} </span>
+
+          {% elif ticket.status == "pending" %}
+
+          <span class="nx-badge nx-pending"> {% trans "On hold" %} </span>
+
+          {% elif ticket.status == "closed" %}
+
+          <span class="nx-badge nx-closed"> {% trans "Resolved" %} </span>
+
+          {% else %}
+
+          <span class="nx-badge"> {{ ticket.status }} </span>
+
+          {% endif %}
+        </div>
+
+        <!-- ASSIGNEE -->
+
+        <div class="nx-ticket-assignee">
+          <div class="nx-meta-label">{% trans "Assigned to" %}</div>
+
+          <div class="nx-meta-value">
+            {% if ticket.assignedTo %} {{
+            ticket.assignedTo.fullName|default:ticket.assignedTo.username }} {%
+            else %}
+
+            <span class="nx-unassigned"> {% trans "Unassigned" %} </span>
+
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- ARROW -->
+
+        <div class="nx-arrow">
+          <span class="material-symbols-outlined"> chevron_right </span>
+        </div>
+      </a>
+
+      {% empty %}
+
+      <div class="nx-empty">
+        <span class="material-symbols-outlined"> support_agent </span>
+
+        <div>{% trans "There are no tickets for the selected filter." %}</div>
+      </div>
+
+      {% endfor %}
+    </div>
+  </div>
 </div>
 
 {% endblock %}

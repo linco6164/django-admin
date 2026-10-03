@@ -647,6 +647,11 @@
 </style>
 
 
+{% trans "Unknown" as default_unknown %}
+{% trans "Search username or email..." as search_placeholder %}
+{% trans "Describe the reason for blocking..." as ban_reason_placeholder %}
+
+
 <div class="nx-page">
 
     <!-- =====================================================
@@ -682,9 +687,18 @@
                 border-color: rgba(239, 68, 68, 0.4);
                 margin-bottom: 20px;
                 color: #f87171;
+                padding: 16px;
             "
         >
-            {{ api_error }}
+
+            <strong>
+                {% trans "An error occurred while fetching API data." %}
+            </strong>
+
+            <div style="margin-top:6px;">
+                {{ api_error }}
+            </div>
+
         </div>
 
     {% endif %}
@@ -756,7 +770,7 @@
                 type="text"
                 name="search"
                 value="{{ search }}"
-                placeholder="Search username or email..."
+                placeholder="{{ search_placeholder }}"
                 autocomplete="off"
             >
 
@@ -815,6 +829,7 @@
 
                         <tr>
 
+
                             <!-- USER -->
 
                             <td>
@@ -842,7 +857,7 @@
                                             href="{% url 'marketplace_user_detail' user.id %}"
                                             class="nx-username"
                                         >
-                                            {{ user.username|default:"Unknown" }}
+                                            {{ user.username|default:default_unknown }}
                                         </a>
 
                                         <span class="nx-user-id">
@@ -869,26 +884,29 @@
 
                                 {% if user.role == "admin" %}
 
-                                    <span
-                                        class="nx-badge nx-role-admin"
-                                    >
+                                    <span class="nx-badge nx-role-admin">
                                         {% trans "Administrator" %}
                                     </span>
 
+
                                 {% elif user.role == "user" %}
 
-                                    <span
-                                        class="nx-badge nx-role-user"
-                                    >
+                                    <span class="nx-badge nx-role-user">
                                         {% trans "User" %}
                                     </span>
 
+
+                                {% elif user.role == "support" %}
+
+                                    <span class="nx-badge nx-role-staff">
+                                        {% trans "Support" %}
+                                    </span>
+
+
                                 {% else %}
 
-                                    <span
-                                        class="nx-badge nx-role-staff"
-                                    >
-                                        {{ user.role }}
+                                    <span class="nx-badge nx-role-staff">
+                                        {{ user.role|default:"-"|title }}
                                     </span>
 
                                 {% endif %}
@@ -899,7 +917,45 @@
                             <!-- DEPARTMENT -->
 
                             <td>
-                                {{ user.department|default:"-" }}
+
+                                {% if user.department == "general" %}
+
+                                    {% trans "General" %}
+
+                                {% elif user.department == "call_center" %}
+
+                                    {% trans "Call Center" %}
+
+                                {% elif user.department == "it" %}
+
+                                    {% trans "IT" %}
+
+                                {% elif user.department == "payments" %}
+
+                                    {% trans "Payments" %}
+
+                                {% elif user.department == "orders" %}
+
+                                    {% trans "Orders" %}
+
+                                {% elif user.department == "logistics" %}
+
+                                    {% trans "Logistics" %}
+
+                                {% elif user.department == "moderation" %}
+
+                                    {% trans "Moderation" %}
+
+                                {% elif user.department == "account_security" %}
+
+                                    {% trans "Account & Security" %}
+
+                                {% else %}
+
+                                    {{ user.department|default:"-" }}
+
+                                {% endif %}
+
                             </td>
 
 
@@ -909,9 +965,7 @@
 
                                 {% if user.banned %}
 
-                                    <span
-                                        class="nx-badge nx-banned"
-                                    >
+                                    <span class="nx-badge nx-banned">
                                         ● {% trans "Banned" %}
                                     </span>
 
@@ -927,11 +981,10 @@
 
                                     {% endif %}
 
+
                                 {% else %}
 
-                                    <span
-                                        class="nx-badge nx-active"
-                                    >
+                                    <span class="nx-badge nx-active">
                                         ● {% trans "Active" %}
                                     </span>
 
@@ -948,6 +1001,10 @@
 
                                     {% if user.banned %}
 
+                                        {% blocktrans with username=user.username asvar confirm_unblock_user %}
+                                            Are you sure you want to unblock the account {{ username }}?
+                                        {% endblocktrans %}
+
                                         <form
                                             method="post"
                                             action="{% url 'marketplace_toggle_ban' user.id %}"
@@ -962,19 +1019,14 @@
                                                 value="unban"
                                             >
 
+
                                             <button
                                                 type="submit"
                                                 class="nx-action nx-unban"
-                                                onclick="
-                                                    return confirm(
-                                                        'Sigur vrei să deblochezi contul {{ user.username|escapejs }}?'
-                                                    );
-                                                "
+                                                onclick="return confirm('{{ confirm_unblock_user|escapejs }}');"
                                             >
 
-                                                <span
-                                                    class="material-symbols-outlined"
-                                                >
+                                                <span class="material-symbols-outlined">
                                                     lock_open
                                                 </span>
 
@@ -983,6 +1035,7 @@
                                             </button>
 
                                         </form>
+
 
                                     {% else %}
 
@@ -995,9 +1048,7 @@
                                             onclick="openBanDialog(this)"
                                         >
 
-                                            <span
-                                                class="material-symbols-outlined"
-                                            >
+                                            <span class="material-symbols-outlined">
                                                 block
                                             </span>
 
@@ -1021,9 +1072,9 @@
                             <td
                                 colspan="6"
                                 style="
-                                    text-align: center;
-                                    padding: 50px;
-                                    color: #94a3b8;
+                                    text-align:center;
+                                    padding:50px;
+                                    color:#94a3b8;
                                 "
                             >
                                 {% trans "No users found." %}
@@ -1047,7 +1098,13 @@
         <div class="nx-footer">
 
             <div class="nx-footer-count">
-                {{ total }} {% trans "users" %}
+
+                {% blocktrans count counter=total %}
+                    {{ counter }} user
+                {% plural %}
+                    {{ counter }} users
+                {% endblocktrans %}
+
             </div>
 
 
@@ -1065,7 +1122,11 @@
 
 
                 <span class="nx-pagination-status">
-                    {% trans "Page" %} {{ page }} / {{ pages }}
+
+                    {% blocktrans with current=page total_pages=pages %}
+                        Page {{ current }} of {{ total_pages }}
+                    {% endblocktrans %}
+
                 </span>
 
 
@@ -1086,6 +1147,7 @@
     </div>
 
 </div>
+
 
 
 <!-- =========================================================
@@ -1132,8 +1194,7 @@
                 <div
                     id="nx-ban-username"
                     class="nx-dialog-user"
-                >
-                </div>
+                ></div>
 
             </div>
 
@@ -1171,48 +1232,44 @@
                     {% trans "Select the reason..." %}
                 </option>
 
-                <option
-                    value="Încălcarea regulilor platformei"
-                >
-                    {% trans "Încălcarea regulilor platformei" %}
+
+                <option value="Încălcarea regulilor platformei">
+                    {% trans "Violation of platform rules" %}
                 </option>
 
-                <option
-                    value="Activitate suspectă"
-                >
-                    {% trans "Activitate suspectă" %}
+
+                <option value="Activitate suspectă">
+                    {% trans "Suspicious activity" %}
                 </option>
 
-                <option
-                    value="Fraudă / tentativă de fraudă"
-                >
-                    {% trans "Fraudă / tentativă de fraudă" %}
+
+                <option value="Fraudă / tentativă de fraudă">
+                    {% trans "Fraud / attempted fraud" %}
                 </option>
 
-                <option
-                    value="Anunțuri sau produse interzise"
-                >
-                    {% trans "Anunțuri sau produse interzise" %}
+
+                <option value="Anunțuri sau produse interzise">
+                    {% trans "Banned listings or products" %}
                 </option>
 
-                <option
-                    value="Hărțuire / comportament abuziv"
-                >
-                    {% trans "Hărțuire / comportament abuziv" %}
+
+                <option value="Hărțuire / comportament abuziv">
+                    {% trans "Harassment / abusive behavior" %}
                 </option>
+
 
                 <option value="Spam">
                     {% trans "Spam" %}
                 </option>
 
-                <option
-                    value="Cont fals / identitate falsă"
-                >
-                    {% trans "Cont fals / identitate falsă" %}
+
+                <option value="Cont fals / identitate falsă">
+                    {% trans "Fake account / false identity" %}
                 </option>
 
+
                 <option value="Alt motiv">
-                    {% trans "Alt motiv" %}
+                    {% trans "Other reason" %}
                 </option>
 
             </select>
@@ -1222,14 +1279,14 @@
                 id="nx-custom-reason"
                 name="custom_reason"
                 class="nx-custom-reason"
-                placeholder="{% trans "Descrie motivul blocării..." %}"
+                placeholder="{{ ban_reason_placeholder }}"
                 maxlength="500"
-                style="display: none;"
+                style="display:none;"
             ></textarea>
 
 
             <div class="nx-reason-help">
-                {% trans "Motivul va fi salvat în contul utilizatorului." %}
+                {% trans "The reason will be saved to the user's account." %}
             </div>
 
         </div>
