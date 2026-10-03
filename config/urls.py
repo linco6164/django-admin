@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.views.generic import RedirectView
 
 from accounts.views import (
@@ -24,6 +24,11 @@ from accounts.views import (
 
 
 urlpatterns = [
+     path(
+        "i18n/",
+        include("django.conf.urls.i18n"),
+    ),
+    
     path(
         "",
         RedirectView.as_view(
