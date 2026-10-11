@@ -279,3 +279,44 @@ class SupportDisplayTests(TestCase):
         self.assertEqual(catalog.gettext('Apply filters'), 'Aplică filtrele')
         self.assertEqual(catalog.gettext('Payments'), 'Plăți')
         self.assertEqual(catalog.gettext('All tickets'), 'Toate ticketele')
+
+
+class StartupTranslationTests(TestCase):
+    def test_settings_serialization_and_wsgi_start_before_registry_ready(self):
+        import os
+        import subprocess
+        import sys
+
+        environment = dict(os.environ, DJANGO_SETTINGS_MODULE='config.test_settings')
+        script = '''
+import json
+from django.apps import apps
+from django.conf import settings
+assert not apps.apps_ready
+json.dumps(settings.UNFOLD, default=str)
+json.dumps(settings.NEXORA_NAVIGATION, default=str)
+assert not apps.apps_ready
+import config.wsgi
+assert apps.ready
+assert callable(config.wsgi.application)
+print('startup OK')
+'''
+        result = subprocess.run([sys.executable, '-c', script], cwd=settings.BASE_DIR,
+                                env=environment, text=True, capture_output=True, timeout=120)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('startup OK', result.stdout)
+
+    def test_navigation_translates_per_request_without_mutating_settings(self):
+        from django.utils.translation import override
+        from .navigation import sidebar_navigation, site_subheader
+
+        request = RequestFactory().get('/admin/')
+        with override('ro'):
+            romanian = sidebar_navigation(request)
+            self.assertEqual(romanian[0]['items'][0]['title'], 'Panou de control')
+            self.assertEqual(site_subheader(request), 'Administrare marketplace')
+        with override('en'):
+            english = sidebar_navigation(request)
+            self.assertEqual(english[0]['items'][0]['title'], 'Dashboard')
+            self.assertEqual(site_subheader(request), 'Marketplace Administration')
+        self.assertEqual(settings.NEXORA_NAVIGATION[0]['items'][0]['title'], 'Dashboard')

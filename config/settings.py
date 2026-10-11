@@ -14,7 +14,7 @@ from pathlib import Path
 
 import dj_database_url
 from dotenv import load_dotenv
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -137,6 +137,12 @@ UNFOLD = {
     },
 }
 
+
+# Deployment tooling can inspect/serialize settings before django.setup().
+# Keep message IDs as plain strings here; translate only inside request callbacks.
+NEXORA_NAVIGATION = UNFOLD['SIDEBAR']['navigation']
+UNFOLD['SIDEBAR']['navigation'] = 'accounts.navigation.sidebar_navigation'
+UNFOLD['SITE_SUBHEADER'] = 'accounts.navigation.site_subheader'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
