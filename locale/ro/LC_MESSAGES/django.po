@@ -1,8 +1,10 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: NEXORA Admin\n"
-"Language: ro\n"
+"PO-Revision-Date: 2026-10-11 23:00+0300\n"
 "Language-Team: Romanian\n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,7 +13,6 @@ msgstr ""
 # =========================================================
 # GENERAL
 # =========================================================
-
 msgid "Dashboard"
 msgstr "Panou de control"
 
@@ -141,7 +142,6 @@ msgstr "ID"
 # =========================================================
 # STATUSES
 # =========================================================
-
 msgid "Active"
 msgstr "Activ"
 
@@ -191,13 +191,13 @@ msgid "Drafts"
 msgstr "Ciorne"
 
 msgid "Open"
-msgstr "Deschis"
+msgstr "Deschise"
 
 msgid "Closed"
 msgstr "Închis"
 
 msgid "Resolved"
-msgstr "Rezolvat"
+msgstr "Rezolvate"
 
 msgid "In progress"
 msgstr "În lucru"
@@ -214,7 +214,6 @@ msgstr "Vândut"
 # =========================================================
 # DASHBOARD
 # =========================================================
-
 msgid "Overview of the NEXORA marketplace"
 msgstr "Prezentare generală a marketplace-ului NEXORA"
 
@@ -257,7 +256,6 @@ msgstr "Statistici"
 # =========================================================
 # USERS
 # =========================================================
-
 msgid "Users"
 msgstr "Utilizatori"
 
@@ -402,7 +400,6 @@ msgstr "Sigur vrei să deblochezi acest cont?"
 # =========================================================
 # SECURITY / USER ACCOUNT
 # =========================================================
-
 msgid "Security"
 msgstr "Securitate"
 
@@ -460,7 +457,6 @@ msgstr "Setează o parolă nouă"
 # =========================================================
 # LISTINGS
 # =========================================================
-
 msgid "Listings"
 msgstr "Anunțuri"
 
@@ -509,7 +505,6 @@ msgstr "Nu au fost găsite anunțuri."
 # =========================================================
 # ORDERS
 # =========================================================
-
 msgid "Orders"
 msgstr "Comenzi"
 
@@ -531,7 +526,6 @@ msgstr "Nu au fost găsite comenzi."
 # =========================================================
 # NOTIFICATIONS
 # =========================================================
-
 msgid "Notifications"
 msgstr "Notificări"
 
@@ -542,7 +536,9 @@ msgid "Create notification"
 msgstr "Creează notificare"
 
 msgid "Create, schedule and monitor notifications sent to NEXORA users."
-msgstr "Creează, programează și monitorizează notificările trimise utilizatorilor NEXORA."
+msgstr ""
+"Creează, programează și monitorizează notificările trimise utilizatorilor "
+"NEXORA."
 
 msgid "Search notifications..."
 msgstr "Caută notificări..."
@@ -685,7 +681,6 @@ msgstr "Trimite notificare de test"
 # =========================================================
 # NOTIFICATION STATISTICS
 # =========================================================
-
 msgid "Targeted"
 msgstr "Vizați"
 
@@ -701,7 +696,6 @@ msgstr "Accesate"
 # =========================================================
 # WITHDRAWALS
 # =========================================================
-
 msgid "Withdrawals"
 msgstr "Retrageri"
 
@@ -724,7 +718,7 @@ msgid "Requested at"
 msgstr "Solicitat la"
 
 msgid "Processed"
-msgstr "Procesat"
+msgstr "Procesată"
 
 msgid "Processed at"
 msgstr "Procesat la"
@@ -756,7 +750,6 @@ msgstr "Sigur vrei să respingi această retragere?"
 # =========================================================
 # SUPPORT
 # =========================================================
-
 msgid "Support"
 msgstr "Suport"
 
@@ -764,7 +757,7 @@ msgid "Support tickets"
 msgstr "Tichete de suport"
 
 msgid "Support ticket"
-msgstr "Tichet de suport"
+msgstr "Ticket de suport"
 
 msgid "Manage support requests"
 msgstr "Gestionează solicitările de suport"
@@ -794,7 +787,7 @@ msgid "Reply"
 msgstr "Răspunde"
 
 msgid "Send reply"
-msgstr "Trimite răspuns"
+msgstr "Trimite răspunsul"
 
 msgid "Type your reply..."
 msgstr "Scrie răspunsul..."
@@ -814,7 +807,6 @@ msgstr "Nu au fost găsite tichete de suport."
 # =========================================================
 # PAGINATION / COUNTS
 # =========================================================
-
 msgid "results"
 msgstr "rezultate"
 
@@ -836,7 +828,6 @@ msgstr "tichete"
 # =========================================================
 # MESSAGES / CONFIRMATIONS
 # =========================================================
-
 msgid "Changes saved successfully."
 msgstr "Modificările au fost salvate cu succes."
 
@@ -876,7 +867,6 @@ msgstr "Această acțiune nu poate fi anulată."
 # =========================================================
 # LOGIN / ACCOUNT
 # =========================================================
-
 msgid "Log in"
 msgstr "Autentificare"
 
@@ -907,8 +897,12 @@ msgstr "A apărut o eroare la preluarea datelor din API."
 msgid "NEXORA Marketplace"
 msgstr "Marketplace NEXORA"
 
-msgid "Users, listings, payments, support and marketplace operations will be available from this dashboard."
-msgstr "Utilizatorii, anunțurile, plățile, suportul și operațiunile marketplace-ului vor fi disponibile din acest panou de control."
+msgid ""
+"Users, listings, payments, support and marketplace operations will be "
+"available from this dashboard."
+msgstr ""
+"Utilizatorii, anunțurile, plățile, suportul și operațiunile marketplace-ului"
+" vor fi disponibile din acest panou de control."
 
 msgid "Back to notifications"
 msgstr "Înapoi la notificări"
@@ -983,7 +977,7 @@ msgid "Assignment"
 msgstr "Atribuire"
 
 msgid "Unassigned"
-msgstr "Neatribuit"
+msgstr "Neatribuite"
 
 msgid "Assign to me"
 msgstr "Atribuie-mi"
@@ -1004,7 +998,7 @@ msgid "Low"
 msgstr "Scăzută"
 
 msgid "Urgent"
-msgstr "Urgentă"
+msgstr "Urgente"
 
 msgid "Update priority"
 msgstr "Actualizează prioritatea"
@@ -1019,7 +1013,7 @@ msgid "Total tickets"
 msgstr "Total tichete"
 
 msgid "My tickets"
-msgstr "Tichetele mele"
+msgstr "Ticketele mele"
 
 msgid "Tickets"
 msgstr "Tichete"
@@ -1034,7 +1028,7 @@ msgid "Unknown user"
 msgstr "Utilizator necunoscut"
 
 msgid "No messages"
-msgstr "Fără mesaje"
+msgstr "Nu există mesaje"
 
 msgid "Assigned to"
 msgstr "Atribuit lui"
@@ -1177,6 +1171,7 @@ msgstr "Motiv personalizat"
 msgid "Describe the reason for the ban..."
 msgstr "Descrie motivul blocării..."
 
+#, python-format
 msgid "Page %(page)s of %(pages)s"
 msgstr "Pagina %(page)s din %(pages)s"
 
@@ -1220,7 +1215,8 @@ msgid "Page %(current)s of %(total_pages)s"
 msgstr "Pagina %(current)s din %(total_pages)s"
 
 msgid "The user will not be able to access the account until it is unblocked."
-msgstr "Utilizatorul nu va putea accesa contul până când acesta nu este deblocat."
+msgstr ""
+"Utilizatorul nu va putea accesa contul până când acesta nu este deblocat."
 
 msgid "Select the reason for blocking the account."
 msgstr "Selectează motivul blocării contului."
@@ -1263,3 +1259,450 @@ msgid_plural "%(counter)s withdrawals"
 msgstr[0] "%(counter)s retragere"
 msgstr[1] "%(counter)s retrageri"
 msgstr[2] "%(counter)s de retrageri"
+
+msgid "CUSTOMER CARE"
+msgstr "RELAȚII CU CLIENȚII"
+
+msgid "Support & Call center"
+msgstr "Suport și call center"
+
+msgid "Nexora requests"
+msgstr "Solicitări din Nexora"
+
+msgid "Refresh"
+msgstr "Actualizează"
+
+msgid "Ticket filter"
+msgstr "Filtru tickete"
+
+msgid "All tickets"
+msgstr "Toate ticketele"
+
+msgid "All available departments"
+msgstr "Toate departamentele disponibile"
+
+msgid "Any priority"
+msgstr "Orice prioritate"
+
+msgid "Apply filters"
+msgstr "Aplică filtrele"
+
+msgid "Show all tickets"
+msgstr "Afișează toate ticketele"
+
+msgid "Request"
+msgstr "Solicitare"
+
+msgid "Support request"
+msgstr "Solicitare de suport"
+
+msgid "Agent"
+msgstr "Agent"
+
+msgid "Requests cannot be loaded right now."
+msgstr "Solicitările nu pot fi încărcate momentan."
+
+msgid "No tickets match the selected filters."
+msgstr "Nu există tickete pentru filtrele selectate."
+
+#, python-format
+msgid "%(shown)s displayed out of %(total)s requests"
+msgstr "%(shown)s afișate din %(total)s solicitări"
+
+msgid ""
+"The API returned only the first batch of tickets. Narrow your filters to "
+"find older requests."
+msgstr ""
+"API-ul a returnat doar primul lot de tickete. Restrânge filtrele pentru a "
+"găsi solicitări mai vechi."
+
+msgid "The backend returned an invalid ticket list."
+msgstr "Backendul a returnat o listă de tickete invalidă."
+
+msgid "Back to requests"
+msgstr "Înapoi la solicitări"
+
+msgid "Reply to customer"
+msgstr "Răspuns către client"
+
+msgid "Write your reply…"
+msgstr "Scrie răspunsul…"
+
+msgid "Ticket management"
+msgstr "Gestionare ticket"
+
+msgid "Release ticket"
+msgstr "Eliberează ticketul"
+
+msgid "Take ticket"
+msgstr "Preia ticketul"
+
+msgid "Open customer profile"
+msgstr "Deschide profilul clientului"
+
+msgid "FINANCE · PAYMENTS"
+msgstr "FINANCIAR · PLĂȚI"
+
+msgid "Withdrawal requests from Nexora balances."
+msgstr "Solicitări de retragere din soldurile Nexora."
+
+#, python-format
+msgid "%(total)s requests"
+msgstr "%(total)s solicitări"
+
+msgid ""
+"Completing a withdrawal records the transfer as paid. Make the bank transfer"
+" separately before confirming."
+msgstr ""
+"Finalizarea înregistrează transferul ca efectuat. Efectuează transferul "
+"bancar separat înainte de confirmare."
+
+msgid "Apply"
+msgstr "Aplică"
+
+msgid "Beneficiary"
+msgstr "Beneficiar"
+
+msgid "IBAN unavailable"
+msgstr "IBAN indisponibil"
+
+msgid "Bank transfer completed"
+msgstr "Transfer bancar efectuat"
+
+msgid "Mark as completed"
+msgstr "Marchează ca finalizată"
+
+msgid "Reject and restore balance"
+msgstr "Respinge și restituie soldul"
+
+msgid "Financial data cannot be loaded."
+msgstr "Datele financiare nu pot fi încărcate."
+
+msgid "No withdrawals match this status."
+msgstr "Nu există retrageri pentru acest status."
+
+msgid "Call center"
+msgstr "Call center"
+
+msgid "Account security"
+msgstr "Securitatea contului"
+
+msgid "Support agent"
+msgstr "Agent de suport"
+
+msgid "Support manager"
+msgstr "Manager de suport"
+
+msgid "IT agent"
+msgstr "Agent IT"
+
+msgid "Finance agent"
+msgstr "Agent financiar"
+
+msgid "Logistics agent"
+msgstr "Agent de logistică"
+
+msgid "Moderator"
+msgstr "Moderator"
+
+msgid "Add agent"
+msgstr "Adaugă agent"
+
+msgid "Operations history"
+msgstr "Istoric operațiuni"
+
+msgid "2FA code (if enabled)"
+msgstr "Cod 2FA (dacă este activat)"
+
+msgid ""
+"Invalid credentials or 2FA code, access denied, or backend unavailable."
+msgstr "Date sau cod 2FA invalide, acces refuzat ori backend indisponibil."
+
+msgid "Initial password"
+msgstr "Parolă inițială"
+
+msgid "Finance agents must belong to the Payments department."
+msgstr "Agenții financiari trebuie atribuiți departamentului Plăți."
+
+msgid "The agent account was created in the Nexora backend."
+msgstr "Contul de agent a fost creat în backendul Nexora."
+
+msgid "Operations center"
+msgstr "Centrul operațional"
+
+msgid "NEXORA · OPERATIONS"
+msgstr "NEXORA · OPERAȚIUNI"
+
+msgid "Support for the app and website in a single workspace."
+msgstr "Suport pentru aplicație și website, într-un singur spațiu."
+
+msgid "Take requests, reply to customers, and track resolution by department."
+msgstr ""
+"Preia solicitări, răspunde clienților și urmărește rezolvarea pe "
+"departamente."
+
+msgid "Open ticket queue"
+msgstr "Deschide coada de tickete"
+
+msgid "FINANCE"
+msgstr "FINANCIAR"
+
+msgid "Review withdrawal requests and manage approvals or rejections."
+msgstr ""
+"Verifică solicitările de retragere și gestionează aprobările sau "
+"respingerile."
+
+msgid "Open finance"
+msgstr "Deschide financiar"
+
+msgid "ADMINISTRATION"
+msgstr "ADMINISTRARE"
+
+msgid "Customers & accounts"
+msgstr "Clienți și conturi"
+
+msgid "Profiles, security, listings, and account moderation."
+msgstr "Profiluri, securitate, anunțuri și moderarea conturilor."
+
+msgid "Open users"
+msgstr "Deschide utilizatorii"
+
+msgid "COMMUNICATIONS"
+msgstr "COMUNICĂRI"
+
+msgid "Manage communications and scheduled notifications."
+msgstr "Gestionează comunicările și notificările programate."
+
+msgid "Open notifications"
+msgstr "Deschide notificările"
+
+msgid "TEAM MANAGEMENT"
+msgstr "GESTIONAREA ECHIPEI"
+
+msgid "Add Nexora agent"
+msgstr "Adaugă agent Nexora"
+
+msgid ""
+"The account is created in the backend and can access the panel according to "
+"its role and department."
+msgstr ""
+"Contul este creat în backend și poate accesa panoul conform rolului și "
+"departamentului."
+
+msgid "Create account"
+msgstr "Creează contul"
+
+msgid "OPERATIONS AUDIT"
+msgstr "JURNALUL OPERAȚIUNILOR"
+
+msgid "The last 100 operations confirmed by the API through this panel."
+msgstr "Ultimele 100 de operațiuni confirmate de API prin acest panou."
+
+msgid "Operator"
+msgstr "Operator"
+
+msgid "Operation"
+msgstr "Operațiune"
+
+msgid "No operations recorded."
+msgstr "Nu sunt operațiuni înregistrate."
+
+msgid "Nexora backend unavailable"
+msgstr "Backendul Nexora este indisponibil"
+
+msgid "We cannot verify access or load data. Try again in a few moments."
+msgstr ""
+"Nu putem verifica accesul sau încărca datele. Reîncearcă în câteva momente."
+
+msgid "Try again"
+msgstr "Reîncearcă"
+
+msgid "Confirm the bank transfer before completing the withdrawal."
+msgstr "Confirmă efectuarea transferului bancar înainte de finalizare."
+
+msgid "Access is restricted for your role and department."
+msgstr "Acces restricționat pentru rolul și departamentul tău."
+
+msgid "The API route is invalid."
+msgstr "Ruta API este invalidă."
+
+msgid "The Nexora backend cannot be reached. Try again later."
+msgstr "Backendul Nexora nu poate fi accesat. Reîncearcă mai târziu."
+
+msgid "Your Nexora session has expired. Sign in again."
+msgstr "Sesiunea Nexora a expirat. Autentifică-te din nou."
+
+msgid "You do not have the required permission."
+msgstr "Nu ai permisiunea necesară."
+
+#, python-format
+msgid "The backend rejected the request (HTTP %(status)s)."
+msgstr "Backendul a refuzat cererea (HTTP %(status)s)."
+
+msgid "The backend did not return valid JSON."
+msgstr "Backendul nu a returnat JSON valid."
+
+msgid "The backend returned an invalid response or rejected the operation."
+msgstr "Backendul a returnat un răspuns invalid sau a refuzat operațiunea."
+
+msgid "Nexora authentication is required."
+msgstr "Autentificarea Nexora este necesară."
+
+msgid "2FA"
+msgstr "2FA"
+
+msgid "Bio"
+msgstr "Biografie"
+
+msgid "Europe/Bucharest"
+msgstr "Europe/Bucharest"
+
+msgid "Forgotten your password or username?"
+msgstr "Ai uitat parola sau numele de utilizator?"
+
+msgid "OFF"
+msgstr "DEZACTIVAT"
+
+msgid "ON"
+msgstr "ACTIVAT"
+
+msgid "Spam"
+msgstr "Spam"
+
+msgid "Timezone: Europe/Bucharest"
+msgstr "Fus orar: Europe/Bucharest"
+
+#, python-format
+msgid "Parolă temporară generată: %(password)s"
+msgstr "Parolă temporară generată: %(password)s"
+
+#, python-format
+msgid "Temporary password generated: %(password)s"
+msgstr "Parolă temporară generată: %(password)s"
+
+msgid "Invalid action."
+msgstr "Acțiune invalidă."
+
+msgid "Unknown action."
+msgstr "Acțiune necunoscută."
+
+msgid "You cannot suspend your own account."
+msgstr "Nu îți poți bloca propriul cont."
+
+msgid "Notification not found."
+msgstr "Notificarea nu a fost găsită."
+
+msgid "The notification was sent."
+msgstr "Notificarea a fost trimisă."
+
+msgid "The withdrawal was approved."
+msgstr "Retragerea a fost aprobată."
+
+msgid ""
+"The withdrawal was rejected and its amount was restored to the balance."
+msgstr "Retragerea a fost respinsă și suma a fost returnată în sold."
+
+msgid "Ticket not found."
+msgstr "Ticketul nu a fost găsit."
+
+msgid "Select a reason for suspending the account."
+msgstr "Trebuie să selectezi un motiv pentru blocare."
+
+msgid "The schedule was cancelled."
+msgstr "Programarea a fost anulată."
+
+msgid "The notification was deleted."
+msgstr "Notificarea a fost ștearsă."
+
+msgid "The user password was changed."
+msgstr "Parola utilizatorului a fost schimbată."
+
+msgid "The notification was scheduled."
+msgstr "Notificarea a fost programată."
+
+msgid "The priority was updated."
+msgstr "Prioritatea a fost actualizată."
+
+msgid "The email address is invalid."
+msgstr "Adresa de email nu este validă."
+
+msgid "The password must contain at least 8 characters."
+msgstr "Parola trebuie să aibă cel puțin 8 caractere."
+
+msgid "Select the scheduled date and time."
+msgstr "Selectează data și ora programării."
+
+msgid "Invalid priority."
+msgstr "Prioritate invalidă."
+
+msgid "The temporary password was generated."
+msgstr "Parola temporară a fost generată."
+
+msgid "Two-factor authentication was disabled."
+msgstr "Autentificarea 2FA a fost dezactivată."
+
+msgid "The scheduled date is invalid."
+msgstr "Data programării este invalidă."
+
+msgid "The notification was saved as a draft."
+msgstr "Notificarea a fost salvată ca draft."
+
+msgid "The notification was updated."
+msgstr "Notificarea a fost actualizată."
+
+msgid "The ticket was assigned to you."
+msgstr "Ticketul a fost preluat."
+
+msgid "The ticket was released."
+msgstr "Ticketul a fost eliberat."
+
+msgid "Invalid status."
+msgstr "Status invalid."
+
+msgid "The status was updated."
+msgstr "Statusul a fost actualizat."
+
+msgid "The message cannot be empty."
+msgstr "Mesajul nu poate fi gol."
+
+msgid "The message can contain at most 5000 characters."
+msgstr "Mesajul poate avea maximum 5000 de caractere."
+
+msgid "The message was sent."
+msgstr "Mesajul a fost trimis."
+
+msgid "The username is too short."
+msgstr "Username-ul este prea scurt."
+
+msgid "The profile was updated."
+msgstr "Profilul a fost actualizat."
+
+msgid "The email was updated."
+msgstr "Emailul a fost actualizat."
+
+msgid "The passwords do not match."
+msgstr "Parolele nu coincid."
+
+msgid "The account is already suspended."
+msgstr "Contul este deja blocat."
+
+msgid "The account is already active."
+msgstr "Contul este deja activ."
+
+msgid "The account was suspended."
+msgstr "Contul a fost blocat."
+
+msgid "The account was reactivated."
+msgstr "Contul a fost deblocat."
+
+msgid "The reason is too short."
+msgstr "Motivul este prea scurt."
+
+msgid "The reason can contain at most 500 characters."
+msgstr "Motivul poate avea maximum 500 de caractere."
+
+msgid "The title is required."
+msgstr "Titlul este obligatoriu."
+
+msgid "The message is required."
+msgstr "Mesajul este obligatoriu."

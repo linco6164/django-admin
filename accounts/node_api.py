@@ -1,4 +1,5 @@
-﻿from urllib.parse import urlsplit
+from django.utils.translation import gettext as _
+from urllib.parse import urlsplit
 import requests
 from django.conf import settings
 from django.contrib.admin.models import CHANGE, LogEntry
@@ -11,7 +12,7 @@ class NodeAPIError(Exception):
 
 def api_request(method, endpoint, token=None, **kwargs):
     if not endpoint.startswith('/') or endpoint.startswith('//') or urlsplit(endpoint).scheme:
-        raise NodeAPIError('Ruta API este invalidă.')
+        raise NodeAPIError(_("The API route is invalid."))
     headers = dict(kwargs.pop('headers', {}))
     headers['Accept'] = 'application/json'
     if token:
@@ -20,27 +21,27 @@ def api_request(method, endpoint, token=None, **kwargs):
         response = requests.request(method, settings.NODE_API_URL.rstrip('/') + endpoint,
             headers=headers, timeout=settings.NODE_API_TIMEOUT, allow_redirects=False, **kwargs)
     except requests.RequestException as error:
-        raise NodeAPIError('Backendul Nexora nu poate fi accesat. Reîncearcă mai târziu.') from error
+        raise NodeAPIError(_("The Nexora backend cannot be reached. Try again later.")) from error
     if response.status_code == 401:
-        raise NodeAPIError('Sesiunea Nexora a expirat. Autentifică-te din nou.', 401)
+        raise NodeAPIError(_("Your Nexora session has expired. Sign in again."), 401)
     if response.status_code == 403:
-        raise NodeAPIError('Nu ai permisiunea necesară.', 403)
+        raise NodeAPIError(_("You do not have the required permission."), 403)
     if not 200 <= response.status_code < 300:
-        raise NodeAPIError(f'Backendul a refuzat cererea (HTTP {response.status_code}).', response.status_code)
+        raise NodeAPIError(_('The backend rejected the request (HTTP %(status)s).') % {'status': response.status_code}, response.status_code)
     if response.status_code == 204:
         return {}
     try:
         data = response.json()
     except ValueError as error:
-        raise NodeAPIError('Backendul nu a returnat JSON valid.') from error
+        raise NodeAPIError(_("The backend did not return valid JSON.")) from error
     if not isinstance(data, dict) or data.get('success') is False:
-        raise NodeAPIError('Backendul a returnat un răspuns invalid sau a refuzat operațiunea.')
+        raise NodeAPIError(_("The backend returned an invalid response or rejected the operation."))
     return data
 
 def node_request(request, method, endpoint, **kwargs):
     token = request.session.get('node_token')
     if not token:
-        raise NodeAPIError('Autentificarea Nexora este necesară.', 401)
+        raise NodeAPIError(_("Nexora authentication is required."), 401)
     try:
         result = api_request(method, endpoint, token=token, **kwargs)
         if method.upper() in {'POST', 'PATCH', 'PUT', 'DELETE'} and request.user.is_authenticated:

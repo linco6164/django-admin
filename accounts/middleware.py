@@ -1,4 +1,5 @@
-﻿from django.contrib.auth import logout
+from django.utils.translation import gettext as _
+from django.contrib.auth import logout
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, render
 from .access import STAFF_ROLES, can_finance
@@ -32,5 +33,5 @@ class NexoraAccessMiddleware:
         common = path in {'/admin/', '/admin/dashboard/', '/admin/node-me/'} or path.startswith('/admin/support/')
         finance = path.startswith('/admin/withdrawals/') and can_finance(identity)
         if role != 'admin' and not (common or finance):
-            return HttpResponseForbidden('Acces restricționat pentru rolul și departamentul tău.')
+            return HttpResponseForbidden(_("Access is restricted for your role and department."))
         return self.get_response(request)

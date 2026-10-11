@@ -1,10 +1,39 @@
 {% extends "admin/base_site.html" %}
+{% load i18n %}
 {% block content %}
 {% include "admin/nexora_styles.html" %}
-<div class="nx-shell"><a href="{% url 'marketplace_support' %}">Ă˘â€ Â Ä‚Ĺ˝napoi la solicitĂ„Âri</a>{% if api_error %}<div class="nx-alert" role="alert">{{ api_error }}</div>{% endif %}{% if ticket %}
-<div class="nx-hero"><div><span class="nx-eyebrow">{{ ticket.department }} Ă‚Â· {{ ticket.id }}</span><h1>{{ ticket.subject }}</h1><p>{{ ticket.user.username }} Ă‚Â· {{ ticket.user.email }}</p></div><span class="nx-badge">{{ ticket.status }} Ă‚Â· {{ ticket.priority }}</span></div>
-<div class="nx-conversation"><section class="nx-card"><h2>ConversaÄŚâ€şie</h2>{% for item in ticket.messages %}<article class="nx-message"><b>{% firstof item.sender.username item.senderType "Client" %}</b><small> Ă‚Â· {{ item.createdAt }}</small><p>{{ item.message }}</p></article>{% empty %}<p>Nu existĂ„Â mesaje.</p>{% endfor %}<form method="post" action="{% url 'marketplace_support_action' ticket.id %}">{% csrf_token %}<input type="hidden" name="action" value="message"><label for="reply-message">RĂ„Âspuns cĂ„Âtre client</label><textarea id="reply-message" name="message" required maxlength="5000" placeholder="Scrie rĂ„ÂspunsulĂ˘â‚¬Â¦"></textarea><button type="submit">Trimite rĂ„Âspunsul</button></form></section>
-<aside class="nx-card nx-controls"><h2>Gestionare ticket</h2><p>Agent: {{ ticket.assignedTo.username|default:"Neatribuit" }}</p><form method="post" action="{% url 'marketplace_support_action' ticket.id %}">{% csrf_token %}{% if ticket.is_assigned_to_me %}<input type="hidden" name="action" value="unassign"><button>ElibereazĂ„Â ticketul</button>{% else %}<input type="hidden" name="action" value="assign"><button>Preia ticketul</button>{% endif %}</form>
-<form method="post" action="{% url 'marketplace_support_action' ticket.id %}">{% csrf_token %}<input type="hidden" name="action" value="status"><label for="ticket-status">Status</label><select name="status" id="ticket-status">{% for value in support_statuses %}<option value="{{ value }}" {% if ticket.status == value %}selected{% endif %}>{{ value }}</option>{% endfor %}</select><button>ActualizeazĂ„Â statusul</button></form>
-<form method="post" action="{% url 'marketplace_support_action' ticket.id %}">{% csrf_token %}<input type="hidden" name="action" value="priority"><label for="ticket-priority">Prioritate</label><select name="priority" id="ticket-priority">{% for value in support_priorities %}<option value="{{ value }}" {% if ticket.priority == value %}selected{% endif %}>{{ value }}</option>{% endfor %}</select><button>ActualizeazĂ„Â prioritatea</button></form>{% if nexora_is_admin and ticket.user_id %}<a href="{% url 'marketplace_user_detail' ticket.user_id %}">Deschide profilul clientului Ă˘â€ â€™</a>{% endif %}</aside></div>{% endif %}</div>
+{% trans "Customer" as default_customer %}
+{% trans "Unassigned" as default_agent %}
+<div class="nx-shell">
+  <a href="{% url 'marketplace_support' %}">← {% trans "Back to requests" %}</a>
+  {% if api_error %}<div class="nx-alert" role="alert">{{ api_error }}</div>{% endif %}
+  {% if ticket %}
+    <div class="nx-hero"><div><span class="nx-eyebrow">{{ ticket.department_label }} · {{ ticket.ticketNumber|default:ticket.id }}</span><h1>{{ ticket.subject }}</h1><p>{{ ticket.user.username }} · {{ ticket.user.email }}</p></div><span class="nx-badge">{{ ticket.status_label }} · {{ ticket.priority_label }}</span></div>
+    <div class="nx-conversation">
+      <section class="nx-card">
+        <h2>{% trans "Conversation" %}</h2>
+        {% for item in ticket.messages %}<article class="nx-message"><b>{% firstof item.sender.username item.sender_label default_customer %}</b><small> · {{ item.createdAt }}</small><p>{{ item.message }}</p></article>{% empty %}<p>{% trans "No messages" %}</p>{% endfor %}
+        <form method="post" action="{% url 'marketplace_support_action' ticket.id %}">
+          {% csrf_token %}<input type="hidden" name="action" value="message">
+          <label for="reply-message">{% trans "Reply to customer" %}</label>
+          <textarea id="reply-message" name="message" required maxlength="5000" placeholder="{% trans 'Write your reply…' %}"></textarea>
+          <button type="submit">{% trans "Send reply" %}</button>
+        </form>
+      </section>
+      <aside class="nx-card nx-controls">
+        <h2>{% trans "Ticket management" %}</h2><p>{% trans "Agent" %}: {{ ticket.assignedTo.username|default:default_agent }}</p>
+        <form method="post" action="{% url 'marketplace_support_action' ticket.id %}">{% csrf_token %}{% if ticket.is_assigned_to_me %}<input type="hidden" name="action" value="unassign"><button>{% trans "Release ticket" %}</button>{% else %}<input type="hidden" name="action" value="assign"><button>{% trans "Take ticket" %}</button>{% endif %}</form>
+        <form method="post" action="{% url 'marketplace_support_action' ticket.id %}">
+          {% csrf_token %}<input type="hidden" name="action" value="status"><label for="ticket-status">{% trans "Status" %}</label>
+          <select name="status" id="ticket-status">{% for value,label in support_statuses %}<option value="{{ value }}" {% if ticket.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><button>{% trans "Update status" %}</button>
+        </form>
+        <form method="post" action="{% url 'marketplace_support_action' ticket.id %}">
+          {% csrf_token %}<input type="hidden" name="action" value="priority"><label for="ticket-priority">{% trans "Priority" %}</label>
+          <select name="priority" id="ticket-priority">{% for value,label in support_priorities %}<option value="{{ value }}" {% if ticket.priority == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><button>{% trans "Update priority" %}</button>
+        </form>
+        {% if nexora_is_admin and ticket.user_id %}<a href="{% url 'marketplace_user_detail' ticket.user_id %}">{% trans "Open customer profile" %} →</a>{% endif %}
+      </aside>
+    </div>
+  {% endif %}
+</div>
 {% endblock %}

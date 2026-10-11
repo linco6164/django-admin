@@ -1,9 +1,58 @@
 {% extends "admin/base_site.html" %}
+{% load i18n %}
 {% block content %}
 {% include "admin/nexora_styles.html" %}
-<div class="nx-shell"><div class="nx-hero"><div><span class="nx-eyebrow">CUSTOMER CARE</span><h1>Support & Call center</h1><p>SolicitĂ„Âri din Nexora Ă‚Â· {{ staff.department|default:"Toate departamentele" }}</p></div><a class="nx-button" href="{% url 'marketplace_support' %}?filter={{ active_filter|urlencode }}&department={{ filter_department|urlencode }}&priority={{ filter_priority|urlencode }}">ActualizeazĂ„Â</a></div>
-{% if api_error %}<div class="nx-alert" role="alert">{{ api_error }}</div>{% endif %}
-<div class="nx-grid"><div class="nx-card"><span>Deschise</span><strong>{{ stats.open|default_if_none:"Ă˘â‚¬â€ť" }}</strong></div><div class="nx-card"><span>Neatribuite</span><strong>{{ stats.unassigned|default_if_none:"Ă˘â‚¬â€ť" }}</strong></div><div class="nx-card"><span>Urgente</span><strong>{{ stats.urgent|default_if_none:"Ă˘â‚¬â€ť" }}</strong></div><div class="nx-card"><span>Ticketele mele</span><strong>{{ stats.myTickets|default_if_none:"Ă˘â‚¬â€ť" }}</strong></div></div>
-<form method="get" class="nx-toolbar"><select name="filter" aria-label="Filtru tickete">{% for value,label in support_filters %}<option value="{{ value }}" {% if active_filter == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><select name="department" aria-label="Departament"><option value="">Toate departamentele disponibile</option>{% for item in staff.departments %}<option value="{{ item }}" {% if filter_department == item %}selected{% endif %}>{{ item }}</option>{% endfor %}</select><select name="priority" aria-label="Prioritate"><option value="">Orice prioritate</option>{% for value in support_priorities %}<option value="{{ value }}" {% if filter_priority == value %}selected{% endif %}>{{ value }}</option>{% endfor %}</select><button>AplicĂ„Â filtrele</button></form>
-<div class="nx-table-wrap"><table class="nx-table"><thead><tr><th>Solicitare</th><th>Client</th><th>Departament</th><th>Prioritate</th><th>Status</th><th>Agent</th></tr></thead><tbody>{% for ticket in tickets %}<tr><td><a href="{% url 'marketplace_support_detail' ticket.id %}">{{ ticket.subject|default:"Solicitare suport" }}</a><p>{{ ticket.preview|truncatechars:90 }}</p></td><td>{% firstof ticket.user.username ticket.user.email "Client" %}</td><td>{{ ticket.department }}</td><td><span class="nx-badge">{{ ticket.priority }}</span></td><td>{{ ticket.status }}</td><td>{{ ticket.assignedTo.username|default:"Neatribuit" }}</td></tr>{% empty %}<tr><td colspan="6" class="nx-empty">{% if api_error %}Datele nu pot fi Ä‚Â®ncĂ„Ârcate momentan.{% else %}Nu existĂ„Â tickete pentru filtrele selectate.{% endif %}</td></tr>{% endfor %}</tbody></table></div><div class="nx-footer"><span>{{ tickets|length }} afiÄŚâ„˘ate din {{ total }} solicitĂ„Âri</span><span>Coada este limitatĂ„Â de API la cele mai recente 50 de tickete.</span></div></div>
+{% trans "Support request" as default_subject %}
+{% trans "Customer" as default_customer %}
+{% trans "Unassigned" as default_agent %}
+<div class="nx-shell">
+  <div class="nx-hero">
+    <div><span class="nx-eyebrow">{% trans "CUSTOMER CARE" %}</span>
+      <h1>{% trans "Support & Call center" %}</h1>
+      <p>{% trans "Nexora requests" %} · {{ staff_department_label }}</p>
+    </div>
+    <a class="nx-button" href="?{{ refresh_query }}">{% trans "Refresh" %}</a>
+  </div>
+  {% if api_error %}<div class="nx-alert" role="alert">{{ api_error }}</div>{% endif %}
+  <div class="nx-grid">
+    <div class="nx-card"><span>{% trans "Open" %}</span><strong>{{ stats.open|default_if_none:"—" }}</strong></div>
+    <div class="nx-card"><span>{% trans "Unassigned" %}</span><strong>{{ stats.unassigned|default_if_none:"—" }}</strong></div>
+    <div class="nx-card"><span>{% trans "Urgent" %}</span><strong>{{ stats.urgent|default_if_none:"—" }}</strong></div>
+    <div class="nx-card"><span>{% trans "My tickets" %}</span><strong>{{ stats.myTickets|default_if_none:"—" }}</strong></div>
+  </div>
+  <form method="get" class="nx-toolbar">
+    <select name="filter" aria-label="{% trans 'Ticket filter' %}">
+      {% for value,label in support_filters %}<option value="{{ value }}" {% if active_filter == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select>
+    <select name="department" aria-label="{% trans 'Department' %}">
+      <option value="">{% trans "All available departments" %}</option>
+      {% for value,label in department_options %}<option value="{{ value }}" {% if filter_department == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select>
+    <select name="priority" aria-label="{% trans 'Priority' %}">
+      <option value="">{% trans "Any priority" %}</option>
+      {% for value,label in support_priorities %}<option value="{{ value }}" {% if filter_priority == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select>
+    <button>{% trans "Apply filters" %}</button>
+    {% if active_filter != 'all' or filter_department or filter_priority %}<a class="nx-button" href="{% url 'marketplace_support' %}">{% trans "Show all tickets" %}</a>{% endif %}
+  </form>
+  <div class="nx-table-wrap">
+    <table class="nx-table">
+      <thead><tr><th>{% trans "Request" %}</th><th>{% trans "Customer" %}</th><th>{% trans "Department" %}</th><th>{% trans "Priority" %}</th><th>{% trans "Status" %}</th><th>{% trans "Agent" %}</th></tr></thead>
+      <tbody>{% for ticket in tickets %}
+        <tr>
+          <td><a href="{% url 'marketplace_support_detail' ticket.id %}">{% if ticket.ticketNumber %}#{{ ticket.ticketNumber }} · {% endif %}{{ ticket.subject|default:default_subject }}</a><p>{{ ticket.preview|truncatechars:90 }}</p></td>
+          <td>{% firstof ticket.user.username ticket.user.email default_customer %}</td>
+          <td>{{ ticket.department_label }}</td><td><span class="nx-badge">{{ ticket.priority_label }}</span></td>
+          <td>{{ ticket.status_label }}</td><td>{{ ticket.assignedTo.username|default:default_agent }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="6" class="nx-empty">{% if api_error %}{% trans "Requests cannot be loaded right now." %}{% else %}{% trans "No tickets match the selected filters." %}{% endif %}</td></tr>
+      {% endfor %}</tbody>
+    </table>
+  </div>
+  <div class="nx-footer">
+    <span>{% blocktrans with shown=tickets|length %}{{ shown }} displayed out of {{ total }} requests{% endblocktrans %}</span>
+    {% if truncated %}<span>{% trans "The API returned only the first batch of tickets. Narrow your filters to find older requests." %}</span>{% endif %}
+  </div>
+</div>
 {% endblock %}

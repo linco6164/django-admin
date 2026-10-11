@@ -1,3 +1,40 @@
 <style>
-.nx-shell{max-width:1440px;margin:auto;color:inherit}.nx-hero{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-bottom:28px}.nx-hero h1{font-size:32px;letter-spacing:-.04em;font-weight:750;margin:8px 0}.nx-hero p,.nx-card p{color:#64748b;line-height:1.7}.nx-eyebrow{font-size:11px;font-weight:700;letter-spacing:.16em;color:#8b5cf6}.nx-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin:22px 0}.nx-card{border:1px solid #94a3b833;border-radius:18px;padding:24px;background:linear-gradient(145deg,#8b5cf608,transparent);min-width:0}.nx-card strong{display:block;font-size:34px;letter-spacing:-.04em;margin-top:10px}.nx-card h2{font-size:20px;font-weight:700;margin:12px 0}.nx-card b{color:#8b5cf6;font-size:13px}.nx-modules{grid-template-columns:repeat(2,minmax(0,1fr))}.nx-badge{border-radius:30px;background:#8b5cf615;padding:8px 12px;font-size:12px;color:#8b5cf6}.nx-alert{border:1px solid #f59e0b55;background:#f59e0b15;padding:16px;border-radius:12px;margin:16px 0}.nx-toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}.nx-shell select,.nx-shell input,.nx-shell textarea{border:1px solid #94a3b855;border-radius:10px;padding:10px;background:transparent;color:inherit}.nx-shell button,.nx-button{background:#7c3aed;color:white;padding:10px 16px;border-radius:10px;font-weight:600;cursor:pointer}.nx-table-wrap{overflow:auto;border:1px solid #94a3b833;border-radius:16px}.nx-table{width:100%;border-collapse:collapse;text-align:left}.nx-table th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#64748b;padding:16px}.nx-table td{padding:18px 16px;border-top:1px solid #94a3b822}.nx-table a{color:#8b5cf6;font-weight:650}.nx-empty{text-align:center;padding:48px;color:#64748b}.nx-conversation{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px}.nx-message{border:1px solid #94a3b833;border-radius:14px;margin:14px 0;padding:18px;overflow-wrap:anywhere}.nx-message p{white-space:pre-wrap;margin-top:8px}.nx-message small{color:#64748b}.nx-shell textarea{width:100%;box-sizing:border-box;min-height:140px}.nx-controls form{margin:20px 0}.nx-controls select{width:100%;margin:10px 0}.nx-controls label{font-weight:600}.nx-footer{display:flex;gap:16px;justify-content:space-between;margin:20px 0;color:#64748b}@media(max-width:1000px){.nx-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.nx-conversation{grid-template-columns:1fr}}@media(max-width:600px){.nx-grid{grid-template-columns:1fr}.nx-hero{align-items:flex-start;flex-direction:column}.nx-card{padding:18px}}
+  .nx-shell {--nx-surface:#fff;--nx-text:#0f172a;--nx-muted:#475569;--nx-border:#cbd5e1;color:var(--nx-text);max-width:1440px;margin:auto;color-scheme:light}
+  html.dark .nx-shell {--nx-surface:#111827;--nx-text:#e2e8f0;--nx-muted:#94a3b8;--nx-border:#475569;color-scheme:dark}
+  .nx-hero{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-bottom:28px}
+  .nx-hero h1{font-size:32px;letter-spacing:-.04em;font-weight:750;margin:8px 0}
+  .nx-hero p,.nx-card p{color:var(--nx-muted);line-height:1.7}
+  .nx-eyebrow{font-size:11px;font-weight:700;letter-spacing:.16em;color:#8b5cf6}
+  .nx-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin:22px 0}
+  .nx-card{border:1px solid var(--nx-border);border-radius:18px;padding:24px;background:linear-gradient(145deg,#8b5cf608,transparent);min-width:0}
+  .nx-card strong{display:block;font-size:34px;letter-spacing:-.04em;margin-top:10px}
+  .nx-card h2{font-size:20px;font-weight:700;margin:12px 0}
+  .nx-card b{color:#8b5cf6;font-size:13px}
+  .nx-modules{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .nx-badge{border-radius:30px;background:#8b5cf615;padding:8px 12px;font-size:12px;color:#7c3aed}
+  html.dark .nx-badge{color:#c4b5fd}
+  .nx-alert{border:1px solid #f59e0b55;background:#f59e0b15;padding:16px;border-radius:12px;margin:16px 0}
+  .nx-toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+  .nx-shell select,.nx-shell input,.nx-shell textarea{border:1px solid var(--nx-border);border-radius:10px;padding:10px;background-color:var(--nx-surface);color:var(--nx-text);color-scheme:inherit}
+  .nx-shell select option,.nx-shell select optgroup{background-color:var(--nx-surface);color:var(--nx-text)}
+  .nx-shell input[type="checkbox"]{accent-color:#7c3aed}
+  .nx-shell textarea::placeholder,.nx-shell input::placeholder{color:var(--nx-muted);opacity:1}
+  .nx-shell select:focus-visible,.nx-shell input:focus-visible,.nx-shell textarea:focus-visible{outline:2px solid #8b5cf6;outline-offset:2px}
+  .nx-shell button,.nx-button{background:#7c3aed;color:white;padding:10px 16px;border-radius:10px;font-weight:600;cursor:pointer}
+  .nx-table-wrap{overflow:auto;border:1px solid var(--nx-border);border-radius:16px}
+  .nx-table{width:100%;border-collapse:collapse;text-align:left}
+  .nx-table th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--nx-muted);padding:16px}
+  .nx-table td{padding:18px 16px;border-top:1px solid var(--nx-border)}
+  .nx-table a{color:#7c3aed;font-weight:650}
+  html.dark .nx-table a{color:#c4b5fd}
+  .nx-empty{text-align:center;padding:48px;color:var(--nx-muted)}
+  .nx-conversation{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px}
+  .nx-message{border:1px solid var(--nx-border);border-radius:14px;margin:14px 0;padding:18px;overflow-wrap:anywhere}
+  .nx-message p{white-space:pre-wrap;margin-top:8px}
+  .nx-message small{color:var(--nx-muted)}
+  .nx-shell textarea{width:100%;box-sizing:border-box;min-height:140px}
+  .nx-controls form{margin:20px 0}.nx-controls select{width:100%;margin:10px 0}.nx-controls label{font-weight:600}
+  .nx-footer{display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between;margin:20px 0;color:var(--nx-muted)}
+  @media(max-width:1000px){.nx-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.nx-conversation{grid-template-columns:1fr}}
+  @media(max-width:600px){.nx-grid{grid-template-columns:1fr}.nx-hero{align-items:flex-start;flex-direction:column}.nx-card{padding:18px}.nx-toolbar select{width:100%}}
 </style>

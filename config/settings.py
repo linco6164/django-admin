@@ -14,6 +14,7 @@ from pathlib import Path
 
 import dj_database_url
 from dotenv import load_dotenv
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -71,7 +72,7 @@ INSTALLED_APPS = [
 UNFOLD = {
     "SITE_TITLE": "NEXORA Admin",
     "SITE_HEADER": "NEXORA",
-    "SITE_SUBHEADER": "Marketplace Administration",
+    "SITE_SUBHEADER": _("Marketplace Administration"),
     "SITE_SYMBOL": "storefront",
 
     "SHOW_HISTORY": True,
@@ -85,47 +86,47 @@ UNFOLD = {
 
         "navigation": [
             {
-                "title": "Marketplace",
+                "title": _("Marketplace"),
                 "separator": True,
                 "collapsible": False,
 
                 "items": [
                     {
-                        "title": "Dashboard",
+                        "title": _("Dashboard"),
                         "icon": "dashboard",
                         "link": "/admin/dashboard/",
                     },
                     {
-                        "title": "Users",
+                        "title": _("Users"),
                         "permission": "accounts.access.admin_access",
                         "icon": "group",
                         "link": "/admin/marketplace-users/",
                     },
                     {
-                        "title": "Adaugă agent",
+                        "title": _("Add agent"),
                         "icon": "person_add",
                         "permission": "accounts.access.admin_access",
                         "link": "/admin/team/create/",
                     },
                     {
-                        "title": "Notifications",
+                        "title": _("Notifications"),
                         "permission": "accounts.access.admin_access",
                         "icon": "notifications",
                         "link": "/admin/notifications/",
                     },
                     {
-                        "title": "Withdrawals",
+                        "title": _("Withdrawals"),
                         "permission": "accounts.access.finance_access",
                         "icon": "payments",
                         "link": "/admin/withdrawals/",
                     },
                     {
-                        "title": "Support",
+                        "title": _("Support"),
                         "icon": "support_agent",
                         "link": "/admin/support/",
                     },
                     {
-                        "title": "Istoric operațiuni",
+                        "title": _("Operations history"),
                         "icon": "history",
                         "permission": "accounts.access.admin_access",
                         "link": "/admin/operations-audit/",
@@ -216,7 +217,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.1/topics/i18n/
 
-LANGUAGE_CODE = "en"
+LANGUAGE_CODE = os.environ.get('DJANGO_LANGUAGE_CODE', 'ro')
 
 LANGUAGES = [
     ("en", "English"),

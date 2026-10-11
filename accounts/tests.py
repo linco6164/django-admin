@@ -174,3 +174,108 @@ class AuditTests(TestCase):
         self.assertIn('/support/staff/tickets/abc/messages', entry.change_message)
         self.assertNotIn('private text', entry.change_message)
         self.assertNotIn('secret-token', entry.change_message)
+
+
+class SupportDisplayTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='display-admin', is_staff=True, is_superuser=True)
+        self.client.force_login(self.user, backend='accounts.backends.NodeAuthBackend')
+        session = self.client.session
+        session['node_token'] = 'test-token'
+        session.save()
+        # Same state as the existing ticket verified in the backend: closed and assigned.
+        self.ticket = {'_id': 'existing-ticket', 'subject': 'Existing closed request',
+                       'department': 'call_center', 'status': 'closed', 'priority': 'normal',
+                       'assignedTo': {'_id': 'agent', 'username': 'Assigned agent'},
+                       'user': {'username': 'Customer'}, 'messages': []}
+
+    def api_response(self, request, method, endpoint, **kwargs):
+        if endpoint.endswith('/info'):
+            return {'role': 'admin', 'department': 'general', 'departments': ['general', 'call_center', 'payments']}
+        if endpoint.endswith('/stats'):
+            return {'stats': {'open': 0, 'closed': 1, 'total': 1, 'unassigned': 0, 'urgent': 0, 'myTickets': 0}}
+        return {'tickets': {'tickets': [dict(self.ticket)], 'total': 1}}
+
+    @patch('accounts.views.node_request')
+    @patch('accounts.middleware.node_request')
+    def test_default_filter_includes_closed_assigned_ticket(self, identity, api):
+        identity.return_value = {'role': 'admin'}
+        api.side_effect = self.api_response
+        response = self.client.get('/admin/support/')
+        self.assertContains(response, 'Existing closed request')
+        self.assertEqual(response.context['active_filter'], 'all')
+        self.assertEqual(api.call_args.kwargs['params'], {})
+        self.assertEqual(response.context['total'], 1)
+
+    @patch('accounts.views.node_request')
+    @patch('accounts.middleware.node_request')
+    def test_assignment_filter_is_only_sent_when_requested(self, identity, api):
+        identity.return_value = {'role': 'admin'}
+        api.side_effect = self.api_response
+        self.client.get('/admin/support/?filter=unassigned')
+        self.assertEqual(api.call_args.kwargs['params'], {'assignedTo': 'unassigned'})
+
+    @patch('accounts.views.node_request')
+    @patch('accounts.middleware.node_request')
+    def test_statistics_failure_does_not_hide_tickets(self, identity, api):
+        identity.return_value = {'role': 'admin'}
+        def response(request, method, endpoint, **kwargs):
+            if endpoint.endswith('/stats'):
+                raise NodeAPIError('Statistics unavailable')
+            return self.api_response(request, method, endpoint, **kwargs)
+        api.side_effect = response
+        self.assertContains(self.client.get('/admin/support/'), 'Existing closed request')
+
+    @patch('accounts.views.node_request')
+    @patch('accounts.middleware.node_request')
+    def test_supported_ticket_response_shapes(self, identity, api):
+        identity.return_value = {'role': 'admin'}
+        payloads = [{'tickets': [self.ticket], 'total': 1}, {'data': [self.ticket], 'total': 1},
+                    {'data': {'tickets': [self.ticket], 'total': 1}}]
+        for payload in payloads:
+            with self.subTest(payload=payload.keys()):
+                api.side_effect = [self.api_response(None, None, '/info'), {}, payload]
+                self.assertContains(self.client.get('/admin/support/'), 'Existing closed request')
+
+    @patch('accounts.views.node_request')
+    @patch('accounts.middleware.node_request')
+    def test_invalid_response_shows_error_instead_of_empty_queue(self, identity, api):
+        identity.return_value = {'role': 'admin'}
+        api.side_effect = [{}, {}, {'unexpected': []}]
+        response = self.client.get('/admin/support/', headers={'Accept-Language': 'en'})
+        self.assertContains(response, 'The backend returned an invalid ticket list.')
+
+    @patch('accounts.views.node_request')
+    @patch('accounts.middleware.node_request')
+    def test_romanian_and_english_support_options(self, identity, api):
+        identity.return_value = {'role': 'admin'}
+        api.side_effect = self.api_response
+        romanian = self.client.get('/admin/support/', headers={'Accept-Language': 'ro'})
+        for text in ['Actualizează', 'Aplică filtrele', 'Toate ticketele', 'Plăți', 'General']:
+            self.assertContains(romanian, text)
+        self.assertNotContains(romanian, 'Ă‚')
+        english = self.client.get('/admin/support/', headers={'Accept-Language': 'en'})
+        for text in ['Refresh', 'Apply filters', 'All tickets', 'Payments']:
+            self.assertContains(english, text)
+        self.assertNotContains(english, 'Actualizează')
+
+    @patch('accounts.views.node_request')
+    @patch('accounts.middleware.node_request')
+    def test_withdrawals_translate_without_changing_status_values(self, identity, api):
+        identity.return_value = {'role': 'admin'}
+        api.return_value = {'data': [], 'total': 0, 'pages': 0}
+        romanian = self.client.get('/admin/withdrawals/', headers={'Accept-Language': 'ro'})
+        for text in ['Retrageri', 'În așteptare', 'Aplică', 'Pagina 1 din 1']:
+            self.assertContains(romanian, text)
+        self.assertContains(romanian, 'value="pending"')
+        english = self.client.get('/admin/withdrawals/', headers={'Accept-Language': 'en'})
+        self.assertContains(english, 'Withdrawals')
+        self.assertContains(english, 'Pending')
+
+    def test_compiled_catalog_contains_new_translations(self):
+        import gettext
+        with open(settings.BASE_DIR / 'locale/ro/LC_MESSAGES/django.mo', 'rb') as handle:
+            catalog = gettext.GNUTranslations(handle)
+        self.assertEqual(catalog.gettext('Apply filters'), 'Aplică filtrele')
+        self.assertEqual(catalog.gettext('Payments'), 'Plăți')
+        self.assertEqual(catalog.gettext('All tickets'), 'Toate ticketele')

@@ -1,8 +1,28 @@
 {% extends "admin/base_site.html" %}
+{% load i18n %}
 {% block content %}
 {% include "admin/nexora_styles.html" %}
-<div class="nx-shell"><div class="nx-hero"><div><span class="nx-eyebrow">FINANCE · PAYMENTS</span><h1>Retrageri</h1><p>Solicitări de retragere din soldurile Nexora.</p></div><span class="nx-badge">{{ total }} solicitări</span></div><div class="nx-alert">Finalizarea înregistrează transferul ca efectuat. Transferul bancar trebuie efectuat separat înainte de confirmare.</div>{% if api_error %}<div class="nx-alert" role="alert">{{ api_error }}</div>{% endif %}
-<div class="nx-grid">{% for key,value in withdrawal_counts.items %}<a class="nx-card" href="?status={{ key }}"><span>{{ key }}</span><strong>{{ value }}</strong></a>{% endfor %}</div>
-<form method="get" class="nx-toolbar"><select name="status" aria-label="Status"><option value="pending" {% if status == 'pending' %}selected{% endif %}>În așteptare</option><option value="completed" {% if status == 'completed' %}selected{% endif %}>Finalizate</option><option value="rejected" {% if status == 'rejected' %}selected{% endif %}>Respinse</option><option value="failed" {% if status == 'failed' %}selected{% endif %}>Eșuate</option></select><button>Aplică</button></form>
-<div class="nx-table-wrap"><table class="nx-table"><thead><tr><th>Beneficiar</th><th>Sumă</th><th>Cont bancar</th><th>Status</th><th>Acțiuni</th></tr></thead><tbody>{% for item in withdrawals %}<tr><td>{{ item.user.fullName|default:"Client" }}<p>{{ item.user.email }}</p></td><td>{{ item.amount|floatformat:2 }} {{ item.currency|default:"RON" }}</td><td>{{ item.withdrawal.accountName }}<p>{{ item.withdrawal.iban|default:"IBAN indisponibil" }}</p></td><td><span class="nx-badge">{{ item.status }}</span></td><td>{% if item.status == 'pending' %}<form method="post" action="{% url 'marketplace_withdrawal_action' item.id %}">{% csrf_token %}<input type="hidden" name="action" value="approve"><label style="display:block;margin-bottom:10px"><input type="checkbox" required name="transfer_confirmed" value="yes"> Transfer bancar efectuat</label><button>Marchează finalizată</button></form><form method="post" action="{% url 'marketplace_withdrawal_action' item.id %}" style="margin-top:12px">{% csrf_token %}<input type="hidden" name="action" value="reject"><button style="background:#475569">Respinge și restituie soldul</button></form>{% else %}Procesată{% endif %}</td></tr>{% empty %}<tr><td colspan="5" class="nx-empty">{% if api_error %}Datele financiare nu pot fi încărcate.{% else %}Nu există retrageri pentru acest status.{% endif %}</td></tr>{% endfor %}</tbody></table></div><div class="nx-footer">{% if page > 1 %}<a href="?status={{ status }}&page={{ page|add:'-1' }}">← Anterior</a>{% endif %}<span>Pagina {{ page }} din {{ pages|default:1 }}</span>{% if page < pages %}<a href="?status={{ status }}&page={{ page|add:'1' }}">Următor →</a>{% endif %}</div></div>
+{% trans "Customer" as default_customer %}
+{% trans "IBAN unavailable" as default_iban %}
+<div class="nx-shell">
+  <div class="nx-hero"><div><span class="nx-eyebrow">{% trans "FINANCE · PAYMENTS" %}</span><h1>{% trans "Withdrawals" %}</h1><p>{% trans "Withdrawal requests from Nexora balances." %}</p></div><span class="nx-badge">{% blocktrans %}{{ total }} requests{% endblocktrans %}</span></div>
+  <div class="nx-alert">{% trans "Completing a withdrawal records the transfer as paid. Make the bank transfer separately before confirming." %}</div>
+  {% if api_error %}<div class="nx-alert" role="alert">{{ api_error }}</div>{% endif %}
+  <div class="nx-grid">{% for item in withdrawal_summary %}<a class="nx-card" href="?status={{ item.value }}"><span>{{ item.label }}</span><strong>{{ item.count }}</strong></a>{% endfor %}</div>
+  <form method="get" class="nx-toolbar"><select name="status" aria-label="{% trans 'Status' %}">{% for value,label in withdrawal_statuses %}<option value="{{ value }}" {% if status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><button>{% trans "Apply" %}</button></form>
+  <div class="nx-table-wrap">
+    <table class="nx-table">
+      <thead><tr><th>{% trans "Beneficiary" %}</th><th>{% trans "Amount" %}</th><th>{% trans "Bank account" %}</th><th>{% trans "Status" %}</th><th>{% trans "Actions" %}</th></tr></thead>
+      <tbody>{% for item in withdrawals %}<tr>
+        <td>{{ item.user.fullName|default:default_customer }}<p>{{ item.user.email }}</p></td><td>{{ item.amount|floatformat:2 }} {{ item.currency|default:"RON" }}</td>
+        <td>{{ item.withdrawal.accountName }}<p>{{ item.withdrawal.iban|default:default_iban }}</p></td><td><span class="nx-badge">{{ item.status_label }}</span></td>
+        <td>{% if item.status == 'pending' %}
+          <form method="post" action="{% url 'marketplace_withdrawal_action' item.id %}">{% csrf_token %}<input type="hidden" name="action" value="approve"><label style="display:block;margin-bottom:10px"><input type="checkbox" required name="transfer_confirmed" value="yes"> {% trans "Bank transfer completed" %}</label><button>{% trans "Mark as completed" %}</button></form>
+          <form method="post" action="{% url 'marketplace_withdrawal_action' item.id %}" style="margin-top:12px">{% csrf_token %}<input type="hidden" name="action" value="reject"><button style="background:#475569">{% trans "Reject and restore balance" %}</button></form>
+        {% else %}{% trans "Processed" %}{% endif %}</td>
+      </tr>{% empty %}<tr><td colspan="5" class="nx-empty">{% if api_error %}{% trans "Financial data cannot be loaded." %}{% else %}{% trans "No withdrawals match this status." %}{% endif %}</td></tr>{% endfor %}</tbody>
+    </table>
+  </div>
+  <div class="nx-footer">{% if page > 1 %}<a href="?status={{ status }}&page={{ page|add:'-1' }}">← {% trans "Previous" %}</a>{% endif %}<span>{% blocktrans %}Page {{ page }} of {{ pages }}{% endblocktrans %}</span>{% if page < pages %}<a href="?status={{ status }}&page={{ page|add:'1' }}">{% trans "Next" %} →</a>{% endif %}</div>
+</div>
 {% endblock %}

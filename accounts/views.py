@@ -13,6 +13,9 @@ from django.core.validators import validate_email
 from django.views.decorators.http import require_POST
 
 from .node_api import node_request, NodeAPIError
+from .labels import DEPARTMENT_LABELS, PRIORITY_LABELS, STATUS_LABELS, WITHDRAWAL_LABELS
+from django.utils.translation import gettext as _
+from urllib.parse import urlencode
 
 
 @staff_member_required
@@ -57,7 +60,7 @@ def dashboard(request):
     context = admin.site.each_context(request)
 
     context.update({
-        "title": "Dashboard",
+        "title": _("Dashboard"),
         "stats": stats,
         "api_error": api_error,
     })
@@ -111,7 +114,7 @@ def marketplace_users(request):
         context = admin.site.each_context(request)
 
         context.update({
-            "title": "Marketplace users",
+            "title": _("Marketplace users"),
             "users": users,
             "total": total,
             "page": current_page,
@@ -129,7 +132,7 @@ def marketplace_users(request):
     context = admin.site.each_context(request)
 
     context.update({
-        "title": "Marketplace users",
+        "title": _("Marketplace users"),
         "users": users,
         "total": total,
         "page": current_page,
@@ -174,7 +177,7 @@ def marketplace_user_detail(request, user_id):
 
         if not user:
             raise NodeAPIError(
-                "Utilizatorul nu a fost găsit."
+                _("User not found.")
             )
 
         user["id"] = str(
@@ -445,7 +448,7 @@ def marketplace_notifications(request):
         if not title:
             messages.error(
                 request,
-                "Titlul este obligatoriu.",
+                _("The title is required."),
             )
 
             return redirect(
@@ -455,7 +458,7 @@ def marketplace_notifications(request):
         if not body:
             messages.error(
                 request,
-                "Mesajul este obligatoriu.",
+                _("The message is required."),
             )
 
             return redirect(
@@ -499,7 +502,7 @@ def marketplace_notifications(request):
 
                 messages.success(
                     request,
-                    "Notificarea a fost trimisă.",
+                    _("The notification was sent."),
                 )
 
             # ==================================
@@ -562,8 +565,7 @@ def marketplace_notifications(request):
                     messages.error(
                         request,
                         (
-                            "Selectează data și "
-                            "ora programării."
+                            _("Select the scheduled date and time.")
                         ),
                     )
 
@@ -603,8 +605,7 @@ def marketplace_notifications(request):
                     messages.error(
                         request,
                         (
-                            "Data programării "
-                            "este invalidă."
+                            _("The scheduled date is invalid.")
                         ),
                     )
 
@@ -652,15 +653,14 @@ def marketplace_notifications(request):
                 messages.success(
                     request,
                     (
-                        "Notificarea a fost "
-                        "programată."
+                        _("The notification was scheduled.")
                     ),
                 )
 
             else:
                 messages.error(
                     request,
-                    "Acțiune necunoscută.",
+                    _("Unknown action."),
                 )
 
         except NodeAPIError as error:
@@ -756,7 +756,7 @@ def marketplace_notifications(request):
     )
 
     context.update({
-        "title": "Notifications",
+        "title": _("Notifications"),
 
         "notifications": (
             notifications
@@ -801,7 +801,7 @@ def marketplace_notification_detail(
 
         if not notification:
             raise NodeAPIError(
-                "Notificarea nu a fost găsită."
+                _("Notification not found.")
             )
 
         notification["id"] = str(
@@ -879,7 +879,7 @@ def marketplace_notification_detail(
         )
 
         context.update({
-            "title": "Notification",
+            "title": _("Notification"),
 
             "notification": None,
 
@@ -925,7 +925,7 @@ def marketplace_notification_action(
 
             messages.success(
                 request,
-                "Notificarea a fost trimisă.",
+                _("The notification was sent."),
             )
 
         # =====================================
@@ -945,7 +945,7 @@ def marketplace_notification_action(
 
             messages.success(
                 request,
-                "Programarea a fost anulată.",
+                _("The schedule was cancelled."),
             )
 
         # =====================================
@@ -964,7 +964,7 @@ def marketplace_notification_action(
 
             messages.success(
                 request,
-                "Notificarea a fost ștearsă.",
+                _("The notification was deleted."),
             )
 
             return redirect(
@@ -1023,7 +1023,7 @@ def marketplace_notification_action(
             if not title:
                 messages.error(
                     request,
-                    "Titlul este obligatoriu.",
+                    _("The title is required."),
                 )
 
                 return redirect(
@@ -1034,7 +1034,7 @@ def marketplace_notification_action(
             if not body:
                 messages.error(
                     request,
-                    "Mesajul este obligatoriu.",
+                    _("The message is required."),
                 )
 
                 return redirect(
@@ -1083,8 +1083,7 @@ def marketplace_notification_action(
                     messages.error(
                         request,
                         (
-                            "Selectează data "
-                            "și ora programării."
+                            _("Select the scheduled date and time.")
                         ),
                     )
 
@@ -1135,8 +1134,7 @@ def marketplace_notification_action(
                     messages.error(
                         request,
                         (
-                            "Data programării "
-                            "este invalidă."
+                            _("The scheduled date is invalid.")
                         ),
                     )
 
@@ -1172,8 +1170,7 @@ def marketplace_notification_action(
                 messages.success(
                     request,
                     (
-                        "Notificarea a fost "
-                        "programată."
+                        _("The notification was scheduled.")
                     ),
                 )
 
@@ -1181,8 +1178,7 @@ def marketplace_notification_action(
                 messages.success(
                     request,
                     (
-                        "Notificarea a fost "
-                        "salvată ca draft."
+                        _("The notification was saved as a draft.")
                     ),
                 )
 
@@ -1190,15 +1186,14 @@ def marketplace_notification_action(
                 messages.success(
                     request,
                     (
-                        "Notificarea a fost "
-                        "actualizată."
+                        _("The notification was updated.")
                     ),
                 )
 
         else:
             messages.error(
                 request,
-                "Acțiune necunoscută.",
+                _("Unknown action."),
             )
 
     except NodeAPIError as error:
@@ -1335,7 +1330,7 @@ def marketplace_withdrawals(request):
     )
 
     context.update({
-        "title": "Withdrawals",
+        "title": _("Withdrawals"),
 
         "withdrawals": withdrawals,
 
@@ -1352,6 +1347,14 @@ def marketplace_withdrawals(request):
         "api_error": api_error,
     })
 
+    context['withdrawal_summary'] = [
+        {'value': value, 'label': label, 'count': withdrawal_counts.get(value, 0)}
+        for value, label in WITHDRAWAL_LABELS.items()
+    ]
+    context['pages'] = max(pages, 1)
+    for withdrawal in withdrawals:
+        withdrawal['status_label'] = WITHDRAWAL_LABELS.get(withdrawal.get('status'), withdrawal.get('status', ''))
+    context['title'] = _('Withdrawals')
     return render(
         request,
         "admin/marketplace_withdrawals.html",
@@ -1375,7 +1378,7 @@ def marketplace_withdrawal_action(
     }:
         messages.error(
             request,
-            "Acțiune invalidă.",
+            _("Invalid action."),
         )
 
         return redirect(
@@ -1383,7 +1386,7 @@ def marketplace_withdrawal_action(
         )
 
     if action == 'approve' and request.POST.get('transfer_confirmed') != 'yes':
-        messages.error(request, 'Confirmă efectuarea transferului bancar înainte de finalizare.')
+        messages.error(request, _("Confirm the bank transfer before completing the withdrawal."))
         return redirect('marketplace_withdrawals')
 
     try:
@@ -1401,13 +1404,12 @@ def marketplace_withdrawal_action(
         if action == "approve":
             messages.success(
                 request,
-                "Retragerea a fost aprobată.",
+                _("The withdrawal was approved."),
             )
         else:
             messages.success(
                 request,
-                "Retragerea a fost respinsă "
-                "și suma a fost returnată în sold.",
+                _("The withdrawal was rejected and its amount was restored to the balance."),
             )
 
     except NodeAPIError as error:
@@ -1426,221 +1428,93 @@ def marketplace_withdrawal_action(
 # ============================================================
 
 def marketplace_support(request):
-    active_filter = request.GET.get(
-        "filter",
-        "unassigned",
-    ).strip()
-
-    department = request.GET.get(
-        "department",
-        "",
-    ).strip()
-
-    priority = request.GET.get(
-        "priority",
-        "",
-    ).strip()
-
-    allowed_filters = {
-        "all",
-        "my",
-        "unassigned",
-        "open",
-        "pending",
-        "closed",
-        "urgent",
-    }
-
+    active_filter = request.GET.get('filter', 'all').strip()
+    allowed_filters = {'all', 'my', 'unassigned', 'open', 'pending', 'closed', 'urgent'}
     if active_filter not in allowed_filters:
-        active_filter = "unassigned"
-
+        active_filter = 'all'
+    department = request.GET.get('department', '').strip()
+    if department not in DEPARTMENT_LABELS:
+        department = ''
+    priority = request.GET.get('priority', '').strip()
+    if priority not in PRIORITY_LABELS:
+        priority = ''
     params = {}
-
-    # =====================================================
-    # MAIN FILTER
-    # =====================================================
-
-    if active_filter in {
-        "open",
-        "pending",
-        "closed",
-    }:
-        params["status"] = active_filter
-
-    elif active_filter == "my":
-        params["assignedTo"] = "me"
-
-    elif active_filter == "unassigned":
-        params["assignedTo"] = "unassigned"
-
-    elif active_filter == "urgent":
-        params["priority"] = "urgent"
-
-    # =====================================================
-    # EXTRA FILTERS
-    # =====================================================
-
+    if active_filter in STATUS_LABELS:
+        params['status'] = active_filter
+    elif active_filter == 'my':
+        params['assignedTo'] = 'me'
+    elif active_filter == 'unassigned':
+        params['assignedTo'] = 'unassigned'
+    elif active_filter == 'urgent':
+        params['priority'] = 'urgent'
     if department:
-        params["department"] = department
+        params['department'] = department
+    if priority and active_filter != 'urgent':
+        params['priority'] = priority
 
-    if (
-        priority
-        and active_filter != "urgent"
-    ):
-        params["priority"] = priority
-
+    staff = {'departments': []}
+    stats = dict.fromkeys(('open', 'unassigned', 'urgent', 'myTickets'), None)
+    tickets, total = [], 0
+    errors = []
     try:
-        # =================================================
-        # STAFF INFO
-        # =================================================
-
-        staff_response = node_request(
-            request,
-            "GET",
-            "/support/staff/info",
-        )
-
-        staff = {
-            "id": staff_response.get("id"),
-            "role": staff_response.get("role"),
-            "department": staff_response.get(
-                "department"
-            ),
-            "departments": staff_response.get(
-                "departments",
-                [],
-            ),
-        }
-
-        # =================================================
-        # STATS
-        # =================================================
-
-        stats_response = node_request(
-            request,
-            "GET",
-            "/support/staff/stats",
-        )
-
-        stats = stats_response.get(
-            "stats",
-            {},
-        )
-
-        # =================================================
-        # TICKETS
-        # =================================================
-
-        response = node_request(
-            request,
-            "GET",
-            "/support/staff/tickets",
-            params=params,
-        )
-
-        result = response.get(
-            "tickets",
-            {},
-        )
-
-        tickets = result.get(
-            "tickets",
-            [],
-        )
-
-        total = result.get(
-            "total",
-            0,
-        )
-
-        for ticket in tickets:
-            ticket["id"] = str(
-                ticket.get("_id")
-                or ticket.get("id")
-                or ""
-            )
-
-            user = ticket.get(
-                "user"
-            ) or {}
-
-            ticket["user_id"] = str(
-                user.get("_id")
-                or user.get("id")
-                or ""
-            )
-
-            messages = ticket.get(
-                "messages"
-            ) or []
-
-            if messages:
-                last_message = (
-                    messages[-1]
-                    or {}
-                )
-
-                ticket["preview"] = (
-                    last_message.get(
-                        "message",
-                        ""
-                    )
-                )
-            else:
-                ticket["preview"] = (
-                    "No messages"
-                )
-
-        api_error = None
-
+        staff = node_request(request, 'GET', '/support/staff/info')
     except NodeAPIError as error:
-        tickets = []
-        total = 0
+        errors.append(str(error))
+    try:
+        stats_response = node_request(request, 'GET', '/support/staff/stats')
+        stats_data = stats_response.get('stats', stats_response.get('data', {}))
+        if isinstance(stats_data, dict):
+            stats.update(stats_data)
+    except NodeAPIError as error:
+        errors.append(str(error))
+    # Load the queue independently: a failed statistics call must not hide tickets.
+    try:
+        response = node_request(request, 'GET', '/support/staff/tickets', params=params)
+        result = response.get('tickets', response.get('data'))
+        if isinstance(result, list):
+            tickets = result
+            total = response.get('total', len(tickets))
+        elif isinstance(result, dict) and isinstance(result.get('tickets'), list):
+            tickets = result['tickets']
+            total = result.get('total', len(tickets))
+        else:
+            raise NodeAPIError(_('The backend returned an invalid ticket list.'))
+        if any(not isinstance(ticket, dict) for ticket in tickets):
+            raise NodeAPIError(_('The backend returned an invalid ticket list.'))
+        try:
+            total = max(int(total), len(tickets))
+        except (ValueError, TypeError):
+            total = len(tickets)
+        for ticket in tickets:
+            ticket['id'] = str(ticket.get('_id') or ticket.get('id') or '')
+            user = ticket.get('user')
+            ticket['user'] = user if isinstance(user, dict) else {}
+            ticket['user_id'] = str(ticket['user'].get('_id') or ticket['user'].get('id') or '')
+            assigned = ticket.get('assignedTo')
+            ticket['assignedTo'] = assigned if isinstance(assigned, dict) else {}
+            conversation = ticket.get('messages') or []
+            last_message = conversation[-1] if conversation and isinstance(conversation[-1], dict) else {}
+            ticket['preview'] = last_message.get('message') or _('No messages')
+            ticket['department_label'] = DEPARTMENT_LABELS.get(ticket.get('department'), ticket.get('department', ''))
+            ticket['priority_label'] = PRIORITY_LABELS.get(ticket.get('priority'), ticket.get('priority', ''))
+            ticket['status_label'] = STATUS_LABELS.get(ticket.get('status'), ticket.get('status', ''))
+        tickets = [ticket for ticket in tickets if ticket['id']]
+    except NodeAPIError as error:
+        tickets, total = [], 0
+        errors.append(str(error))
 
-        staff = {
-            "departments": [],
-        }
-
-        stats = {}
-
-        api_error = str(error)
-
-    context = admin.site.each_context(
-        request
-    )
-
+    context = admin.site.each_context(request)
     context.update({
-        "title": "Support",
-
-        "tickets": tickets,
-        "total": total,
-
-        "staff": staff,
-        "stats": stats,
-
-        "active_filter":
-            active_filter,
-
-        "filter_department":
-            department,
-
-        "filter_priority":
-            priority,
-
-        "api_error":
-            api_error,
+        'title': _('Support'), 'tickets': tickets, 'total': total, 'staff': staff, 'stats': stats,
+        'staff_department_label': _('All departments') if staff.get('role') == 'admin' else
+            DEPARTMENT_LABELS.get(staff.get('department'), _('General')),
+        'department_options': [(value, DEPARTMENT_LABELS.get(value, value)) for value in staff.get('departments', [])],
+        'active_filter': active_filter, 'filter_department': department, 'filter_priority': priority,
+        'api_error': ' '.join(dict.fromkeys(errors)), 'truncated': total > len(tickets),
+        'refresh_query': urlencode({'filter': active_filter, 'department': department, 'priority': priority}),
     })
+    return render(request, 'admin/marketplace_support.html', context)
 
-    return render(
-        request,
-        "admin/marketplace_support.html",
-        context,
-    )
-
-
-# ============================================================
-# SUPPORT DETAIL
-# ============================================================
 
 def marketplace_support_detail(
     request,
@@ -1663,7 +1537,7 @@ def marketplace_support_detail(
 
         if not ticket:
             raise NodeAPIError(
-                "Ticketul nu a fost găsit."
+                _("Ticket not found.")
             )
 
         ticket["id"] = str(
@@ -1676,10 +1550,10 @@ def marketplace_support_detail(
         # USER
         # =====================================================
 
-        ticket_user = (
-            ticket.get("user")
-            or {}
-        )
+        ticket_user = ticket.get('user') or {}
+        if not isinstance(ticket_user, dict):
+            ticket_user = {'id': ticket_user}
+        ticket['user'] = ticket_user
 
         ticket["user_id"] = str(
             ticket_user.get("_id")
@@ -1691,10 +1565,10 @@ def marketplace_support_detail(
         # ASSIGNED TO
         # =====================================================
 
-        assigned_to = (
-            ticket.get("assignedTo")
-            or {}
-        )
+        assigned_to = ticket.get('assignedTo') or {}
+        if not isinstance(assigned_to, dict):
+            assigned_to = {'id': assigned_to}
+        ticket['assignedTo'] = assigned_to
 
         ticket["assigned_to_id"] = str(
             assigned_to.get("_id")
@@ -1725,6 +1599,12 @@ def marketplace_support_detail(
                     "department"
                 ),
         }
+
+        ticket['department_label'] = DEPARTMENT_LABELS.get(ticket.get('department'), ticket.get('department', ''))
+        ticket['priority_label'] = PRIORITY_LABELS.get(ticket.get('priority'), ticket.get('priority', ''))
+        ticket['status_label'] = STATUS_LABELS.get(ticket.get('status'), ticket.get('status', ''))
+        for item in ticket.get('messages') or []:
+            item['sender_label'] = _('Agent') if item.get('senderType') == 'admin' else _('Customer')
 
         ticket["is_assigned_to_me"] = (
             bool(
@@ -1767,7 +1647,7 @@ def marketplace_support_detail(
         )
 
         context.update({
-            "title": "Support ticket",
+            "title": _("Support ticket"),
             "ticket": None,
             "api_error": str(error),
         })
@@ -1808,7 +1688,7 @@ def marketplace_support_action(
 
             messages.success(
                 request,
-                "Ticketul a fost preluat.",
+                _("The ticket was assigned to you."),
             )
 
         # =====================================================
@@ -1825,7 +1705,7 @@ def marketplace_support_action(
 
             messages.success(
                 request,
-                "Ticketul a fost eliberat.",
+                _("The ticket was released."),
             )
 
         # =====================================================
@@ -1847,7 +1727,7 @@ def marketplace_support_action(
             if status not in allowed_statuses:
                 messages.error(
                     request,
-                    "Status invalid.",
+                    _("Invalid status."),
                 )
 
                 return redirect(
@@ -1866,7 +1746,7 @@ def marketplace_support_action(
 
             messages.success(
                 request,
-                "Statusul a fost actualizat.",
+                _("The status was updated."),
             )
 
         # =====================================================
@@ -1889,7 +1769,7 @@ def marketplace_support_action(
             if priority not in allowed_priorities:
                 messages.error(
                     request,
-                    "Prioritate invalidă.",
+                    _("Invalid priority."),
                 )
 
                 return redirect(
@@ -1908,7 +1788,7 @@ def marketplace_support_action(
 
             messages.success(
                 request,
-                "Prioritatea a fost actualizată.",
+                _("The priority was updated."),
             )
 
         # =====================================================
@@ -1924,7 +1804,7 @@ def marketplace_support_action(
             if not message:
                 messages.error(
                     request,
-                    "Mesajul nu poate fi gol.",
+                    _("The message cannot be empty."),
                 )
 
                 return redirect(
@@ -1935,7 +1815,7 @@ def marketplace_support_action(
             if len(message) > 5000:
                 messages.error(
                     request,
-                    "Mesajul poate avea maximum 5000 de caractere.",
+                    _("The message can contain at most 5000 characters."),
                 )
 
                 return redirect(
@@ -1954,13 +1834,13 @@ def marketplace_support_action(
 
             messages.success(
                 request,
-                "Mesajul a fost trimis.",
+                _("The message was sent."),
             )
 
         else:
             messages.error(
                 request,
-                "Acțiune necunoscută.",
+                _("Unknown action."),
             )
 
     except NodeAPIError as error:
@@ -1981,7 +1861,7 @@ def marketplace_toggle_ban(request, user_id):
     if action not in ("ban", "unban"):
         messages.error(
             request,
-            "Acțiune invalidă."
+            _("Invalid action.")
         )
         return redirect("marketplace_users")
 
@@ -1998,7 +1878,7 @@ def marketplace_toggle_ban(request, user_id):
     ):
         messages.error(
             request,
-            "Nu îți poți bloca propriul cont."
+            _("You cannot suspend your own account.")
         )
         return redirect("marketplace_users")
 
@@ -2020,21 +1900,21 @@ def marketplace_toggle_ban(request, user_id):
         if not reason:
             messages.error(
                 request,
-                "Trebuie să selectezi un motiv pentru blocare."
+                _("Select a reason for suspending the account.")
             )
             return redirect("marketplace_users")
 
         if len(reason) < 3:
             messages.error(
                 request,
-                "Motivul este prea scurt."
+                _("The reason is too short.")
             )
             return redirect("marketplace_users")
 
         if len(reason) > 500:
             messages.error(
                 request,
-                "Motivul poate avea maximum 500 de caractere."
+                _("The reason can contain at most 500 characters.")
             )
             return redirect("marketplace_users")
 
@@ -2061,7 +1941,7 @@ def marketplace_toggle_ban(request, user_id):
         if action == "ban" and is_banned:
             messages.info(
                 request,
-                "Contul este deja blocat."
+                _("The account is already suspended.")
             )
             return redirect(
                 "marketplace_users"
@@ -2070,7 +1950,7 @@ def marketplace_toggle_ban(request, user_id):
         if action == "unban" and not is_banned:
             messages.info(
                 request,
-                "Contul este deja activ."
+                _("The account is already active.")
             )
             return redirect(
                 "marketplace_users"
@@ -2092,12 +1972,12 @@ def marketplace_toggle_ban(request, user_id):
         if action == "ban":
             messages.success(
                 request,
-                "Contul a fost blocat."
+                _("The account was suspended.")
             )
         else:
             messages.success(
                 request,
-                "Contul a fost deblocat."
+                _("The account was reactivated.")
             )
 
     except NodeAPIError as error:
@@ -2128,7 +2008,7 @@ def marketplace_user_update(request, user_id):
             if len(username) < 2:
                 messages.error(
                     request,
-                    "Username-ul este prea scurt.",
+                    _("The username is too short."),
                 )
 
                 return redirect(
@@ -2189,7 +2069,7 @@ def marketplace_user_update(request, user_id):
 
             messages.success(
                 request,
-                "Profilul a fost actualizat.",
+                _("The profile was updated."),
             )
 
         # =====================================================
@@ -2208,7 +2088,7 @@ def marketplace_user_update(request, user_id):
             except ValidationError:
                 messages.error(
                     request,
-                    "Adresa de email nu este validă.",
+                    _("The email address is invalid."),
                 )
 
                 return redirect(
@@ -2227,7 +2107,7 @@ def marketplace_user_update(request, user_id):
 
             messages.success(
                 request,
-                "Emailul a fost actualizat.",
+                _("The email was updated."),
             )
 
         # =====================================================
@@ -2248,7 +2128,7 @@ def marketplace_user_update(request, user_id):
             if len(new_password) < 8:
                 messages.error(
                     request,
-                    "Parola trebuie să aibă cel puțin 8 caractere.",
+                    _("The password must contain at least 8 characters."),
                 )
 
                 return redirect(
@@ -2259,7 +2139,7 @@ def marketplace_user_update(request, user_id):
             if new_password != confirm_password:
                 messages.error(
                     request,
-                    "Parolele nu coincid.",
+                    _("The passwords do not match."),
                 )
 
                 return redirect(
@@ -2278,7 +2158,7 @@ def marketplace_user_update(request, user_id):
 
             messages.success(
                 request,
-                "Parola utilizatorului a fost schimbată.",
+                _("The user password was changed."),
             )
 
         # =====================================================
@@ -2300,13 +2180,12 @@ def marketplace_user_update(request, user_id):
             if temporary_password:
                 messages.warning(
                     request,
-                    "Parolă temporară generată: "
-                    f"{temporary_password}"
+                    _('Temporary password generated: %(password)s') % {'password': temporary_password}
                 )
             else:
                 messages.success(
                     request,
-                    "Parola temporară a fost generată.",
+                    _("The temporary password was generated."),
                 )
 
         # =====================================================
@@ -2323,13 +2202,13 @@ def marketplace_user_update(request, user_id):
 
             messages.success(
                 request,
-                "Autentificarea 2FA a fost dezactivată.",
+                _("Two-factor authentication was disabled."),
             )
 
         else:
             messages.error(
                 request,
-                "Acțiune necunoscută.",
+                _("Unknown action."),
             )
 
     except NodeAPIError as error:

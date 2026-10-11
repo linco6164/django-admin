@@ -3,17 +3,17 @@
 {% block content %}
 {% include "admin/nexora_styles.html" %}
 <div class="nx-shell">
-<div class="nx-hero"><div><span class="nx-eyebrow">NEXORA · OPERATIONS</span><h1>Centrul operațional</h1><p>Suport pentru aplicație și website, într-un singur spațiu.</p></div><span class="nx-badge">{{ nexora_identity.role }} · {{ nexora_identity.department|default:"general" }}</span></div>
+<div class="nx-hero"><div><span class="nx-eyebrow">{% trans "NEXORA · OPERATIONS" %}</span><h1>{% trans "Operations center" %}</h1><p>{% trans "Support for the app and website in a single workspace." %}</p></div><span class="nx-badge">{{ nexora_role_label }} · {{ nexora_department_label }}</span></div>
 {% if api_error %}<div class="nx-alert" role="alert">{{ api_error }}</div>{% endif %}
 <div class="nx-grid">
-<div class="nx-card"><span>Utilizatori</span><strong>{{ stats.totalUsers|default_if_none:"—" }}</strong></div>
-<div class="nx-card"><span>Anunțuri</span><strong>{{ stats.totalListings|default_if_none:"—" }}</strong></div>
-<div class="nx-card"><span>Anunțuri active</span><strong>{{ stats.activeListings|default_if_none:"—" }}</strong></div>
-<div class="nx-card"><span>Conversații</span><strong>{{ stats.totalConversations|default_if_none:"—" }}</strong></div>
+<div class="nx-card"><span>{% trans "Users" %}</span><strong>{{ stats.totalUsers|default_if_none:"—" }}</strong></div>
+<div class="nx-card"><span>{% trans "Listings" %}</span><strong>{{ stats.totalListings|default_if_none:"—" }}</strong></div>
+<div class="nx-card"><span>{% trans "Active listings" %}</span><strong>{{ stats.activeListings|default_if_none:"—" }}</strong></div>
+<div class="nx-card"><span>{% trans "Conversations" %}</span><strong>{{ stats.totalConversations|default_if_none:"—" }}</strong></div>
 </div>
 <div class="nx-grid nx-modules">
-<a class="nx-card" href="{% url 'marketplace_support' %}"><span class="nx-eyebrow">CUSTOMER CARE</span><h2>Support & Call center</h2><p>Preia solicitări, răspunde clienților și urmărește rezolvarea pe departamente.</p><b>Deschide coada de tickete →</b></a>
-{% if nexora_can_finance %}<a class="nx-card" href="{% url 'marketplace_withdrawals' %}"><span class="nx-eyebrow">FINANCE</span><h2>Retrageri</h2><p>Verifică solicitările de retragere și gestionează aprobările sau respingerile.</p><b>Deschide financiar →</b></a>{% endif %}
-{% if nexora_is_admin %}<a class="nx-card" href="{% url 'marketplace_users' %}"><span class="nx-eyebrow">ADMINISTRATION</span><h2>Clienți & conturi</h2><p>Profiluri, securitate, anunțuri și moderarea conturilor.</p><b>Deschide utilizatorii →</b></a><a class="nx-card" href="{% url 'marketplace_notifications' %}"><span class="nx-eyebrow">COMMUNICATIONS</span><h2>Notificări</h2><p>Gestionează comunicările și notificările programate.</p><b>Deschide notificările →</b></a>{% endif %}
+<a class="nx-card" href="{% url 'marketplace_support' %}"><span class="nx-eyebrow">{% trans "CUSTOMER CARE" %}</span><h2>{% trans "Support & Call center" %}</h2><p>{% trans "Take requests, reply to customers, and track resolution by department." %}</p><b>{% trans "Open ticket queue" %} →</b></a>
+{% if nexora_can_finance %}<a class="nx-card" href="{% url 'marketplace_withdrawals' %}"><span class="nx-eyebrow">{% trans "FINANCE" %}</span><h2>{% trans "Withdrawals" %}</h2><p>{% trans "Review withdrawal requests and manage approvals or rejections." %}</p><b>{% trans "Open finance" %} →</b></a>{% endif %}
+{% if nexora_is_admin %}<a class="nx-card" href="{% url 'marketplace_users' %}"><span class="nx-eyebrow">{% trans "ADMINISTRATION" %}</span><h2>{% trans "Customers & accounts" %}</h2><p>{% trans "Profiles, security, listings, and account moderation." %}</p><b>{% trans "Open users" %} →</b></a><a class="nx-card" href="{% url 'marketplace_notifications' %}"><span class="nx-eyebrow">{% trans "COMMUNICATIONS" %}</span><h2>{% trans "Notifications" %}</h2><p>{% trans "Manage communications and scheduled notifications." %}</p><b>{% trans "Open notifications" %} →</b></a>{% endif %}
 </div></div>
 {% endblock %}

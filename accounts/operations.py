@@ -5,6 +5,7 @@ from django.views.decorators.http import require_http_methods
 from .forms import StaffCreationForm
 from .node_api import NodeAPIError, node_request
 from django.contrib.admin.models import LogEntry
+from django.utils.translation import gettext as _
 
 
 @require_http_methods(['GET', 'POST'])
@@ -16,16 +17,16 @@ def staff_create(request):
         except NodeAPIError as error:
             form.add_error(None, str(error))
         else:
-            messages.success(request, 'Contul de agent a fost creat în backendul Nexora.')
+            messages.success(request, _('The agent account was created in the Nexora backend.'))
             return redirect('marketplace_users')
     context = admin.site.each_context(request)
-    context.update(title='Adaugă agent', form=form)
+    context.update(title=_('Add agent'), form=form)
     return render(request, 'admin/staff_create.html', context)
 
 
 def audit_log(request):
     context = admin.site.each_context(request)
-    context.update(title='Istoric operațiuni', entries=LogEntry.objects.filter(
+    context.update(title=_('Operations history'), entries=LogEntry.objects.filter(
         change_message__startswith='Nexora API:'
     ).select_related('user').order_by('-action_time')[:100])
     return render(request, 'admin/operations_audit.html', context)

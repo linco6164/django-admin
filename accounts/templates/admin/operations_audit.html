@@ -1,5 +1,6 @@
 {% extends "admin/base_site.html" %}
+{% load i18n %}
 {% block content %}
 {% include "admin/nexora_styles.html" %}
-<div class="nx-shell"><div class="nx-hero"><div><span class="nx-eyebrow">OPERATIONS AUDIT</span><h1>Istoric operațiuni</h1><p>Ultimele 100 de operațiuni confirmate de API prin acest panou.</p></div></div><div class="nx-table-wrap"><table class="nx-table"><thead><tr><th>Data</th><th>Operator</th><th>Operațiune</th></tr></thead><tbody>{% for entry in entries %}<tr><td>{{ entry.action_time|date:"d.m.Y H:i" }}</td><td>{{ entry.user.username }}</td><td>{{ entry.change_message }}</td></tr>{% empty %}<tr><td colspan="3" class="nx-empty">Nu sunt operațiuni înregistrate.</td></tr>{% endfor %}</tbody></table></div></div>
+<div class="nx-shell"><div class="nx-hero"><div><span class="nx-eyebrow">{% trans "OPERATIONS AUDIT" %}</span><h1>{% trans "Operations history" %}</h1><p>{% trans "The last 100 operations confirmed by the API through this panel." %}</p></div></div><div class="nx-table-wrap"><table class="nx-table"><thead><tr><th>{% trans "Date" %}</th><th>{% trans "Operator" %}</th><th>{% trans "Operation" %}</th></tr></thead><tbody>{% for entry in entries %}<tr><td>{{ entry.action_time|date:"d.m.Y H:i" }}</td><td>{{ entry.user.username }}</td><td>{{ entry.change_message }}</td></tr>{% empty %}<tr><td colspan="3" class="nx-empty">{% trans "No operations recorded." %}</td></tr>{% endfor %}</tbody></table></div></div>
 {% endblock %}
