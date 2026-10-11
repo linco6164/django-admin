@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
+from accounts.operations import staff_create, audit_log
 
 from accounts.views import (
     dashboard,
@@ -24,6 +25,8 @@ from accounts.views import (
 
 
 urlpatterns = [
+    path('admin/operations-audit/', admin.site.admin_view(audit_log), name='nexora_audit'),
+    path('admin/team/create/', admin.site.admin_view(staff_create), name='nexora_staff_create'),
      path(
         "i18n/",
         include("django.conf.urls.i18n"),

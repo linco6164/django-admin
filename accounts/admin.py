@@ -1,5 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.models import User, Group
+from .forms import NexoraAuthenticationForm
+
+admin.site.login_form = NexoraAuthenticationForm
 
 admin.site.site_url = 'https://nx-store.com'
 

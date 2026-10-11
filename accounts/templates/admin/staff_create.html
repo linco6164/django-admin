@@ -1,0 +1,5 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+{% include "admin/nexora_styles.html" %}
+<div class="nx-shell"><div class="nx-hero"><div><span class="nx-eyebrow">TEAM MANAGEMENT</span><h1>Adaugă agent Nexora</h1><p>Contul este creat în backend și poate accesa panoul conform rolului și departamentului.</p></div></div><form method="post" class="nx-card">{% csrf_token %}{{ form.non_field_errors }}{% for field in form %}<div style="margin:18px 0"><label for="{{ field.id_for_label }}">{{ field.label }}</label><div style="margin-top:8px">{{ field }}</div>{{ field.errors }}</div>{% endfor %}<button type="submit">Creează contul</button></form></div>
+{% endblock %}

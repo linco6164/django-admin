@@ -35,7 +35,7 @@ def node_me(request):
                 "success": False,
                 "error": str(error),
             },
-            status=401,
+            status=error.status_code,
         )
 
 def dashboard(request):
@@ -1381,6 +1381,10 @@ def marketplace_withdrawal_action(
         return redirect(
             "marketplace_withdrawals"
         )
+
+    if action == 'approve' and request.POST.get('transfer_confirmed') != 'yes':
+        messages.error(request, 'Confirmă efectuarea transferului bancar înainte de finalizare.')
+        return redirect('marketplace_withdrawals')
 
     try:
         node_request(

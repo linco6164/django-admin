@@ -13,9 +13,13 @@ import os
 from pathlib import Path
 
 import dj_database_url
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / '.env')
+NODE_API_URL = os.environ.get('NODE_API_URL', 'https://api.nx-store.com')
+NODE_API_TIMEOUT = int(os.environ.get('NODE_API_TIMEOUT', '15'))
 
 
 
@@ -93,16 +97,25 @@ UNFOLD = {
                     },
                     {
                         "title": "Users",
+                        "permission": "accounts.access.admin_access",
                         "icon": "group",
                         "link": "/admin/marketplace-users/",
                     },
                     {
+                        "title": "Adaugă agent",
+                        "icon": "person_add",
+                        "permission": "accounts.access.admin_access",
+                        "link": "/admin/team/create/",
+                    },
+                    {
                         "title": "Notifications",
+                        "permission": "accounts.access.admin_access",
                         "icon": "notifications",
                         "link": "/admin/notifications/",
                     },
                     {
                         "title": "Withdrawals",
+                        "permission": "accounts.access.finance_access",
                         "icon": "payments",
                         "link": "/admin/withdrawals/",
                     },
@@ -110,6 +123,12 @@ UNFOLD = {
                         "title": "Support",
                         "icon": "support_agent",
                         "link": "/admin/support/",
+                    },
+                    {
+                        "title": "Istoric operațiuni",
+                        "icon": "history",
+                        "permission": "accounts.access.admin_access",
+                        "link": "/admin/operations-audit/",
                     },
                 ],
             },
@@ -125,6 +144,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'accounts.middleware.NexoraAccessMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -134,13 +154,14 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'accounts' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'accounts.access.navigation',
             ],
         },
     },
@@ -208,7 +229,7 @@ LOCALE_PATHS = [
     BASE_DIR / "locale",
 ]
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Bucharest'
 
 USE_I18N = True
 

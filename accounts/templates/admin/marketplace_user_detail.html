@@ -667,12 +667,7 @@
   }
 </style>
 
-{% trans "Unknown" as default_unknown %} {% trans "Untitled listing" as
-default_untitled_listing %} {% trans "Describe the reason for the ban..." as
-ban_reason_placeholder %} {% trans "Generate a new password for this account?"
-as confirm_generate_password %} {% trans "Are you sure you want to disable 2FA
-for this user?" as confirm_disable_2fa %} {% trans "Are you sure you want to
-unblock this account?" as confirm_unblock %}
+{% trans "Unknown" as default_unknown %} {% trans "Untitled listing" as default_untitled_listing %} {% trans "Describe the reason for the ban..." as ban_reason_placeholder %} {% trans "Generate a new password for this account?" as confirm_generate_password %} {% trans "Are you sure you want to disable 2FA for this user?" as confirm_disable_2fa %} {% trans "Are you sure you want to unblock this account?" as confirm_unblock %}
 
 <div class="nx-user-page">
   <a href="{% url 'marketplace_users' %}" class="nx-back">
@@ -706,8 +701,7 @@ unblock this account?" as confirm_unblock %}
   <div class="nx-profile-header">
     <div class="nx-profile-main">
       <div class="nx-avatar-large">
-        {% if marketplace_user.username %} {{
-        marketplace_user.username|slice:":1"|upper }} {% else %} U {% endif %}
+        {% if marketplace_user.username %} {{ marketplace_user.username|slice:":1"|upper }} {% else %} U {% endif %}
       </div>
 
       <div>
@@ -729,17 +723,12 @@ unblock this account?" as confirm_unblock %}
           {% endif %}
 
           <span class="nx-badge nx-role">
-            {% if marketplace_user.role == "admin" %} {% trans "Admin" %} {%
-            elif marketplace_user.role == "user" or not marketplace_user.role %}
-            {% trans "User" %} {% elif marketplace_user.role == "support" %} {%
-            trans "Support" %} {% else %} {{ marketplace_user.role|title }} {%
-            endif %}
+            {% if marketplace_user.role == "admin" %} {% trans "Admin" %} {% elif marketplace_user.role == "user" or not marketplace_user.role %}
+            {% trans "User" %} {% elif marketplace_user.role == "support" %} {% trans "Support" %} {% else %} {{ marketplace_user.role|title }} {% endif %}
           </span>
 
           <span class="nx-badge nx-provider">
-            {% if marketplace_user.provider == "credentials" or not
-            marketplace_user.provider %} {% trans "Credentials" %} {% else %} {{
-            marketplace_user.provider|title }} {% endif %}
+            {% if marketplace_user.provider == "credentials" or not marketplace_user.provider %} {% trans "Credentials" %} {% else %} {{ marketplace_user.provider|title }} {% endif %}
           </span>
         </div>
       </div>
@@ -807,10 +796,7 @@ unblock this account?" as confirm_unblock %}
       <div class="nx-stat-label">{% trans "Role" %}</div>
 
       <div class="nx-stat-value">
-        {% if marketplace_user.role == "admin" %} {% trans "Admin" %} {% elif
-        marketplace_user.role == "user" or not marketplace_user.role %} {% trans
-        "User" %} {% elif marketplace_user.role == "support" %} {% trans
-        "Support" %} {% else %} {{ marketplace_user.role|title }} {% endif %}
+        {% if marketplace_user.role == "admin" %} {% trans "Admin" %} {% elif marketplace_user.role == "user" or not marketplace_user.role %} {% trans "User" %} {% elif marketplace_user.role == "support" %} {% trans "Support" %} {% else %} {{ marketplace_user.role|title }} {% endif %}
       </div>
     </div>
 
@@ -818,9 +804,7 @@ unblock this account?" as confirm_unblock %}
       <div class="nx-stat-label">{% trans "Provider" %}</div>
 
       <div class="nx-stat-value">
-        {% if marketplace_user.provider == "credentials" or not
-        marketplace_user.provider %} {% trans "Credentials" %} {% else %} {{
-        marketplace_user.provider|title }} {% endif %}
+        {% if marketplace_user.provider == "credentials" or not marketplace_user.provider %} {% trans "Credentials" %} {% else %} {{ marketplace_user.provider|title }} {% endif %}
       </div>
     </div>
 
@@ -889,11 +873,7 @@ unblock this account?" as confirm_unblock %}
               <span class="nx-info-label"> {% trans "Location" %} </span>
 
               <span class="nx-info-value">
-                {% if marketplace_user.city %} {{ marketplace_user.city }} {%
-                endif %} {% if marketplace_user.county %} / {{
-                marketplace_user.county }} {% endif %} {% if not
-                marketplace_user.city and not marketplace_user.county %} - {%
-                endif %}
+                {% if marketplace_user.city %} {{ marketplace_user.city }} {% endif %} {% if marketplace_user.county %} / {{ marketplace_user.county }} {% endif %} {% if not marketplace_user.city and not marketplace_user.county %} - {% endif %}
               </span>
             </div>
           </div>
@@ -1218,11 +1198,7 @@ unblock this account?" as confirm_unblock %}
               <span class="nx-info-label"> {% trans "Role" %} </span>
 
               <span class="nx-info-value">
-                {% if marketplace_user.role == "admin" %} {% trans "Admin" %} {%
-                elif marketplace_user.role == "user" or not
-                marketplace_user.role %} {% trans "User" %} {% elif
-                marketplace_user.role == "support" %} {% trans "Support" %} {%
-                else %} {{ marketplace_user.role|title }} {% endif %}
+                {% if marketplace_user.role == "admin" %} {% trans "Admin" %} {% elif marketplace_user.role == "user" or not marketplace_user.role %} {% trans "User" %} {% elif marketplace_user.role == "support" %} {% trans "Support" %} {% else %} {{ marketplace_user.role|title }} {% endif %}
               </span>
             </div>
 
@@ -1238,9 +1214,7 @@ unblock this account?" as confirm_unblock %}
               <span class="nx-info-label"> {% trans "Provider" %} </span>
 
               <span class="nx-info-value">
-                {% if marketplace_user.provider == "credentials" or not
-                marketplace_user.provider %} {% trans "Credentials" %} {% else
-                %} {{ marketplace_user.provider|title }} {% endif %}
+                {% if marketplace_user.provider == "credentials" or not marketplace_user.provider %} {% trans "Credentials" %} {% else %} {{ marketplace_user.provider|title }} {% endif %}
               </span>
             </div>
           </div>
@@ -1375,8 +1349,7 @@ unblock this account?" as confirm_unblock %}
       {% endif %}
 
       <span>
-        {% blocktrans with page=listings_page pages=listings_pages %} Page {{
-        page }} of {{ pages }} {% endblocktrans %}
+        {% blocktrans with page=listings_page pages=listings_pages %} Page {{ page }} of {{ pages }} {% endblocktrans %}
       </span>
 
       {% if listings_page < listings_pages %}
@@ -1522,8 +1495,7 @@ unblock this account?" as confirm_unblock %}
             </div>
 
             <span class="nx-badge nx-provider">
-              {% if marketplace_user.provider == "credentials" or not
-              marketplace_user.provider %} {% trans "Credentials" %} {% else %}
+              {% if marketplace_user.provider == "credentials" or not marketplace_user.provider %} {% trans "Credentials" %} {% else %}
               {{ marketplace_user.provider|title }} {% endif %}
             </span>
           </div>
@@ -1623,11 +1595,7 @@ unblock this account?" as confirm_unblock %}
               <span class="nx-info-label"> {% trans "Role" %} </span>
 
               <span class="nx-info-value">
-                {% if marketplace_user.role == "admin" %} {% trans "Admin" %} {%
-                elif marketplace_user.role == "user" or not
-                marketplace_user.role %} {% trans "User" %} {% elif
-                marketplace_user.role == "support" %} {% trans "Support" %} {%
-                else %} {{ marketplace_user.role|title }} {% endif %}
+                {% if marketplace_user.role == "admin" %} {% trans "Admin" %} {% elif marketplace_user.role == "user" or not marketplace_user.role %} {% trans "User" %} {% elif marketplace_user.role == "support" %} {% trans "Support" %} {% else %} {{ marketplace_user.role|title }} {% endif %}
               </span>
             </div>
 

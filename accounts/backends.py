@@ -1,96 +1,38 @@
-import requests
-
-from django.contrib.auth.backends import BaseBackend
+﻿from django.contrib.auth.backends import BaseBackend
 from django.contrib.auth.models import User
-
+from .access import STAFF_ROLES
+from .node_api import NodeAPIError, api_request
 
 class NodeAuthBackend(BaseBackend):
-
-    def authenticate(
-        self,
-        request,
-        username=None,
-        password=None,
-        **kwargs
-    ):
-        if not username or not password:
+    def authenticate(self, request, username=None, password=None, otp=None, **kwargs):
+        if request is None or not username or not password:
             return None
-
         try:
-            response = requests.post(
-                "https://api.nx-store.com/auth/login",
-                json={
-                    "email": username,
-                    "password": password,
-                },
-                timeout=15,
-            )
-
-        except requests.RequestException as error:
-            print("Node API error:", error)
+            data = api_request('POST', '/auth/login', json={'email': username, 'password': password})
+            if data.get('requiresTwoFactor'):
+                if not otp:
+                    return None
+                data = api_request('POST', '/auth/2fa/login', json={'userId': data.get('userId'), 'token': otp})
+            token = data.get('token')
+            if not token:
+                return None
+            identity = api_request('GET', '/auth/me', token=token)
+        except NodeAPIError:
             return None
-
-        if response.status_code != 200:
+        if identity.get('role') not in STAFF_ROLES or identity.get('banned') or not identity.get('email'):
             return None
-
-        try:
-            data = response.json()
-        except ValueError:
-            return None
-
-        if not data.get("success"):
-            return None
-
-        if data.get("requiresTwoFactor"):
-            return None
-
-        user_data = data.get("user")
-
-        if not user_data:
-            return None
-
-        if user_data.get("role") != "admin":
-            return None
-
-        token = data.get("token")
-
-        if not token:
-            return None
-
-        email = user_data.get("email")
-
-        if not email:
-            return None
-
-        django_user, _ = User.objects.get_or_create(
-            username=email,
-            defaults={
-                "email": email,
-            },
-        )
-
-        django_user.email = email
-        django_user.is_active = True
-        django_user.is_staff = True
-        django_user.is_superuser = True
-
-        django_user.set_unusable_password()
-        django_user.save()
-
-        if request is not None:
-            request.session["node_token"] = token
-
-            request.session["node_user"] = {
-                "id": user_data.get("id"),
-                "username": user_data.get("username"),
-                "email": user_data.get("email"),
-                "role": user_data.get("role"),
-            }
-
-        return django_user
+        user, _ = User.objects.get_or_create(username=identity['email'])
+        user.email = identity['email']
+        user.is_active = user.is_staff = True
+        user.is_superuser = identity['role'] == 'admin'
+        user.set_unusable_password()
+        user.save()
+        request.session['node_token'] = token
+        request.session['node_user'] = {
+            'id': str(identity.get('_id') or identity.get('id') or ''),
+            'username': identity.get('username', ''), 'email': identity['email'],
+            'role': identity['role'], 'department': identity.get('department', '')}
+        return user
 
     def get_user(self, user_id):
-        try:
-            return User.objects.get(pk=user_id)
-        except User.DoesNotExist:
-            return None
+        return User.objects.filter(pk=user_id, is_active=True).first()
